@@ -1,0 +1,21 @@
+{
+    "name": "develpr/AlexaApp",
+    "description": "Set of classes to make creating simple Amazon Echo Alexa Apps easier with Lumen and to a lesser extent Laravel",
+    "license": "MIT",
+    "keywords": ["echo", "Amazon Echo", "Alexa", "AlexaApp", "Lumen", "Laravel"],
+    "authors": [
+        {
+            "name": "Kevin Mitchell",
+            "email": "kevin@develpr.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Develpr\\AlexaApp\\": "src"
+       	}
+    }}
+}

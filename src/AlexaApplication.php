@@ -71,7 +71,7 @@ class AlexaApplication extends Application
         $request = $this->make('request');
 
 
-        $data = json_decode($request->getContent());
+        $data = json_decode($request->getContent(), true);
 
         if(! $data )
             $data = json_decode($request->input('content'), true);

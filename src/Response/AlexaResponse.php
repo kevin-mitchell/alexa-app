@@ -97,7 +97,10 @@ class AlexaResponse implements Jsonable
         if( ! is_null($this->speech) && $this->speech instanceof Speech )
             $response['outputSpeech'] = $this->speech->toArray();
 
-        $response['sessionAttributes'] = $this->getSessionData();
+		$sessionAttributes = $this->getSessionData();
+
+		if($sessionAttributes && count($sessionAttributes) > 0)
+        	$responseData['sessionAttributes'] = $sessionAttributes;
 
         $responseData['response'] = $response;
 

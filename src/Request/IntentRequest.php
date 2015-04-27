@@ -9,7 +9,7 @@ class IntentRequest extends BaseAlexaRequest
     {
         $this->intent = array_get($data, 'request.intent.name');
 
-        $this->slots = array_get($data, 'request.slots');
+        $this->slots = array_get($data, 'request.intent.slots');
 
         if(!$this->slots)
             $this->slots = [];
@@ -36,7 +36,7 @@ class IntentRequest extends BaseAlexaRequest
      */
     public function token($slotKey)
     {
-        return (array_key_exists($slotKey, $this->slots)) ? $this->slots[$slotKey] : null;
+        return (array_key_exists($slotKey, $this->slots)) ? $this->slots[$slotKey]['value'] : null;
     }
 
 

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
  * This class represents a valid response to be send back to Alexa.
  *
  * Class AlexaResponse
- * @package App\AlexaApp\Response
+ * @package Develpr\AlexaApp\Response
  */
 class AlexaResponse implements Jsonable
 {

@@ -1,6 +1,6 @@
 <?php  namespace Develpr\AlexaApp\Middleware; 
 
-use App\AlexaApp\Request\AlexaRequest;
+use Develpr\AlexaApp\Request\AlexaRequest;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\Middleware;
 use Illuminate\Http\Request;

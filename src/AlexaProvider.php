@@ -31,9 +31,11 @@ class AlexaProvider extends ServiceProvider
         if(! $data)
             $data = json_decode($request->input('content'), true);
 
-        $test = array_get($data, 'session.attributes');
-
-        foreach($test as $key => $value)
+        $sessionAttributes = array_get($data, 'session.attributes');
+        if( ! $sessionAttributes )
+            return;
+            
+        foreach($sessionAttribute as $key => $value)
         {
             \Session::put($key, $value);
         }

@@ -51,7 +51,7 @@ class AlexaProvider extends ServiceProvider
 			if($requestType == null)
 				$requestType = array_get(json_decode($request->input('content'), true), 'request.type');
 
-			$className = 'Develpr\AlexaApp\Request\' . $requestType;
+			$className = 'Develpr\AlexaApp\Request\\' . $requestType;
 
 			if( ! class_exists($className))
 			{

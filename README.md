@@ -10,11 +10,9 @@ Set of classes to make creating simple Amazon Echo Alexa Apps easier with Lumem
 
 For example:
 
-   $app->launchRequest('/alexa-app-demo', function() use $app {
-   
-     return new AlexaResponse(new Speech('Welcome to the Alexa App Demo!'));
-    
-   });
+    $app->launchRequest('/alexa-app-demo', function() use $app {
+       return new AlexaResponse(new Speech('Welcome to the Alexa App Demo!'));
+    });
 
 ##Prerequisites
 
@@ -33,6 +31,19 @@ This is nessisary at this point as Lumen (and Laravel as of this writing) doesn'
 
 ##Installation
 
-After installing via composer, the most 
+After installing via composer, the `AlexaApplication` needs to be switched in for the stock Lumen version, and middleware needs to be registered, and a provider as well. 
+
+In the `boostrap/app.php` file...
+
+First we need to switch out the original Application:
+
+    //This is the original/stock Application
+    //$app = new Laravel\Lumen\Application;
+    //Which we'll replace with the AlexaApplication which provides routing
+    $app = new Develpr\AlexaApp\AlexaApplication;
+   
+ 
+Second, we need to register the AlexaApp service provider which handles setting up the session and binding a special `AlexaRequest` to the IoC container.
+
 
 

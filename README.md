@@ -38,12 +38,16 @@ In the `boostrap/app.php` file...
 First we need to switch out the original Application:
 
     //This is the original/stock Application
-    //$app = new Laravel\Lumen\Application;
+    /*$app = new Laravel\Lumen\Application(
+        realpath(__DIR__.'/../')
+    );*/
     //Which we'll replace with the AlexaApplication which provides routing
-    $app = new Develpr\AlexaApp\AlexaApplication;
+    $app = new Develpr\AlexaApp\AlexaApplication(
+        realpath(__DIR__.'/../')
+    );
    
  
 Second, we need to register the AlexaApp service provider which handles setting up the session and binding a special `AlexaRequest` to the IoC container.
 
-
+     $app->register(\Develpr\AlexaApp\AlexaProvider::class);
 

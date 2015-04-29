@@ -15,13 +15,13 @@ class AlexaApplication extends Application
         return $this;
     }
 
-    public function launchRequest($uri, $action)
+    public function launch($uri, $action)
     {
         $this->intentRoutes[] = $uri;
         $this->addRoute('INTENT', '**' . 'LAUNCH_REQUEST', $action);
     }
 
-    public function sessionEnd($uri, $action)
+    public function sessionEnded($uri, $action)
     {
 
     }

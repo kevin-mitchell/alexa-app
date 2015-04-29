@@ -43,6 +43,8 @@ class AlexaResponse implements Jsonable
         $this->speech = $speech;
         $this->shouldSessionEnd = $shouldSessionEnd;
 
+		return $this;
+
     }
 
 

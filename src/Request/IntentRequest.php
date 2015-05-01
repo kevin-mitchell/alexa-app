@@ -34,10 +34,15 @@ class IntentRequest extends BaseAlexaRequest
     }
      *
      */
-    public function token($slotKey)
+    public function slot($slotKey)
     {
         return (array_key_exists($slotKey, $this->slots)) ? $this->slots[$slotKey]['value'] : null;
     }
+
+	public function slots()
+	{
+		return $this->slots;
+	}
 
 
 } 

@@ -28,7 +28,7 @@ This is nessisary at this point as Lumen (and Laravel as of this writing) doesn'
 
 Because of this, **at this point, using the package is likely only a good idea if you are building a stand alone AlexaApp** - in other words, if you have some mission critical Lumen application it's likely not a great idea to run this package on top (though there shouldn't be any problems with doing this).
 
-Additionally, **this package does not (*yet*) in anyway work to verify that the request coming in is being sent by Amazon.** - frankly at this point I'm unsure of the best way to do this, but I'm assuming it will be via some sort of "signature" that amazon will send. The documentation provided by Amazon includes a possibly relavent header, but from I haven't found any further information on this yet.
+Additionally, **this package does not (*yet*) in anyway work to verify that the request coming in is being sent by Amazon.** - frankly at this point I'm unsure of the best way to do this, but I'm assuming it will be via some sort of "signature" that amazon will send. The documentation provided by Amazon includes a possibly relevant header, but from I haven't found any further information on this yet.
 
     Signature:
     SignatureCertChainUrl:
@@ -99,7 +99,7 @@ Session values will also be included in the response json, but **only if you are
 
 ###IntentRequest
 
-You can always type hint an `IntentRequest` or otherwise retrieve an instance of this class from the IoC container, and it can be useful (though admitidly limitedly so at this point!) for retrieving the "slot" values from the IntentRequest. For example
+You can always type hint an `IntentRequest` or otherwise retrieve an instance of this class from the IoC container, and it can be useful (though admittedly limitedly so at this point!) for retrieving the "slot" values from the IntentRequest. For example
 
     $intentRequest = $app->make(IntentRequest::class);
     $requestedMeal = $intentRequest->slot('RequestedMeal');

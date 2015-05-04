@@ -2,9 +2,14 @@
 
 class LaunchRequest extends BaseAlexaRequest
 {
-    protected function setupRequest(array $data)
-    {
+	/**
+	 * Return an array of
+	 *
+	 * @param array $data
+	 * @return mixed
+	 */
+	protected function setupRequest(array $data)
+	{
 
-    }
-
+	}
 } 

@@ -3,6 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ *	Binds 
+ *
+ */
 class AlexaProvider extends ServiceProvider
 {
 
@@ -24,14 +28,15 @@ class AlexaProvider extends ServiceProvider
         $this->setupSession($request);
     }
 
+	/**
+	 *	Add session values from json payload to Lumen session
+	 */
     private function setupSession(Request $request)
     {
         $data = json_decode($request->getContent(), true);
 
-        if(! $data)
-            $data = json_decode($request->input('content'), true);
-
         $sessionAttributes = array_get($data, 'session.attributes');
+		
         if( ! $sessionAttributes )
             return;
             
@@ -42,14 +47,18 @@ class AlexaProvider extends ServiceProvider
 
     }
 
+	/**
+	 *	Bind the approriate AlexaResponse type to the IoC container
+	 */
 	private function bindAlexaRequest(Request $request)
 	{
 		$this->app->bind('Develpr\AlexaApp\Request\AlexaRequest', function() use ($request) {
 
 			$requestType = array_get(json_decode($request->getContent(), true), 'request.type');
-
-			if($requestType == null)
-				$requestType = array_get(json_decode($request->input('content'), true), 'request.type');
+			
+			//todo: throw an exception?
+			if(! $requestType)
+				return null;
 
 			$className = 'Develpr\AlexaApp\Request\\' . $requestType;
 

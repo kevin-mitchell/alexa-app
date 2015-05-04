@@ -30,10 +30,6 @@ abstract class BaseAlexaRequest implements AlexaRequest
         //todo: remove this after testing
 		$data = json_decode($request->getContent(), true);
 
-		if($data == null)
-			$data = json_decode($request->input('content'), true);
-
-
         return $data;
     }
 

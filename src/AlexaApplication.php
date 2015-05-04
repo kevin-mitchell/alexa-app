@@ -74,9 +74,6 @@ class AlexaApplication extends Application
 
         $data = json_decode($request->getContent(), true);
 
-        if(! $data )
-            $data = json_decode($request->input('content'), true);
-
         switch(array_get($data, 'request.type')){
             case 'SessionEndedRequest':
                 return '**' . "SESSION_ENDED_REQUEST";

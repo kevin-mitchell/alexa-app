@@ -18,7 +18,7 @@ For example:
 
 Here is a ~30 minute demo that starts with an instance of Lumen being installed (and a web server with a self-signed cert) and goes to a complete Alexa application.
 
-(https://www.youtube.com/watch?v=8uizl_LWCi8)[![AlexaApp Demo on Youtube](http://www.develpr.com/uploads/images/alexa_app_demo_video_image.jpg)]
+[![AlexaApp Demo on Youtube](http://www.develpr.com/uploads/images/alexa_app_demo_video_image.jpg)](https://www.youtube.com/watch?v=8uizl_LWCi8)
 
 ##Prerequisites
 

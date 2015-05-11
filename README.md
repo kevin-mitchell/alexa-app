@@ -16,7 +16,7 @@ For example:
     
 ##Demo
 
-Here is a ~30 minute demo that starts with an instance of Lumen being installed (and a web server with a self-signed cert) and goes to a complete Alexa application.
+Here is a ~30 minute demo that starts with an instance of Lumen being installed (and a web server with a self-signed cert) and goes to a complete Alexa application. It's perhaps a bit slow paced (hey, I'm new!), but you can [skip ahead a bit](https://www.youtube.com/watch?v=8uizl_LWCi8#t=6m47s) if you don't want to watch the explination of the demo app I was creating. 
 
 [![AlexaApp Demo on Youtube](http://www.develpr.com/uploads/images/alexa_app_demo_video_image.jpg)](https://www.youtube.com/watch?v=8uizl_LWCi8)
 

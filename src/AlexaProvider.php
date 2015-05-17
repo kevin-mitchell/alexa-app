@@ -1,5 +1,6 @@
 <?php namespace Develpr\AlexaApp;
 
+use Develpr\AlexaApp\Request\NonAlexaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
@@ -58,7 +59,7 @@ class AlexaProvider extends ServiceProvider
 			
 			//todo: throw an exception?
 			if(! $requestType)
-				return null;
+				return new NonAlexaRequest;
 
 			$className = 'Develpr\AlexaApp\Request\\' . $requestType;
 

@@ -43,4 +43,24 @@ abstract class BaseAlexaRequest implements AlexaRequest
         return array_get($this->data, 'request.type');
     }
 
+	/**
+	 * Is this request formatted as an Amazon Echo/Alexa request?
+	 *
+	 * @return bool
+	 */
+	public function isAlexaRequest()
+	{
+		return !(is_null($this->getRequestType()));
+	}
+
+	/**
+	 * Return the user id provided in in the request
+	 *
+	 * @return mixed
+	 */
+	public function getUserId()
+	{
+		return array_get($this->data, 'session.user.userId');
+	}
+
 } 

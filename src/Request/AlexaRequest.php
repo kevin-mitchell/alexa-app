@@ -10,4 +10,18 @@ interface AlexaRequest
      */
     public function getRequestType();
 
+	/**
+	 * Is this request formatted as an Amazon Echo/Alexa request?
+	 *
+	 * @return bool
+	 */
+	public function isAlexaRequest();
+
+	/**
+	 * Get the UserId provided in the request
+	 *
+	 * @return mixed
+	 */
+	public function getUserId();
+
 } 

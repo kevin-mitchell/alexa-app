@@ -23,7 +23,7 @@ class AlexaUser extends Eloquent implements Authenticatable{
 	 */
 	public function getAuthIdentifier()
 	{
-		return "HI";
+		return $this->alexa_user_id;
 		// TODO: Implement getAuthIdentifier() method.
 	}
 
@@ -34,7 +34,7 @@ class AlexaUser extends Eloquent implements Authenticatable{
 	 */
 	public function getAuthPassword()
 	{
-		return "HI";
+		return $this->password;
 		// TODO: Implement getAuthPassword() method.
 	}
 

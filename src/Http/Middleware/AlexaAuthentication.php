@@ -9,6 +9,7 @@
 namespace Develpr\AlexaApp\Http\Middleware;
 
 
+use Develpr\AlexaApp\AlexaUser;
 use Develpr\AlexaApp\Request\AlexaRequest;
 
 class AlexaAuthentication {
@@ -30,7 +31,20 @@ class AlexaAuthentication {
 
 		$userId = $this->alexaRequest->getUserId();
 
-		$test = \Auth::once(['alexa_user_id' => $userId, 'password' => $userId]);
+		$userData = ['alexa_user_id' => $userId, 'password' => $userId];
+
+		$loggedIn = \Auth::once($userData);
+
+		if( ! $loggedIn && $userId ){
+
+			$user = new AlexaUser;
+			$user->alexa_user_id = $userId;
+			$user->password = crypt($userId);
+			$user->save();
+
+			$loggedIn = \Auth::once($userData);
+
+		}
 
 		return $next($request);
 

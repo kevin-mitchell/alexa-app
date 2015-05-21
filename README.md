@@ -147,6 +147,19 @@ You can always return this in a single line,
 
 Here the third parameter, when set to true, will end the session.
 
+#Auth (very very unstable)
+
+1. Configure the database
+2. Register the AlexaAuthentication middleware
+3. Enable Eloquent
+
+AUTH_DRIVER=eloquent
+AUTH_MODEL=App\:
+
+ALEXA_AUTH_MODEL=Develpr\AlexaApp\AlexaUser
+
+
+
 
 ###Thanks
 

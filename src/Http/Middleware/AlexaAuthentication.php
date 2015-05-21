@@ -19,7 +19,6 @@ class AlexaAuthentication {
 	function __construct(AlexaRequest $alexaRequest)
 	{
 		$this->alexaRequest = $alexaRequest;
-		// TODO: Implement __construct() method.
 	}
 
 

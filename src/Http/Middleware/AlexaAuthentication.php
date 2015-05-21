@@ -36,7 +36,10 @@ class AlexaAuthentication {
 
 		if( ! $loggedIn && $userId ){
 
-			$user = new AlexaUser;
+
+			$alexaUserModel = \Config::get('alexa.userModel');
+
+			$user = new $alexaUserModel;
 			$user->alexa_user_id = $userId;
 			$user->password = crypt($userId);
 			$user->save();

@@ -1,15 +1,20 @@
-<?php namespace Develpr\AlexaApp;
+<?php namespace Develpr\AlexaApp\Provider;
 
 use Develpr\AlexaApp\Request\NonAlexaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
-/**
- *	Binds 
- *
- */
-class AlexaProvider extends ServiceProvider
+
+class AlexaServiceProvider extends ServiceProvider
 {
+
+    public function boot()
+    {
+		$request = $this->app->make('request');
+
+        $this->setupSession($request);
+    }
+
 
     /**
      * Register any application services.
@@ -18,16 +23,15 @@ class AlexaProvider extends ServiceProvider
      */
     public function register()
     {
-
-    }
-
-    public function boot()
-    {
-        $request = $this->app->make('request');
+		$request = $this->app->make('request');
 
 		$this->bindAlexaRequest($request);
-        $this->setupSession($request);
     }
+
+	protected function setupConfig()
+	{
+		$this->mergeConfigFrom(realpath(__DIR__.'/../../config/alexa.php'), 'alexa');
+	}
 
 	/**
 	 *	Add session values from json payload to Lumen session

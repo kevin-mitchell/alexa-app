@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAlexaUsersTable extends Migration {
+class CreateAlexaDevicesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,10 @@ class CreateAlexaUsersTable extends Migration {
 	 */
 	public function up()
 	{
-        Schema::create('alexa_users', function($table)
+        Schema::create('alexa_devices', function($table)
         {
             $table->increments('id');
-            $table->string('alexa_user_id');
+            $table->string('user_id');
             $table->string('password');
             $table->timestamps();
         });
@@ -28,7 +28,7 @@ class CreateAlexaUsersTable extends Migration {
 	 */
 	public function down()
 	{
-        Schema::dropIfExists('alexa_users');
+        Schema::dropIfExists('alexa_devices');
 	}
 
 }

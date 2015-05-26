@@ -1,5 +1,6 @@
 <?php namespace Develpr\AlexaApp\Provider;
 
+use Develpr\AlexaApp\Domain\Alexa;
 use Develpr\AlexaApp\Request\NonAlexaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
@@ -10,9 +11,7 @@ class AlexaServiceProvider extends ServiceProvider
 
     public function boot()
     {
-		$request = $this->app->make('request');
 
-        $this->setupSession($request);
     }
 
 
@@ -23,9 +22,17 @@ class AlexaServiceProvider extends ServiceProvider
      */
     public function register()
     {
+		$this->setupConfig();
+
 		$request = $this->app->make('request');
 
 		$this->bindAlexaRequest($request);
+
+		$this->app->singleton('alexa', function(){
+			$alexaRequest = $this->app->make('Develpr\AlexaApp\Request\AlexaRequest');
+			return new Alexa($alexaRequest);
+		});
+
     }
 
 	protected function setupConfig()
@@ -34,30 +41,11 @@ class AlexaServiceProvider extends ServiceProvider
 	}
 
 	/**
-	 *	Add session values from json payload to Lumen session
-	 */
-    private function setupSession(Request $request)
-    {
-        $data = json_decode($request->getContent(), true);
-
-        $sessionAttributes = array_get($data, 'session.attributes');
-		
-        if( ! $sessionAttributes )
-            return;
-            
-        foreach($sessionAttributes as $key => $value)
-        {
-            \Session::put($key, $value);
-        }
-
-    }
-
-	/**
 	 *	Bind the approriate AlexaResponse type to the IoC container
 	 */
 	private function bindAlexaRequest(Request $request)
 	{
-		$this->app->bind('Develpr\AlexaApp\Request\AlexaRequest', function() use ($request) {
+		$this->app->singleton('Develpr\AlexaApp\Request\AlexaRequest', function() use ($request) {
 
 			$requestType = array_get(json_decode($request->getContent(), true), 'request.type');
 			

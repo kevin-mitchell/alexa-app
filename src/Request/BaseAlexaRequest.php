@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 abstract class BaseAlexaRequest implements AlexaRequest
 {
     private $data = [];
+	private $session = [];
 
     function __construct(Request $request)
     {
@@ -27,7 +28,6 @@ abstract class BaseAlexaRequest implements AlexaRequest
      */
     private function extractRequestData($request)
     {
-        //todo: remove this after testing
 		$data = json_decode($request->getContent(), true);
 
         return $data;
@@ -62,5 +62,77 @@ abstract class BaseAlexaRequest implements AlexaRequest
 	{
 		return array_get($this->data, 'session.user.userId');
 	}
+
+	/**
+	 * Attempt to return an IntentRequest
+	 *
+	 * @return IntentRequest|null
+	 */
+	public function toIntentRequest()
+	{
+		if( ! $this->isAlexaRequest() || ! $this->getRequestType() == "IntentRequest")
+			return null;
+
+		else
+			return $this;
+	}
+
+	/**
+	 * Attempt to return a SessionEndedRequest
+	 *
+	 * @return SessionEndedRequest|null
+	 */
+	public function toSessionEndedRequest()
+	{
+		if( ! $this->isAlexaRequest() || ! $this->getRequestType() == "SessionEndedRequest")
+			return null;
+
+		else
+			return $this;
+	}
+
+	/**
+	 * Attempt to return a LaunchRequest
+	 *
+	 * @return LaunchRequest|null
+	 */
+	public function toLaunchRequest()
+	{
+		if( ! $this->isAlexaRequest() || ! $this->getRequestType() == "LaunchRequest")
+			return null;
+
+		else
+			return $this;
+	}
+
+	/**
+	 * Get all of the session values in an array
+	 *
+	 * @return array
+	 */
+	public function getSession()
+	{
+		$sessionAttributes = array_get($this->data, 'session.attributes');
+
+		if(! $sessionAttributes)
+			return [];
+
+		return $sessionAttributes;
+	}
+
+	/**
+	 * Get a particular session value by key
+	 *
+	 * @param String $key
+	 * @return mixed|null
+	 */
+	public function getSessionValue($key = null)
+	{
+		return array_key_exists($key, $this->getSession()) ? $this->getSession()[$key] : null;
+	}
+
+
+
+
 
 } 

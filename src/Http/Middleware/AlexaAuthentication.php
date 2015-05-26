@@ -1,54 +1,19 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: shoelessone
- * Date: 5/14/15
- * Time: 7:01 PM
- */
+<?php namespace Develpr\AlexaApp\Http\Middleware;
 
-namespace Develpr\AlexaApp\Http\Middleware;
-
-
-use Develpr\AlexaApp\AlexaUser;
-use Develpr\AlexaApp\Request\AlexaRequest;
+use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
 
 class AlexaAuthentication {
 
-	private $alexaRequest;
-
-	function __construct(AlexaRequest $alexaRequest)
-	{
-		$this->alexaRequest = $alexaRequest;
-	}
-
-
 	public function handle($request, $next)
 	{
+		/** @var AmazonEchoDevice $device */
+		$device = \Alexa::device();
 
-		if( ! $this->alexaRequest->isAlexaRequest())
-			return $next($request);
-
-		$userId = $this->alexaRequest->getUserId();
-
-		$userData = ['alexa_user_id' => $userId, 'password' => $userId];
-
-		$loggedIn = \Auth::once($userData);
-
-		if( ! $loggedIn && $userId ){
-
-
-			$alexaUserModel = \Config::get('alexa.userModel');
-
-			$user = new $alexaUserModel;
-			$user->alexa_user_id = $userId;
-			$user->password = crypt($userId);
-			$user->save();
-
-			$loggedIn = \Auth::once($userData);
-
+		if( ! $device ){
+				return response('Unauthorized.', 401);
 		}
 
 		return $next($request);
-
+		
 	}
 } 

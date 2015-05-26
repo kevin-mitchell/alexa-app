@@ -1,16 +1,7 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: shoelessone
- * Date: 5/14/15
- * Time: 8:25 PM
- */
-
-namespace Develpr\AlexaApp;
+<?php namespace Develpr\AlexaApp;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Contracts\Auth\Authenticatable;
-
 
 class AlexaUser extends Eloquent implements Authenticatable{
 

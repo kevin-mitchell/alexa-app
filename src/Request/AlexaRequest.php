@@ -24,4 +24,41 @@ interface AlexaRequest
 	 */
 	public function getUserId();
 
+	/**
+	 * Attempt to return an IntentRequest
+	 *
+	 * @return IntentRequest|null
+	 */
+	public function toIntentRequest();
+
+	/**
+	 * Attempt to return a SessionEndedRequest
+	 *
+	 * @return SessionEndedRequest|null
+	 */
+	public function toSessionEndedRequest();
+
+	/**
+	 * Attempt to return a LaunchRequest
+	 *
+	 * @return LaunchRequest|null
+	 */
+	public function toLaunchRequest();
+
+	/**
+	 * Get all of the session values in an array
+	 *
+	 * @return array
+	 */
+	public function getSession();
+
+	/**
+	 * Get a particular session value by key
+	 *
+	 * @param String $key
+	 * @return mixed|null
+	 */
+	public function getSessionValue($key = null);
+
+
 } 

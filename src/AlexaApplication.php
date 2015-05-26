@@ -86,5 +86,13 @@ class AlexaApplication extends Application
 
     }
 
+	//If the parent class
+	public function withFacades()
+	{
+		parent::withFacades();
+
+		class_alias('Develpr\AlexaApp\Facades\Alexa', env('ALEXA_FACADE', "Alexa"));
+	}
+
 
 } 

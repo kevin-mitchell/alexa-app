@@ -1,9 +1,7 @@
 <?php  namespace Develpr\AlexaApp\Response; 
 
+use Develpr\AlexaApp\Domain\Alexa;
 use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Http\Response;
-use Illuminate\Session\SessionManager;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * This class represents a valid response to be send back to Alexa.
@@ -14,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AlexaResponse implements Jsonable
 {
     const ALEXA_RESPONSE_VERSION = "1.0";
+
 
     /**
      * A key-value pair of session attributes
@@ -32,20 +31,29 @@ class AlexaResponse implements Jsonable
      */
     private $speech = null;
 
+	/**
+	 * Does this response represent a prompt?
+	 *
+	 * @var bool
+	 */
+	private $isPrompt = false;
+
     /**
      * @var Card
      */
     private $card = null;
 
-    function __construct(Speech $speech = null, Card $card = null, $shouldSessionEnd = false)
+	/**
+	 * @var Alexa
+	 */
+	private $alexa;
+
+	function __construct()
     {
-        $this->card = $card;
-        $this->speech = $speech;
-        $this->shouldSessionEnd = $shouldSessionEnd;
+		$this->alexa = app()->make('alexa');
 
 		return $this;
-
-    }
+	}
 
 
     /**
@@ -82,10 +90,6 @@ class AlexaResponse implements Jsonable
     private function prepareResponseData()
     {
         $responseData = [];
-
-        /** @var SessionManager $sessionData */
-        $sessionData = session();
-
 
         $responseData['version'] = self::ALEXA_RESPONSE_VERSION;
 
@@ -128,6 +132,19 @@ class AlexaResponse implements Jsonable
         return $this;
     }
 
+	public function isPrompt()
+	{
+		return boolval($this->isPrompt);
+	}
+
+	public function setIsPrompt($prompt = false)
+	{
+		if(is_bool($prompt))
+			$this->isPrompt = $prompt;
+
+		return $this;
+	}
+
     /**
      * @param null $speech
      */
@@ -140,7 +157,15 @@ class AlexaResponse implements Jsonable
 
     private function getSessionData()
     {
-        $data = \Session::all();
+        $data = $this->alexa->session();
+
+		if($this->isPrompt()){
+			$data['possible_prompt_response'] = true;
+			if($this->speech)
+				$data['original_prompt'] = $this->speech->getText();
+			if($this->alexa->requestType() == "IntentRequest")
+				$data['original_prompt_intent'] = $this->alexa->request()->toIntentRequest()->getIntent();
+		}
 
         return $data;
     }

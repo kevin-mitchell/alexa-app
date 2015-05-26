@@ -11,6 +11,14 @@ return [
 	|
 	*/
 
-	'userModel' => env('ALEXA_USER_MODEL', 'Develpr\AlexaApp\AlexaUser'),
+	'device' => [
+
+		'enable' => boolval(env("ALEXA_ENABLE_DEVICE", true)),
+
+		'model' => env('ALEXA_DEVICE_MODEL', 'Develpr\AlexaApp\Domain\Device'),
+
+	],
+
+	'facadeAlias' => env('ALEXA_FACADE_ALIAS', 'Alexa')
 
 ];

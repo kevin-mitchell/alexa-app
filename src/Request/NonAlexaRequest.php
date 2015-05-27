@@ -41,5 +41,56 @@ class NonAlexaRequest implements AlexaRequest {
 		return null;
 	}
 
+    /**
+     * Attempt to return an IntentRequest
+     *
+     * @return IntentRequest|null
+     */
+    public function toIntentRequest()
+    {
+        return null;
+    }
+
+    /**
+     * Get all of the session values in an array
+     *
+     * @return array
+     */
+    public function getSession()
+    {
+        return null;
+    }
+
+    /**
+     * Get a particular session value by key
+     *
+     * @param String $key
+     * @return mixed|null
+     */
+    public function getSessionValue($key = null)
+    {
+        return null;
+    }
+
+    /**
+     * Attempt to return a SessionEndedRequest
+     *
+     * @return SessionEndedRequest|null
+     */
+    public function toSessionEndedRequest()
+    {
+        return null;
+    }
+
+    /**
+     * Attempt to return a LaunchRequest
+     *
+     * @return LaunchRequest|null
+     */
+    public function toLaunchRequest()
+    {
+        return null;
+    }
+
 
 } 

@@ -30,32 +30,8 @@ class AlexaServiceProvider extends ServiceProvider
 
 		$this->bindAlexaRequest($request);
 
+        $this->bindAlexa();
 
-		$this->app->singleton('alexa', function($app){
-
-			$providerType = $app['config']['alexa.device.provider'];
-
-			$provider = null;
-
-			if($providerType == "eloquent"){
-
-				$provider = new EloquentDeviceProvider($app['config']['alexa.device.model']);
-
-			}else if($providerType == "database"){
-
-				$connection = $app['db']->connection();
-
-				$provider = new DatabaseDeviceProvider($connection, $app['config']['alexa.device.model']);
-
-			}else{
-				throw new \Exception("Unsupported Alexa Device Provider specified - currently only 'database' and 'eloquent' are supported");
-			}
-
-			$alexaRequest = $this->app->make('Develpr\AlexaApp\Request\AlexaRequest');
-
-			return new Alexa($alexaRequest, $provider, $app['config']['alexa']);
-
-		});
 
     }
 
@@ -65,7 +41,7 @@ class AlexaServiceProvider extends ServiceProvider
 	}
 
 	/**
-	 *	Bind the approriate AlexaResponse type to the IoC container
+	 *	Bind the appropriate AlexaResponse type to the IoC container
 	 */
 	private function bindAlexaRequest(Request $request)
 	{
@@ -88,4 +64,33 @@ class AlexaServiceProvider extends ServiceProvider
 
 		});
 	}
+
+    private function bindAlexa()
+    {
+        $this->app->singleton('alexa', function($app){
+
+            $providerType = $app['config']['alexa.device.provider'];
+
+            $provider = null;
+
+            if($providerType == "eloquent"){
+
+                $provider = new EloquentDeviceProvider($app['config']['alexa.device.model']);
+
+            }else if($providerType == "database"){
+
+                $connection = $app['db']->connection();
+
+                $provider = new DatabaseDeviceProvider($connection, $app['config']['alexa.device.model']);
+
+            }else{
+                throw new \Exception("Unsupported Alexa Device Provider specified - currently only 'database' and 'eloquent' are supported");
+            }
+
+            $alexaRequest = $this->app->make('Develpr\AlexaApp\Request\AlexaRequest');
+
+            return new Alexa($alexaRequest, $provider, $app['config']['alexa']);
+
+        });
+    }
 }

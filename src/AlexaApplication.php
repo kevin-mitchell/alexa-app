@@ -75,9 +75,7 @@ class AlexaApplication extends Application
 
     private function getIntentFromRequest()
     {
-        //todo: this thing right here!
         $request = $this->make('request');
-
 
         $data = json_decode($request->getContent(), true);
 
@@ -89,7 +87,6 @@ class AlexaApplication extends Application
             case 'IntentRequest':
                 return '*' . ltrim(array_get($data, 'request.intent.name'));
         }
-
 
     }
 

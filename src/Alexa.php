@@ -56,6 +56,9 @@ class Alexa {
 
 	public function device($attributes = [])
 	{
+        if( ! $this->alexaConfig['device']['enable'])
+            throw new \Exception("Alexa device functionality is disabled. Please see documentation.");
+
 		if( ! $this->isAlexaRequest() )
 			return null;
 

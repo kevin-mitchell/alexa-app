@@ -1,6 +1,6 @@
 <?php  namespace Develpr\AlexaApp\Response; 
 
-use Develpr\AlexaApp\Domain\Alexa;
+use Develpr\AlexaApp\Device\Alexa;
 use Illuminate\Contracts\Support\Jsonable;
 
 /**

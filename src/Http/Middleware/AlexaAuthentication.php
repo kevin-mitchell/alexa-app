@@ -14,6 +14,6 @@ class AlexaAuthentication {
 		}
 
 		return $next($request);
-		
+
 	}
 } 

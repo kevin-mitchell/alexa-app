@@ -1,6 +1,8 @@
 <?php namespace Develpr\AlexaApp\Provider;
 
-use Develpr\AlexaApp\Domain\Alexa;
+use Develpr\AlexaApp\Alexa;
+use Develpr\AlexaApp\Device\DatabaseDeviceProvider;
+use Develpr\AlexaApp\Device\EloquentDeviceProvider;
 use Develpr\AlexaApp\Request\NonAlexaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
@@ -28,9 +30,31 @@ class AlexaServiceProvider extends ServiceProvider
 
 		$this->bindAlexaRequest($request);
 
-		$this->app->singleton('alexa', function(){
+
+		$this->app->singleton('alexa', function($app){
+
+			$providerType = $app['config']['alexa.device.provider'];
+
+			$provider = null;
+
+			if($providerType == "eloquent"){
+
+				$provider = new EloquentDeviceProvider($app['config']['alexa.device.model']);
+
+			}else if($providerType == "database"){
+
+				$connection = $app['db']->connection();
+
+				$provider = new DatabaseDeviceProvider($connection, $app['config']['alexa.device.model']);
+
+			}else{
+				throw new \Exception("Unsupported Alexa Device Provider specified - currently only 'database' and 'eloquent' are supported");
+			}
+
 			$alexaRequest = $this->app->make('Develpr\AlexaApp\Request\AlexaRequest');
-			return new Alexa($alexaRequest);
+
+			return new Alexa($alexaRequest, $provider, $app['config']['alexa']);
+
 		});
 
     }

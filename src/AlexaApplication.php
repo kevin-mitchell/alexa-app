@@ -6,6 +6,13 @@ class AlexaApplication extends Application
 {
     private $intentRoutes = [];
 
+	/**
+	 * Indicates if the class aliases have been registered.
+	 *
+	 * @var bool
+	 */
+	protected static $alexaAliasesRegistered = false;
+
     public function intent($uri, $intent, $action)
     {
         $this->intentRoutes[] = $uri;
@@ -91,7 +98,12 @@ class AlexaApplication extends Application
 	{
 		parent::withFacades();
 
-		class_alias('Develpr\AlexaApp\Facades\Alexa', env('ALEXA_FACADE', "Alexa"));
+		if (! static::$alexaAliasesRegistered){
+
+			static::$alexaAliasesRegistered = true;
+			class_alias('Develpr\AlexaApp\Facades\Alexa', env('ALEXA_FACADE', "Alexa"));
+
+		}
 	}
 
 

@@ -1,4 +1,4 @@
-<?php namespace Develpr\AlexaApp\Domain;
+<?php namespace Develpr\AlexaApp\Device;
 
 use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
 use Illuminate\Database\Eloquent\Model;

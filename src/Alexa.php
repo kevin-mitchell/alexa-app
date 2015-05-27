@@ -1,14 +1,6 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: shoelessone
- * Date: 5/21/15
- * Time: 2:46 PM
- */
+<?php namespace Develpr\AlexaApp;
 
-namespace Develpr\AlexaApp\Domain;
-
-
+use Develpr\AlexaApp\Device\DeviceProvider;
 use Develpr\AlexaApp\Request\AlexaRequest;
 
 class Alexa {
@@ -17,18 +9,39 @@ class Alexa {
 	 * @var \Develpr\AlexaApp\Request\AlexaRequest
 	 */
 	private $alexaRequest;
+
 	private $session;
 
-	public function __construct(AlexaRequest $alexaRequest)
+	/**
+	 * @var Device\DeviceProvider
+	 */
+	private $deviceProvider;
+
+	/**
+	 * @var array
+	 */
+	private $alexaConfig;
+
+	/**
+	 * @var bool
+	 */
+	private $isAlexaRequest;
+
+	public function __construct(AlexaRequest $alexaRequest, DeviceProvider $deviceProvider, array $alexaConfig)
 	{
 		$this->alexaRequest = $alexaRequest;
+		$this->deviceProvider = $deviceProvider;
 
 		$this->setupSession();
+
+		$this->alexaConfig = $alexaConfig;
+
+		$this->isAlexaRequest = $this->alexaRequest->isAlexaRequest();
 	}
 
 	public function isAlexaRequest()
 	{
-		return $this->alexaRequest->isAlexaRequest();
+		return $this->isAlexaRequest;
 	}
 
 	public function requestType()
@@ -41,9 +54,23 @@ class Alexa {
 		return $this->alexaRequest;
 	}
 
+	public function device($attributes = [])
+	{
+		if( ! $this->isAlexaRequest() )
+			return null;
+
+		if( ! array_key_exists($this->alexaConfig['device']['device_identifier'], $attributes))
+			$attributes[$this->alexaConfig['device']['device_identifier']] = $this->alexaRequest->getUserId();
+
+		$result = $this->deviceProvider->retrieveByCredentials($attributes);
+
+		return $result;
+	}
+
 	public function slot($requestedSlot = "")
 	{
-		if( $this->alexaRequest->getRequestType() != "IntentRequest"){
+
+		if( ! $this->isAlexaRequest() || $this->alexaRequest->getRequestType() != "IntentRequest"){
 			return null;
 		}
 
@@ -53,7 +80,7 @@ class Alexa {
 
 	public function slots()
 	{
-		if( $this->alexaRequest->getRequestType() != "IntentRequest"){
+		if( ! $this->isAlexaRequest() || $this->alexaRequest->getRequestType() != "IntentRequest"){
 			return null;
 		}
 

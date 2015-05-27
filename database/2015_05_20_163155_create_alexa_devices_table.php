@@ -15,8 +15,7 @@ class CreateAlexaDevicesTable extends Migration {
         Schema::create('alexa_devices', function($table)
         {
             $table->increments('id');
-            $table->string('user_id');
-            $table->string('password');
+            $table->string('device_user_id');
             $table->timestamps();
         });
 	}

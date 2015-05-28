@@ -2,6 +2,8 @@
 
 use Develpr\AlexaApp\Device\DeviceProvider;
 use Develpr\AlexaApp\Request\AlexaRequest;
+use Develpr\AlexaApp\Response\AlexaResponse;
+use Develpr\AlexaApp\Response\Speech;
 
 class Alexa {
 
@@ -54,10 +56,29 @@ class Alexa {
 		return $this->alexaRequest;
 	}
 
+	public function response()
+	{
+		return new AlexaResponse;
+	}
+
+	public function say($statementWords)
+	{
+		$response = new AlexaResponse(new Speech($statementWords));
+
+		return $response;
+	}
+
+	public function ask($question)
+	{
+		$response = new AlexaResponse(new Speech($question));
+
+		$response->setIsPrompt(true);
+
+		return $response;
+	}
+
 	public function device($attributes = [])
 	{
-        if( ! $this->alexaConfig['device']['enable'])
-            throw new \Exception("Alexa device functionality is disabled. Please see documentation.");
 
 		if( ! $this->isAlexaRequest() )
 			return null;

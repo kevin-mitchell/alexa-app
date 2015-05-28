@@ -5,7 +5,6 @@ use Illuminate\Http\Request;
 abstract class BaseAlexaRequest implements AlexaRequest
 {
     private $data = [];
-	private $session = [];
 
     function __construct(Request $request)
     {

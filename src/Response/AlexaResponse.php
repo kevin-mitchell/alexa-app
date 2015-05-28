@@ -48,8 +48,10 @@ class AlexaResponse implements Jsonable
 	 */
 	private $alexa;
 
-	function __construct()
+	function __construct(Speech $speech = null, Card $card = null)
     {
+		$this->speech = $speech;
+		$this->card = $card;
 		$this->alexa = app()->make('alexa');
 
 		return $this;

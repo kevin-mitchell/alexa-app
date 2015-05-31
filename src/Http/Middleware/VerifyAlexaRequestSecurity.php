@@ -3,15 +3,18 @@
 
 use Closure;
 use Develpr\AlexaApp\Contracts\CertificateProvider;
+use Develpr\AlexaApp\Exceptions\InvalidSignatureChainException;
 use Develpr\AlexaApp\Request\AlexaRequest;
 use Illuminate\Contracts\Routing\Middleware;
 use \Illuminate\Http\Request;
 use Develpr\AlexaApp\Exceptions\InvalidCertificateException;
+use Develpr\AlexaApp\Exceptions\InvalidAppIdException;
 
 class VerifyAlexaRequestSecurity implements Middleware{
 
 	const CERTIFICATE_URL_HEADER 	= "Signaturecertchainurl";
 	const SIGNATURE_HEADER 			= "Signature";
+	const ENCRYPT_METHOD			= "sha1WithRSAEncryption";
 
 	/**
 	 * @var \Develpr\AlexaApp\Request\AlexaRequest
@@ -43,35 +46,29 @@ class VerifyAlexaRequestSecurity implements Middleware{
 		if( ! $this->alexaRequest->isAlexaRequest() )
 			return $next($request);
 
+		$this->verifyApplicationId();
+
+
 		$signature = $this->getDecodedSignature($request);
 
-		$imageString = file_get_contents($signatureChainUrl);
-//		$save = file_put_contents($path,$imageString);
+		$certificate = $this->getCertificate($request);
 
-//		$data = fopen('php://input', 'rb');
-//		$data = file_get_contents('php://input');
+		//Get the request body that will be validated
 		$data = $request->getContent();
 
-		$test = openssl_x509_parse($imageString);
+		$certKey = openssl_pkey_get_public($certificate);
 
-		$time = time();
+		// ok, let's do this thing! we're saving the world from hackers here!
+		$valid = openssl_verify($data, $signature, $certKey, self::ENCRYPT_METHOD);
 
-		$pubkeyid = openssl_pkey_get_public($imageString);
-
-// state whether signature is okay or not
-		$ok = openssl_verify($data, $signature, $pubkeyid, "sha1WithRSAEncryption");
-
-		if ($ok == 1) {
-			echo "good";
-		} elseif ($ok == 0) {
-			echo "bad";
+		if ($valid == 1) {
+			return $next($request);
+		} elseif ($valid == 0) {
+			throw new InvalidSignatureChainException("The request did not validate against the certificate chain.");
 		} else {
-			echo "ugly, error checking signature";
+			throw new \Exception("Something went wrong when validating the request and certificate.");
 		}
 
-
-
-		return $next($request);
 	}
 
 	private function getCertificate(Request $request){
@@ -82,17 +79,7 @@ class VerifyAlexaRequestSecurity implements Middleware{
 
 		$certificate = $this->certificateProvider->getCertificateFromUri($signatureChainUri);
 
-
-
-	}
-
-	private function getSignatureChainUrl($request){
-
-
-
-	}
-
-	private function verifyChainUrl($url){
+		return $certificate;
 
 	}
 
@@ -101,7 +88,7 @@ class VerifyAlexaRequestSecurity implements Middleware{
 	 * @param $keychainUri
 	 * @throws \Develpr\AlexaApp\Exceptions\InvalidCertificateException
 	 */
-	protected function validateKeychainUri($keychainUri){
+	private function validateKeychainUri($keychainUri){
 
 		$uriParts = parse_url($keychainUri);
 
@@ -119,14 +106,6 @@ class VerifyAlexaRequestSecurity implements Middleware{
 
 	}
 
-
-	protected function validateCertificateDates($fromDate, $toDate){
-
-		$time = time();
-
-		return ($fromDate <= $time && $time <= $toDate);
-	}
-
 	/**
 	 * @param Request $request
 	 * @return string
@@ -139,6 +118,23 @@ class VerifyAlexaRequestSecurity implements Middleware{
 
 		return $base64DecodedSignature;
 
+	}
+
+	private function verifyApplicationId()
+	{
+		if( ! boolval(config('alexa.verifyAppId')) )
+			return;
+
+		$possible = config('alexa.appIds');
+
+		//Somebody might use the .env files and set the appIds as a string instead of an array so we'll be sure
+		if( ! is_array($possible) )
+			$possible = array($possible);
+
+		$appId = $this->alexaRequest->getAppId();
+
+		if( ! in_array($appId, $possible))
+			throw new InvalidAppIdException("The request's app id does not match the configured app id(s)");
 	}
 
 

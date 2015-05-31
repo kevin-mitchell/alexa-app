@@ -63,6 +63,16 @@ abstract class BaseAlexaRequest implements AlexaRequest
 	}
 
 	/**
+	 * Get the unique Application Id
+	 *
+	 * @return mixed
+	 */
+	public function getAppId()
+	{
+		return array_get($this->data, 'session.application.applicationId');
+	}
+
+	/**
 	 * Attempt to return an IntentRequest
 	 *
 	 * @return IntentRequest|null

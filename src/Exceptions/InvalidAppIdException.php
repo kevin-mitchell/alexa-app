@@ -2,6 +2,6 @@
 
 use Exception;
 
-class InvalidSignatureChainException extends Exception {
+class InvalidAppIdException extends  Exception{
 
 } 

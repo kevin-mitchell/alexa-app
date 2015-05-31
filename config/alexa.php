@@ -2,6 +2,48 @@
 
 return [
 
+	/*
+	 |--------------------------------------------------------------------------
+	 | verifyAppId
+	 |--------------------------------------------------------------------------
+	 |
+	 | Should the application verify that the incoming appId matches your appId?
+	 |
+	 | @see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/handling-requests-sent-by-the-alexa-service
+	 |
+	 */
+	'verifyAppId' => env('ALEXA_VERIFY_APP_ID', true),
+
+	/*
+	 |--------------------------------------------------------------------------
+	 | appIds
+	 |--------------------------------------------------------------------------
+	 |
+	 | Application IDs for your application(s)
+	 |
+	 | @see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/handling-requests-sent-by-the-alexa-service
+	 |
+	 */
+	'appIds' => env('ALEXA_POSSIBLE_APP_IDS', []),
+
+	'certificate' => [
+
+		/*
+		|--------------------------------------------------------------------------
+		| provider
+		|--------------------------------------------------------------------------
+		|
+		| How should the certificate be stored?
+		| `file`, `database` and `eloquent` providers are supported
+		|
+		*/
+		'provider' => env('ALEXA_CERTIFICATE_PROVIDER', 'file'),
+
+		'filePath' => env('ALEXA_CERTIFICATE_FILE_PATH', storage_path('certificates/')),
+
+
+
+	],
 
 
 	'device' => [
@@ -11,7 +53,7 @@ return [
 		| provider
 		|--------------------------------------------------------------------------
 		|
-		| `database` and `eloquent` providers are supported
+		| How should the device be accessed? `database` and `eloquent` providers are supported
 		|
 		*/
 		'provider' => env('ALEXA_DEVICE_PROVIDER', 'eloquent'),

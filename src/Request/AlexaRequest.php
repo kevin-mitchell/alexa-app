@@ -25,6 +25,13 @@ interface AlexaRequest
 	public function getUserId();
 
 	/**
+	 * Get the unique Application Id
+	 *
+	 * @return mixed
+	 */
+	public function getAppId();
+
+	/**
 	 * Attempt to return an IntentRequest
 	 *
 	 * @return IntentRequest|null
@@ -59,6 +66,7 @@ interface AlexaRequest
 	 * @return mixed|null
 	 */
 	public function getSessionValue($key = null);
+
 
 
 } 

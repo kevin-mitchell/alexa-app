@@ -1,12 +1,16 @@
 <?php namespace Develpr\AlexaApp\Provider;
 
 use Develpr\AlexaApp\Alexa;
+use Develpr\AlexaApp\Certificate\DatabaseCertificateProvider;
+use Develpr\AlexaApp\Certificate\EloquentCertificateProvider;
+use Develpr\AlexaApp\Certificate\FileCertificateProvider;
 use Develpr\AlexaApp\Device\DatabaseDeviceProvider;
 use Develpr\AlexaApp\Device\EloquentDeviceProvider;
 use Develpr\AlexaApp\Request\NonAlexaRequest;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
-
+use Exception;
 
 class AlexaServiceProvider extends ServiceProvider
 {
@@ -30,7 +34,11 @@ class AlexaServiceProvider extends ServiceProvider
 
 		$this->bindAlexaRequest($request);
 
-        $this->bindAlexa();
+		$this->bindCertificateProvider();
+
+		$this->bindAlexa();
+
+
 
 
     }
@@ -57,7 +65,7 @@ class AlexaServiceProvider extends ServiceProvider
 
 			if( ! class_exists($className))
 			{
-				throw new \Exception("This type of request is not supported");
+				throw new Exception("This type of request is not supported");
 			}
 
 			return new $className($request);
@@ -81,10 +89,10 @@ class AlexaServiceProvider extends ServiceProvider
 
                 $connection = $app['db']->connection();
 
-                $provider = new DatabaseDeviceProvider($connection, $app['config']['alexa.device.model']);
+                $provider = new DatabaseDeviceProvider($connection, $app['config']['alexa.device.table']);
 
             }else{
-                throw new \Exception("Unsupported Alexa Device Provider specified - currently only 'database' and 'eloquent' are supported");
+                throw new Exception("Unsupported Alexa Device Provider specified - currently only 'database' and 'eloquent' are supported");
             }
 
             $alexaRequest = $this->app->make('Develpr\AlexaApp\Request\AlexaRequest');
@@ -93,4 +101,33 @@ class AlexaServiceProvider extends ServiceProvider
 
         });
     }
+
+	private function bindCertificateProvider()
+	{
+		$this->app->bind('Develpr\AlexaApp\Contracts\CertificateProvider', function($app){
+
+			$providerType = $this->app['config']['alexa.certificate.provider'];
+
+			if($providerType == "file"){
+
+				$provider = new FileCertificateProvider(new Filesystem, $this->app['config']['alexa.certificate.filePath']);
+
+			}else if($providerType == "eloquent"){
+
+				$provider = new EloquentCertificateProvider($app['config']['alexa.certificate.model']);
+
+			}else if($providerType == "database"){
+
+				$connection = $app['db']->connection();
+
+				$provider = new DatabaseCertificateProvider($connection, $app['config']['alexa.device.table']);
+
+			}else{
+				throw new Exception("Unsupported Alexa Certificate Provider specified - currently only 'file', 'database', and 'eloquent' are supported");
+			}
+
+			return $provider;
+
+		});
+	}
 }

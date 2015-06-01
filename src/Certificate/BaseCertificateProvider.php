@@ -1,5 +1,7 @@
 <?php  namespace Develpr\AlexaApp\Certificate;
 
+use Develpr\AlexaApp\Exceptions\InvalidCertificateException;
+
 abstract class BaseCertificateProvider {
 
 	const ECHO_SERVICE_DOMAIN = 'echo-api.amazon.com';
@@ -56,4 +58,56 @@ abstract class BaseCertificateProvider {
 		return file_get_contents($certificateChainUri);
 
 	}
+
+	public function getCertificateFromUri($certificateChainUri)
+	{
+		$certificateChain = $this->retrieveCertificateFromStore($certificateChainUri);
+
+		if( ! is_null($certificateChain) || $certificateChain === false){
+
+			$parsedCertificate = $this->parseCertificate($certificateChain);
+
+			if(! $this->validateCertificateDate($parsedCertificate) || ! $this->verifyCertificateSubjectAltNamePresent($parsedCertificate))
+				$certificateChain = $this->storeRemoteCertificate($certificateChainUri);
+
+		}else{
+			$certificateChain = $this->storeRemoteCertificate($certificateChainUri);
+		}
+
+
+		return $certificateChain;
+	}
+
+	protected function storeRemoteCertificate($certificateChainUri){
+
+		$certificateContents = $this->getRemoteCertificateChain($certificateChainUri);
+
+		$parsedCertificate = $this->parseCertificate($certificateContents);
+
+		//if the certificate we are getting from the URL doesn't have a valid SAN present, this is not secure!
+		if( ! $this->verifyCertificateSubjectAltNamePresent($parsedCertificate) )
+			throw new InvalidCertificateException("The remote certificate doesn't contain a valid SANs in the signature");
+
+		$this->persistCertificate($certificateChainUri, $certificateContents);
+
+		return($this->retrieveCertificateFromStore($certificateChainUri));
+
+	}
+
+	/**
+	 * Persist the certificate contents to data store so it's retrievable using the certificate chain uri
+	 *
+	 * @param String $certificateChainUri
+	 * @param String $certificateContents
+	 */
+	protected abstract function persistCertificate($certificateChainUri, $certificateContents);
+
+	/**
+	 * Retrieve the certificate give the certificate chain's uri from the data store
+	 *
+	 * @param String $certificateChainUri
+	 * @return String | null
+	 */
+	protected abstract function retrieveCertificateFromStore($certificateChainUri);
+
 } 

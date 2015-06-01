@@ -4,6 +4,7 @@ use Develpr\AlexaApp\Alexa;
 use Develpr\AlexaApp\Certificate\DatabaseCertificateProvider;
 use Develpr\AlexaApp\Certificate\EloquentCertificateProvider;
 use Develpr\AlexaApp\Certificate\FileCertificateProvider;
+use Develpr\AlexaApp\Certificate\RedisCertificateProvider;
 use Develpr\AlexaApp\Device\DatabaseDeviceProvider;
 use Develpr\AlexaApp\Device\EloquentDeviceProvider;
 use Develpr\AlexaApp\Request\NonAlexaRequest;
@@ -11,6 +12,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Exception;
+use Illuminate\Redis\Database as RedisDatabase;
 
 class AlexaServiceProvider extends ServiceProvider
 {
@@ -111,6 +113,11 @@ class AlexaServiceProvider extends ServiceProvider
 			if($providerType == "file"){
 
 				$provider = new FileCertificateProvider(new Filesystem, $this->app['config']['alexa.certificate.filePath']);
+
+			}else if($providerType == "redis"){
+
+				$redis = $app->make('redis');
+				$provider = new RedisCertificateProvider($redis);
 
 			}else if($providerType == "eloquent"){
 

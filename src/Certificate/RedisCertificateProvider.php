@@ -2,17 +2,42 @@
 
 
 use Develpr\AlexaApp\Contracts\CertificateProvider;
+use Develpr\AlexaApp\Exceptions\InvalidCertificateException;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Redis\Database as RedisDatabase;
 
-class RedisCertificateProvider implements CertificateProvider {
+class RedisCertificateProvider extends BaseCertificateProvider implements CertificateProvider {
 
-	public function getCertificateFromUri($certificateChainUri)
+	/**
+	 * @var \Predis\Client
+	 */
+	private $redis;
+
+	function __construct(RedisDatabase $redis)
 	{
-		// TODO: Implement getCertificateFromUri() method.
+		$this->redis = $redis->connection();
 	}
 
-	function __construct()
+	/**
+	 * Persist the certificate contents to data store so it's retrievable using the certificate chain uri
+	 *
+	 * @param String $certificateChainUri
+	 * @param String $certificateContents
+	 */
+	protected function persistCertificate($certificateChainUri, $certificateContents)
 	{
-		// TODO: Implement __construct() method.
+		$this->redis->set($certificateChainUri, $certificateContents);
+	}
+
+	/**
+	 * Retrieve the certificate give the certificate chain's uri from the data store
+	 *
+	 * @param String $certificateChainUri
+	 * @return String | null
+	 */
+	protected function retrieveCertificateFromStore($certificateChainUri)
+	{
+		return $this->redis->get($certificateChainUri);
 	}
 
 

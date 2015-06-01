@@ -2,7 +2,6 @@
 
 
 use Develpr\AlexaApp\Contracts\CertificateProvider;
-use Develpr\AlexaApp\Exceptions\InvalidCertificateException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 
@@ -28,44 +27,48 @@ class FileCertificateProvider extends BaseCertificateProvider implements Certifi
 		}
 	}
 
-
-	public function getCertificateFromUri($certificateChainUri)
+	/**
+	 * Persist the certificate contents to data store so it's retrievable using the certificate chain uri
+	 *
+	 * @param String $certificateChainUri
+	 * @param String $certificateContents
+	 */
+	protected function persistCertificate($certificateChainUri, $certificateContents)
 	{
-		$filename = md5($certificateChainUri);
+		$this->filesystem->put($this->calculateFilePath($certificateChainUri), $certificateContents);
+	}
 
-		$path = $this->filePath . $filename;
-
+	/**
+	 * Retrieve the certificate give the certificate chain's uri from the datastore
+	 *
+	 * @param String $certificateChainUri
+	 * @return String | null
+	 */
+	protected function retrieveCertificateFromStore($certificateChainUri)
+	{
 		try{
-			$certificateChain = $this->filesystem->get($path);
-
-			$parsedCertificate = $this->parseCertificate($certificateChain);
-
-			if(! $this->validateCertificateDate($parsedCertificate) || ! $this->verifyCertificateSubjectAltNamePresent($parsedCertificate))
-				$certificateChain = $this->storeRemoteCertificate($certificateChainUri, $path);
-
+			$certificateChain = $this->filesystem->get($this->calculateFilePath($certificateChainUri));
 		}catch(FileNotFoundException $e){
-			$certificateChain = $this->storeRemoteCertificate($certificateChainUri, $path);
+			$certificateChain = null;
 		}
 
 		return $certificateChain;
 	}
 
-	private function storeRemoteCertificate($certificateChainUri, $path){
+	/**
+	 * Calculate the path that the certificate should be stored
+	 *
+	 * @param $certificateChainUri
+	 * @return string
+	 */
+	private function calculateFilePath($certificateChainUri){
 
-		$certificateContents = $this->getRemoteCertificateChain($certificateChainUri);
+		$filename = md5($certificateChainUri);
 
-		$parsedCertificate = $this->parseCertificate($certificateContents);
+		$path = $this->filePath . $filename;
 
-		//if the certificate we are getting from the URL doesn't have a valid SAN present, this is not secure!
-		if( ! $this->verifyCertificateSubjectAltNamePresent($parsedCertificate) )
-			throw new InvalidCertificateException("The remote certificate doesn't contain a valid SANs in the signature");
-
-		$this->filesystem->put($path, $certificateContents);
-
-		return($this->filesystem->get($path));
+		return $path;
 
 	}
-
-
 
 } 

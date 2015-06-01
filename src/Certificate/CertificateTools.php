@@ -1,8 +1,6 @@
-<?php  namespace Develpr\AlexaApp\Certificate;
+<?php namespace Develpr\AlexaApp\Certificate;
 
-abstract class BaseCertificateProvider {
-
-	const ECHO_SERVICE_DOMAIN = 'echo-api.amazon.com';
+trait CertificateTools {
 
 	/**
 	 * @param $certificate
@@ -19,9 +17,9 @@ abstract class BaseCertificateProvider {
 	 * @param array $parsedCertificate
 	 * @return boolean
 	 */
-	protected function verifyCertificateSubjectAltNamePresent(array $parsedCertificate)
+	protected function verifyCertificateSubjectAltNamePresent(array $parsedCertificate, $amazonServiceDomain)
 	{
-		if(strpos(array_get($parsedCertificate, 'extensions.subjectAltName'), self::ECHO_SERVICE_DOMAIN) === false)
+		if(strpos(array_get($parsedCertificate, 'extensions.subjectAltName'), $amazonServiceDomain) === false)
 			return false;
 		else
 			return true;
@@ -45,12 +43,6 @@ abstract class BaseCertificateProvider {
 
 	}
 
-	/**
-	 * Retrieve the certificate from a url
-	 *
-	 * @param $certificateChainUri
-	 * @return string
-	 */
 	protected function getRemoteCertificateChain($certificateChainUri){
 
 		return file_get_contents($certificateChainUri);

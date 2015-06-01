@@ -24,7 +24,9 @@ return [
 	 | @see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/handling-requests-sent-by-the-alexa-service
 	 |
 	 */
-	'appIds' => env('ALEXA_POSSIBLE_APP_IDS', []),
+//	'appIds' => env('ALEXA_POSSIBLE_APP_IDS', []),
+	'appIds' => env('ALEXA_POSSIBLE_APP_IDS', ["amzn1.echo-sdk-ams.app.9ec3744a-d1b2-48f2-8e08-3b2045c00616"]),
+
 
 	'certificate' => [
 
@@ -34,14 +36,20 @@ return [
 		|--------------------------------------------------------------------------
 		|
 		| How should the certificate be stored?
-		| `file`, `database` and `eloquent` providers are supported
+		| `file`, `redis`, `database` and `eloquent` providers are supported
 		|
 		*/
 		'provider' => env('ALEXA_CERTIFICATE_PROVIDER', 'file'),
 
+		/*
+		|--------------------------------------------------------------------------
+		| filePath
+		|--------------------------------------------------------------------------
+		|
+		| Where should the cert file be saved if downloaded with the `file` provider
+		|
+		*/
 		'filePath' => env('ALEXA_CERTIFICATE_FILE_PATH', storage_path('certificates/')),
-
-
 
 	],
 

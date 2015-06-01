@@ -35,13 +35,8 @@ class AlexaServiceProvider extends ServiceProvider
 		$request = $this->app->make('request');
 
 		$this->bindAlexaRequest($request);
-
 		$this->bindCertificateProvider();
-
 		$this->bindAlexa();
-
-
-
 
     }
 

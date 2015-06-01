@@ -18,7 +18,7 @@ class VerifyCsrfToken extends \Illuminate\Foundation\Http\Middleware\VerifyCsrfT
 
 		$isAlexaRequest = \Alexa::isAlexaRequest();
 
-	die("HI");
+//	die("HI");
 
 //		$test = $reuqes
 

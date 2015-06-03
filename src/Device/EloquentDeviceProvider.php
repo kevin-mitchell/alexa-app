@@ -1,6 +1,6 @@
 <?php  namespace Develpr\AlexaApp\Device;
 
-
+use Develpr\AlexaApp\Contracts\DeviceProvider;
 use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
 
 class EloquentDeviceProvider implements DeviceProvider {

@@ -1,7 +1,4 @@
-<?php  namespace Develpr\AlexaApp\Device;
-
-
-use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
+<?php  namespace Develpr\AlexaApp\Contracts;
 
 interface DeviceProvider {
 

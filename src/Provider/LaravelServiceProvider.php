@@ -2,12 +2,59 @@
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
+use ReflectionClass;
 
-class LaravelServiceProvider {
+class LaravelServiceProvider extends ServiceProvider {
+
+	public function boot()
+	{
+		$this->publishes([
+			realpath(__DIR__.'/../../config/alexa.php') => config_path('alexa.php'),
+		]);
+
+		$this->app['router']->middleware('alexa.certificate', 'Develpr\AlexaApp\Http\Middleware\Certificate');
+	}
+	/**
+	 * Register the service provider.
+	 *
+	 * @return void
+	 */
+	public function register()
+	{
+		$kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
+
+		$this->app->instance('app.middleware', $this->gatherAppMiddleware($kernel));
+
+		$this->addRequestMiddlewareToBeginning($kernel);
+
+		//Register our universal service provider
+		$this->app->register('Develpr\AlexaApp\Provider\AlexaServiceProvider');
+	}
+
 
 	protected function addRequestMiddlewareToBeginning(Kernel $kernel)
 	{
-		$kernel->prependMiddleware('Dingo\Api\Http\Middleware\Request');
+		$kernel->prependMiddleware('Develpr\AlexaApp\Http\Middleware\Request');
+	}
+
+	/**
+	 * Gather the application middleware besides this one so that we can send
+	 * our request through them, exactly how the developer wanted.
+	 *
+	 * @param \Illuminate\Contracts\Http\Kernel $kernel
+	 *
+	 * @return array
+	 */
+	protected function gatherAppMiddleware(Kernel $kernel)
+	{
+		$reflection = new ReflectionClass($kernel);
+
+		$property = $reflection->getProperty('middleware');
+		$property->setAccessible(true);
+
+		$middleware = $property->getValue($kernel);
+
+		return $middleware;
 	}
 
 

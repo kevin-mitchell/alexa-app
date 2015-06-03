@@ -10,7 +10,7 @@ use \Illuminate\Http\Request;
 use Develpr\AlexaApp\Exceptions\InvalidCertificateException;
 use Develpr\AlexaApp\Exceptions\InvalidAppIdException;
 
-class VerifyAlexaRequestSecurity implements Middleware{
+class Certificate implements Middleware{
 
 	const CERTIFICATE_URL_HEADER 	= "Signaturecertchainurl";
 	const SIGNATURE_HEADER 			= "Signature";

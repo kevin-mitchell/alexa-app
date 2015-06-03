@@ -1,8 +1,8 @@
 <?php  namespace Develpr\AlexaApp\Http\Routing;
 
-use Illuminate\Routing\Router;
+use Illuminate\Routing\Router as IlluminateRouter;
 
-class AlexaRouter extends Router{
+class AlexaRouter extends IlluminateRouter{
 
 	private $intentRoutes = [];
 

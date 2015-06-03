@@ -92,5 +92,15 @@ class NonAlexaRequest implements AlexaRequest {
         return null;
     }
 
+	/**
+	 * Get the unique Application Id
+	 *
+	 * @return mixed
+	 */
+	public function getAppId()
+	{
+		return null;
+	}
+
 
 } 

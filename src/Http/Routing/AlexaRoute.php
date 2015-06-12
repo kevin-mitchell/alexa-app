@@ -1,13 +1,13 @@
 <?php  namespace Develpr\AlexaApp\Http\Routing;
 
 use Develpr\AlexaApp\Http\Routing\Matching\AlexaValidator;
-use Develpr\AlexaApp\Request\AlexaRequest;
 use Illuminate\Routing\Matching\UriValidator;
 use \Illuminate\Routing\Route;
 use Illuminate\Http\Request;
 
 class AlexaRoute extends Route{
 
+	private $routeType = null;
 
 	/**
 	 * Determine if the route matches given request.

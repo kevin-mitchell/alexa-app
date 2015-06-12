@@ -1,6 +1,5 @@
 <?php  namespace Develpr\AlexaApp\Http\Routing\Matching;
 
-
 use Develpr\AlexaApp\Request\AlexaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Matching\ValidatorInterface;
@@ -17,6 +16,11 @@ class AlexaValidator implements ValidatorInterface{
 	 */
 	public function matches(Route $route, Request $request)
 	{
+		/** @var AlexaRequest $request */
+		$test = "HI";
+
+		$requestType = $request->getRequestType();
+
 		die("NEED TO DO THIS!");
 	}
 

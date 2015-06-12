@@ -41,7 +41,7 @@ class AlexaServiceProvider extends ServiceProvider
 	protected function setupClassAliases()
 	{
 		$this->app->alias('alexa.router', 'Develpr\AlexaApp\Http\Routing\AlexaRouter');
-		$this->app->alias('alexa.request', 'Develpr\AlexaApp\Request\AlexaRequest');
+		$this->app->alias('alexa.request', 'Develpr\AlexaApp\Contracts\AlexaRequest');
 	}
 
 	protected function registerRouter()
@@ -62,20 +62,8 @@ class AlexaServiceProvider extends ServiceProvider
 	private function bindAlexaRequest(Request $request)
 	{
 		$this->app->singleton('alexa.request', function() use ($request) {
-
-			//todo: do something more complex to verify that a request really should be handled by AlexaApp
-			$requestType = array_get(json_decode($request->getContent(), true), 'request.type');
-
-			if(! $requestType){
-				return new NonAlexaRequest;
-			}
-			$className = 'Develpr\AlexaApp\Request\\' . $requestType;
-			if( ! class_exists($className))
-			{
-				throw new Exception("This type of request is not supported");
-			}
-
-			return new $className($request);
+			return $this->app->make('Develpr\AlexaApp\Request\AlexaRequest');
+			//todo: originally I had different requet types based on the intent type
 		});
 	}
 
@@ -93,7 +81,7 @@ class AlexaServiceProvider extends ServiceProvider
                 throw new Exception("Unsupported Alexa Device Provider specified - currently only 'database' and 'eloquent' are supported");
             }
 
-            $alexaRequest = $this->app->make('Develpr\AlexaApp\Request\AlexaRequest');
+            $alexaRequest = $this->app->make('Develpr\AlexaApp\Contracts\AlexaRequest');
 
             return new Alexa($alexaRequest, $provider, $app['config']['alexa']);
         });
@@ -110,6 +98,7 @@ class AlexaServiceProvider extends ServiceProvider
 			return new \Develpr\AlexaApp\Http\Middleware\Request($app, $app['alexa.router'], $app['alexa.request'], $app['app.middleware']);
 		});
 	}
+
 
 	private function bindCertificateProvider()
 	{

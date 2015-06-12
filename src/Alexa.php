@@ -1,21 +1,21 @@
 <?php namespace Develpr\AlexaApp;
 
-use Develpr\AlexaApp\Device\DeviceProvider;
-use Develpr\AlexaApp\Request\AlexaRequest;
+use Develpr\AlexaApp\Contracts\DeviceProvider;
+use Develpr\AlexaApp\Contracts\AlexaRequest;
 use Develpr\AlexaApp\Response\AlexaResponse;
 use Develpr\AlexaApp\Response\Speech;
 
 class Alexa {
 
 	/**
-	 * @var \Develpr\AlexaApp\Request\AlexaRequest
+	 * @var \Develpr\AlexaApp\Contracts\AlexaRequest
 	 */
 	private $alexaRequest;
 
 	private $session;
 
 	/**
-	 * @var Device\DeviceProvider
+	 * @var Contracts\DeviceProvider
 	 */
 	private $deviceProvider;
 

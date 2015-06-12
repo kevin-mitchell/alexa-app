@@ -2,7 +2,7 @@
 
 use Develpr\AlexaApp\Http\Routing\AlexaRouter;
 use Closure;
-use Develpr\AlexaApp\Request\AlexaRequest;
+use Develpr\AlexaApp\Contracts\AlexaRequest;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request as IlluminateRequest;
@@ -37,7 +37,7 @@ class Request {
 	 */
 	protected $middleware;
 	/**
-	 * @var \Develpr\AlexaApp\Request\AlexaRequest
+	 * @var \Develpr\AlexaApp\Contracts\AlexaRequest
 	 */
 	private $alexaRequest;
 
@@ -65,13 +65,9 @@ class Request {
 	 */
 	public function handle($request, Closure $next)
 	{
-		$test = "HI";
-
-//		if ($this->validator->validateRequest($request)) {
 		if ($this->alexaRequest->isAlexaRequest()) {
 			return $this->sendRequestThroughRouter($request);
 		}
-
 		return $next($request);
 	}
 
@@ -87,7 +83,7 @@ class Request {
 		$this->app->instance('request', $request);
 
 		return (new Pipeline($this->app))->send($request)->through($this->middleware)->then(function ($request) {
-			return $this->router->dispatch($request);
+			return $this->router->dispatch($this->alexaRequest);
 		});
 
 	}

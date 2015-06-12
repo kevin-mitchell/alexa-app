@@ -4,7 +4,7 @@
 use Closure;
 use Develpr\AlexaApp\Contracts\CertificateProvider;
 use Develpr\AlexaApp\Exceptions\InvalidSignatureChainException;
-use Develpr\AlexaApp\Request\AlexaRequest;
+use Develpr\AlexaApp\Contracts\AlexaRequest;
 use Illuminate\Contracts\Routing\Middleware;
 use \Illuminate\Http\Request;
 use Develpr\AlexaApp\Exceptions\InvalidCertificateException;
@@ -17,7 +17,7 @@ class Certificate implements Middleware{
 	const ENCRYPT_METHOD			= "sha1WithRSAEncryption";
 
 	/**
-	 * @var \Develpr\AlexaApp\Request\AlexaRequest
+	 * @var \Develpr\AlexaApp\Contracts\AlexaRequest
 	 */
 	private $alexaRequest;
 	/**

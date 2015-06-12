@@ -15,6 +15,19 @@ class AlexaRouter extends IlluminateRouter{
 		return $this;
 	}
 
+	public function launch($uri, $action)
+	{
+		$this->intentRoutes[] = $uri;
+		$this->addAlexaRoute('POST', $this->prefix($uri) .'**' . 'LAUNCH_REQUEST', $action);
+	}
+
+	public function sessionEnded($uri, $action)
+	{
+		$this->intentRoutes[] = $uri;
+		$this->addAlexaRoute('POST', $this->prefix($uri) . '**' . 'SESSION_ENDED_REQUEST', $action);
+	}
+
+
 	/**
 	 * Add a route to the underlying route collection.
 	 *
@@ -77,16 +90,10 @@ class AlexaRouter extends IlluminateRouter{
 		return $route;
 	}
 
-	public function launch($uri, $action)
-	{
-		$this->intentRoutes[] = $uri;
-		$this->addRoute('INTENT', '**' . 'LAUNCH_REQUEST', $action);
-	}
 
-	public function sessionEnded($uri, $action)
+	protected function findRoute($request)
 	{
-		$this->intentRoutes[] = $uri;
-		$this->addRoute('INTENT', '**' . 'SESSION_ENDED_REQUEST', $action);
+		return parent::findRoute($request);
 	}
 
 } 

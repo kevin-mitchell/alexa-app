@@ -11,8 +11,6 @@ class LaravelServiceProvider extends ServiceProvider {
 		$this->publishes([
 			realpath(__DIR__.'/../../config/alexa.php') => config_path('alexa.php'),
 		]);
-
-		$this->app['router']->middleware('alexa.certificate', 'Develpr\AlexaApp\Http\Middleware\Certificate');
 	}
 	/**
 	 * Register the service provider.

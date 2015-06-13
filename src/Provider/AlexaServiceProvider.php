@@ -19,6 +19,12 @@ use Illuminate\Redis\Database as RedisDatabase;
 class AlexaServiceProvider extends ServiceProvider
 {
 
+	public function boot()
+	{
+		$this->app['router']->middleware('alexa.certificate', 'Develpr\AlexaApp\Http\Middleware\Certificate');
+	}
+
+
     /**
      * Register any application services.
      *

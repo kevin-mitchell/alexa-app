@@ -38,6 +38,15 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 	}
 
 	/**
+	 * Is this a new session according to Amazon AppKit?
+	 * @return boolean
+	 */
+	public function isNewSession()
+	{
+		return boolval(array_get($this->getData(), 'session.new'));
+	}
+
+	/**
 	 * Get the UserId provided in the request
 	 *
 	 * @return mixed

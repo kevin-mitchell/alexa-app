@@ -13,7 +13,6 @@ class AlexaResponse implements Jsonable
 {
     const ALEXA_RESPONSE_VERSION = "1.0";
 
-
     /**
      * A key-value pair of session attributes
      * @var array
@@ -30,6 +29,11 @@ class AlexaResponse implements Jsonable
      * @var Speech
      */
     private $speech = null;
+
+    /**
+     * @var Reprompt
+     */
+    private $reprompt = null;
 
 	/**
 	 * Does this response represent a prompt?
@@ -48,10 +52,11 @@ class AlexaResponse implements Jsonable
 	 */
 	private $alexa;
 
-	function __construct(Speech $speech = null, Card $card = null)
+	function __construct(Speech $speech = null, Card $card = null, Reprompt $reprompt = null)
     {
 		$this->speech = $speech;
 		$this->card = $card;
+		$this->card = $reprompt;
 		$this->alexa = app()->make('alexa');
 
 		return $this;
@@ -85,7 +90,7 @@ class AlexaResponse implements Jsonable
     }
 
     /**
-     * This method will build the Alexa valid response data
+     * Build the valid Alexa response object
      *
      * @return array
      */
@@ -99,11 +104,14 @@ class AlexaResponse implements Jsonable
             'shouldEndSession' => $this->shouldSessionEnd
         ];
 
-        if( ! is_null($this->card) && $this->card instanceof Card )
-            $response['card'] = $this->card->toArray();
-
+		//Check to see if a speech, card, or reprompt object are set and if so
+		//add them to the data object
         if( ! is_null($this->speech) && $this->speech instanceof Speech )
             $response['outputSpeech'] = $this->speech->toArray();
+        if( ! is_null($this->card) && $this->card instanceof Card )
+            $response['card'] = $this->card->toArray();
+		if( ! is_null($this->reprompt) && $this->reprompt instanceof Reprompt )
+			$response['reprompt'] = $this->reprompt->toArray();
 
 		$sessionAttributes = $this->getSessionData();
 
@@ -156,6 +164,16 @@ class AlexaResponse implements Jsonable
 
         return $this;
     }
+
+	/**
+	 * @param null $reprompt
+	 */
+	public function setReprompt(Reprompt $reprompt)
+	{
+		$this->reprompt = $reprompt;
+
+		return $this;
+	}
 
     private function getSessionData()
     {

@@ -48,7 +48,6 @@ class Certificate implements Middleware{
 
 		$this->verifyApplicationId();
 
-
 		$signature = $this->getDecodedSignature($request);
 
 		$certificate = $this->getCertificate($request);

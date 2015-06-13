@@ -6,6 +6,8 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 
 	private $data = null;
 	private $processed = false;
+	private $intent = null;
+	private $slots = null;
 
 	protected function getData()
 	{
@@ -81,11 +83,39 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 		return array_key_exists($key, $this->getSession()) ? $this->getSession()[$key] : null;
 	}
 
+	/**
+	 * @return string | null
+	 */
+	public function getIntent()
+	{
+		return $this->intent;
+	}
+
+	/**
+	 * @param $slotKey
+	 * @return null
+	 */
+	public function slot($slotKey)
+	{
+			return (array_key_exists($slotKey, $this->slots)) ? $this->slots[$slotKey]['value'] : null;
+	}
+
+	public function slots()
+	{
+			return $this->slots;
+	}
+
 
 	private function process()
 	{
 		$data = $this->getContent();
 		$this->data = json_decode($data, true);
+		$this->intent = array_get($this->data, 'request.intent.name');
+		$this->slots = array_get($this->data, 'request.intent.slots');
+
+		if(!$this->slots)
+			$this->slots = [];
+
 		$this->processed = true;
 	}
 

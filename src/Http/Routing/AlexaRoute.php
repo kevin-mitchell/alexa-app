@@ -7,7 +7,20 @@ use Illuminate\Http\Request;
 
 class AlexaRoute extends Route{
 
-	private $routeType = null;
+	private $routeIntent = null;
+
+	public function __construct($methods, $uri, $intent, $action)
+	{
+		parent::__construct($methods, $uri, $action);
+
+		$this->routeIntent = $intent;
+	}
+
+	public function getRouteIntent()
+	{
+		return $this->routeIntent;
+	}
+
 
 	/**
 	 * Determine if the route matches given request.
@@ -32,7 +45,7 @@ class AlexaRoute extends Route{
 		foreach($validators as $key => $validator)
 		{
 			if($validator instanceof UriValidator){
-				unset($validators[$key]);
+				//unset($validators[$key]);
 				break;
 			}
 		}
@@ -40,6 +53,11 @@ class AlexaRoute extends Route{
 		$validators[] = new AlexaValidator;
 
 		return $validators;
+	}
+
+	public function getUri()
+	{
+		return parent::getUri() . $this->getRouteIntent();
 	}
 
 

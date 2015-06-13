@@ -8,6 +8,7 @@ use Develpr\AlexaApp\Certificate\RedisCertificateProvider;
 use Develpr\AlexaApp\Device\DatabaseDeviceProvider;
 use Develpr\AlexaApp\Device\EloquentDeviceProvider;
 use Develpr\AlexaApp\Http\Routing\AlexaRouter;
+use Develpr\AlexaApp\Request\AlexaRequest;
 use Develpr\AlexaApp\Request\NonAlexaRequest;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
@@ -62,8 +63,8 @@ class AlexaServiceProvider extends ServiceProvider
 	private function bindAlexaRequest(Request $request)
 	{
 		$this->app->singleton('alexa.request', function() use ($request) {
-			return $this->app->make('Develpr\AlexaApp\Request\AlexaRequest');
-			//todo: originally I had different requet types based on the intent type
+			return AlexaRequest::capture();
+			//todo: originally I had different request types based on the intent type
 		});
 	}
 

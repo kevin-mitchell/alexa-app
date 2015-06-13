@@ -3,6 +3,7 @@
 use Develpr\AlexaApp\Http\Routing\AlexaRouter;
 use Closure;
 use Develpr\AlexaApp\Contracts\AlexaRequest;
+use Develpr\AlexaApp\Request\UltraRequest;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request as IlluminateRequest;
@@ -81,6 +82,7 @@ class Request {
 	protected function sendRequestThroughRouter( $request)
 	{
 		$this->app->instance('request', $request);
+
 
 		return (new Pipeline($this->app))->send($request)->through($this->middleware)->then(function ($request) {
 			return $this->router->dispatch($this->alexaRequest);

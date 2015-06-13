@@ -10,7 +10,7 @@ class AlexaRouter extends IlluminateRouter{
 	{
 		$this->intentRoutes[] = $uri;
 
-		$this->addAlexaRoute('POST', $this->prefix($uri) . '*' . $intent, $action);
+		$this->addAlexaRoute('POST', $this->prefix($uri), 'IntentRequest' . $intent, $action);
 
 		return $this;
 	}
@@ -18,13 +18,13 @@ class AlexaRouter extends IlluminateRouter{
 	public function launch($uri, $action)
 	{
 		$this->intentRoutes[] = $uri;
-		$this->addAlexaRoute('POST', $this->prefix($uri) .'**' . 'LAUNCH_REQUEST', $action);
+		$this->addAlexaRoute('POST', $this->prefix($uri), 'LaunchRequest', $action);
 	}
 
 	public function sessionEnded($uri, $action)
 	{
 		$this->intentRoutes[] = $uri;
-		$this->addAlexaRoute('POST', $this->prefix($uri) . '**' . 'SESSION_ENDED_REQUEST', $action);
+		$this->addAlexaRoute('POST', $this->prefix($uri), 'SessionEndedRequest', $action);
 	}
 
 
@@ -36,9 +36,9 @@ class AlexaRouter extends IlluminateRouter{
 	 * @param  \Closure|array|string  $action
 	 * @return \Illuminate\Routing\Route
 	 */
-	protected function addAlexaRoute($methods, $uri, $action)
+	protected function addAlexaRoute($methods, $uri, $intent,  $action)
 	{
-		return $this->routes->add($this->createAlexaRoute($methods, $uri, $action));
+		return $this->routes->add($this->createAlexaRoute($methods, $uri, $intent, $action));
 	}
 
 	/**
@@ -49,9 +49,9 @@ class AlexaRouter extends IlluminateRouter{
 	 * @param  mixed   $action
 	 * @return \Illuminate\Routing\Route
 	 */
-	protected function newAlexaRoute($methods, $uri, $action)
+	protected function newAlexaRoute($methods, $uri, $intent, $action)
 	{
-		return (new AlexaRoute($methods, $uri, $action))->setContainer($this->container);
+		return (new AlexaRoute($methods, $uri, $intent, $action))->setContainer($this->container);
 	}
 
 
@@ -63,7 +63,7 @@ class AlexaRouter extends IlluminateRouter{
 	 * @param  mixed   $action
 	 * @return \Illuminate\Routing\Route
 	 */
-	protected function createAlexaRoute($methods, $uri, $action)
+	protected function createAlexaRoute($methods, $uri, $intent, $action)
 	{
 		// If the route is routing to a controller we will parse the route action into
 		// an acceptable array format before registering it and creating this route
@@ -74,7 +74,7 @@ class AlexaRouter extends IlluminateRouter{
 		}
 
 		$route = $this->newAlexaRoute(
-			$methods, $this->prefix($uri), $action
+			$methods, $this->prefix($uri), $intent, $action
 		);
 
 		// If we have groups that need to be merged, we will merge them now after this

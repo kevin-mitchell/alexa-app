@@ -1,14 +1,14 @@
 <?php  namespace Develpr\AlexaApp\Http\Middleware;
 
-
 use Closure;
 use Develpr\AlexaApp\Contracts\CertificateProvider;
+use Develpr\AlexaApp\Exceptions\InvalidRequestTimestamp;
 use Develpr\AlexaApp\Exceptions\InvalidSignatureChainException;
 use Develpr\AlexaApp\Contracts\AlexaRequest;
 use Illuminate\Contracts\Routing\Middleware;
-use \Illuminate\Http\Request;
 use Develpr\AlexaApp\Exceptions\InvalidCertificateException;
 use Develpr\AlexaApp\Exceptions\InvalidAppIdException;
+use Illuminate\Http\Request as IlluminateRequest;
 
 class Certificate implements Middleware{
 
@@ -41,28 +41,18 @@ class Certificate implements Middleware{
 	 */
 	public function handle($request, Closure $next)
 	{
-		//If this is not an Alexa Request at all, we'll do nothing
-		//todo: possibly remove this and force users to specify middleware on Alexa specific routes?
-		if( ! $this->alexaRequest->isAlexaRequest() )
-			return $next($request);
+//		//If this is not an Alexa Request at all, we'll do nothing
+//		//todo: possibly remove this and force users to specify middleware on Alexa specific routes?
+//		if( ! $this->alexaRequest->isAlexaRequest() )
+//			return $next($request);
 
 		$this->verifyApplicationId();
+		$this->checkTimestampTolerance();
+		$certificateResult = $this->verifyCertificate($request);
 
-		$signature = $this->getDecodedSignature($request);
-
-		$certificate = $this->getCertificate($request);
-
-		//Get the request body that will be validated
-		$data = $request->getContent();
-
-		$certKey = openssl_pkey_get_public($certificate);
-
-		// ok, let's do this thing! we're saving the world from hackers here!
-		$valid = openssl_verify($data, $signature, $certKey, self::ENCRYPT_METHOD);
-
-		if ($valid == 1) {
+		if ($certificateResult == 1) {
 			return $next($request);
-		} elseif ($valid == 0) {
+		} elseif ($certificateResult == 0) {
 			throw new InvalidSignatureChainException("The request did not validate against the certificate chain.");
 		} else {
 			throw new \Exception("Something went wrong when validating the request and certificate.");
@@ -70,7 +60,7 @@ class Certificate implements Middleware{
 
 	}
 
-	private function getCertificate(Request $request){
+	private function getCertificate(IlluminateRequest $request){
 
 		$signatureChainUri = $request->header(self::CERTIFICATE_URL_HEADER);
 
@@ -106,17 +96,15 @@ class Certificate implements Middleware{
 	}
 
 	/**
-	 * @param Request $request
+	 * @param IlluminateRequest $request
 	 * @return string
 	 */
-	private function getDecodedSignature(Request $request)
+	private function getDecodedSignature(IlluminateRequest $request)
 	{
 		$signature = $request->header(self::SIGNATURE_HEADER);
-
 		$base64DecodedSignature = base64_decode($signature);
 
 		return $base64DecodedSignature;
-
 	}
 
 	private function verifyApplicationId()
@@ -134,6 +122,42 @@ class Certificate implements Middleware{
 
 		if( ! in_array($appId, $possible))
 			throw new InvalidAppIdException("The request's app id does not match the configured app id(s)");
+	}
+
+	private function checkTimestampTolerance()
+	{
+		//If the timestamp tolerance is set to 0 we'll skip the check (see config)
+		if( config('alexa.timestampTolerance') === 0 )
+			return;
+
+		$timestampTolerance = config('alexa.timestampTolerance');
+		$timestamp = $this->alexaRequest->getTimestamp();
+
+		if(time() - $timestamp > $timestampTolerance)
+			throw new InvalidRequestTimestamp("The request timestamp is older then configured timestamp tolerances allow");
+
+		return;
+	}
+
+	/**
+	 * @param \Illuminate\Http\Request $request
+	 * @return int
+	 */
+	private function verifyCertificate(IlluminateRequest $request)
+	{
+		$signature = $this->getDecodedSignature($request);
+		$certificate = $this->getCertificate($request);
+
+		//Get the request body that will be validated
+		$data = $request->getContent();
+
+		$certKey = openssl_pkey_get_public($certificate);
+
+		// ok, let's do this thing! we're saving the world from hackers here!
+		$valid = openssl_verify($data, $signature, $certKey, self::ENCRYPT_METHOD);
+
+		return $valid;
+
 	}
 
 

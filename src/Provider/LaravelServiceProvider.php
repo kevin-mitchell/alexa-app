@@ -19,6 +19,7 @@ class LaravelServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		/** @var \App\Http\Kernel $kernel */
 		$kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
 
 		$this->app->instance('app.middleware', $this->gatherAppMiddleware($kernel));

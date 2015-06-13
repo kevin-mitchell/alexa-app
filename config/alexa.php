@@ -27,6 +27,20 @@ return [
 //	'appIds' => env('ALEXA_POSSIBLE_APP_IDS', []),
 	'appIds' => env('ALEXA_POSSIBLE_APP_IDS', ["amzn1.echo-sdk-ams.app.9ec3744a-d1b2-48f2-8e08-3b2045c00616"]),
 
+	/*
+	 |--------------------------------------------------------------------------
+	 | timestampTolerance
+	 |--------------------------------------------------------------------------
+	 |
+	 | This is the amount of time your application should allow pass before
+	 | considering a request invalid. This is to prevent replay attacks.
+	 | Note that if this value is set to 0 the timestamp will not be checked
+	 | which is designed for testing.
+	 |
+	 | @see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/developing-your-app-with-the-alexa-appkit
+	 |
+	 */
+	'timestampTolerance' => 150,
 
 	'certificate' => [
 

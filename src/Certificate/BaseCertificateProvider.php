@@ -59,6 +59,12 @@ abstract class BaseCertificateProvider {
 
 	}
 
+	/**
+	 * Download/retrieve the certificate chain from a given location
+	 *
+	 * @param $certificateChainUri
+	 * @return null|String
+	 */
 	public function getCertificateFromUri($certificateChainUri)
 	{
 		$certificateChain = $this->retrieveCertificateFromStore($certificateChainUri);

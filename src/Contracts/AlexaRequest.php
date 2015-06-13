@@ -46,6 +46,9 @@ interface AlexaRequest
 	 */
 	public function getSessionValue($key = null);
 
-
+	/**
+	 * @return int
+	 */
+	public function getTimestamp();
 
 } 

@@ -106,12 +106,23 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 	 */
 	public function slot($slotKey)
 	{
-			return (array_key_exists($slotKey, $this->slots)) ? $this->slots[$slotKey]['value'] : null;
+		return (array_key_exists($slotKey, $this->slots)) ? $this->slots[$slotKey]['value'] : null;
 	}
 
+	/**
+	 * @return array | null
+	 */
 	public function slots()
 	{
-			return $this->slots;
+		return $this->slots;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTimestamp()
+	{
+		return strtotime(array_get($this->getData(), 'request.timestamp'));
 	}
 
 

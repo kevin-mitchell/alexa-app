@@ -49,6 +49,7 @@ class AlexaServiceProvider extends ServiceProvider
 	{
 		$this->app->alias('alexa.router', 'Develpr\AlexaApp\Http\Routing\AlexaRouter');
 		$this->app->alias('alexa.request', 'Develpr\AlexaApp\Contracts\AlexaRequest');
+		$this->app->alias('alexa.certificateProvider', 'Develpr\AlexaApp\Contracts\CertificateProvider');
 	}
 
 	protected function registerRouter()
@@ -104,12 +105,15 @@ class AlexaServiceProvider extends ServiceProvider
 		$this->app->singleton('Develpr\AlexaApp\Http\Middleware\Request', function ($app) {
 			return new \Develpr\AlexaApp\Http\Middleware\Request($app, $app['alexa.router'], $app['alexa.request'], $app['app.middleware']);
 		});
+		$this->app->singleton('Develpr\AlexaApp\Http\Middleware\Certificate', function ($app) {
+			return new \Develpr\AlexaApp\Http\Middleware\Certificate($app['alexa.request'], $app['alexa.certificateProvider'], $app['config']['alexa']);
+		});
 	}
 
 
 	private function bindCertificateProvider()
 	{
-		$this->app->bind('Develpr\AlexaApp\Contracts\CertificateProvider', function($app){
+		$this->app->bind('alexa.certificateProvider', function($app){
 
 			$providerType = $this->app['config']['alexa.certificate.provider'];
 

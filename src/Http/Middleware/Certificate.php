@@ -25,10 +25,16 @@ class Certificate implements Middleware{
 	 */
 	private $certificateProvider;
 
-	function __construct(AlexaRequest $alexaRequest, CertificateProvider $certificateProvider)
+	/**
+	 * @var array
+	 */
+	private $config;
+
+	function __construct(AlexaRequest $alexaRequest, CertificateProvider $certificateProvider, array $config)
 	{
 		$this->alexaRequest = $alexaRequest;
 		$this->certificateProvider = $certificateProvider;
+		$this->config = $config;
 	}
 
 
@@ -109,10 +115,10 @@ class Certificate implements Middleware{
 
 	private function verifyApplicationId()
 	{
-		if( ! boolval(config('alexa.verifyAppId')) )
+		if( ! boolval(array_get($this->config, 'verifyAppId')) )
 			return;
 
-		$possible = config('alexa.appIds');
+		$possible = array_get($this->config, 'appIds');
 
 		//Somebody might use the .env files and set the appIds as a string instead of an array so we'll be sure
 		if( ! is_array($possible) )
@@ -124,13 +130,16 @@ class Certificate implements Middleware{
 			throw new InvalidAppIdException("The request's app id does not match the configured app id(s)");
 	}
 
+	/**
+	 * @throws \Develpr\AlexaApp\Exceptions\InvalidRequestTimestamp
+	 */
 	private function checkTimestampTolerance()
 	{
 		//If the timestamp tolerance is set to 0 we'll skip the check (see config)
-		if( config('alexa.timestampTolerance') === 0 )
+		if( array_get($this->config, 'timestampTolerance') === 0 )
 			return;
 
-		$timestampTolerance = config('alexa.timestampTolerance');
+		$timestampTolerance = array_get($this->config, 'timestampTolerance');
 		$timestamp = $this->alexaRequest->getTimestamp();
 
 		if(time() - $timestamp > $timestampTolerance)

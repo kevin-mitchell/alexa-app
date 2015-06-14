@@ -1,6 +1,5 @@
 <?php  namespace Develpr\AlexaApp\Response; 
 
-use Develpr\AlexaApp\Device\Alexa;
 use Illuminate\Contracts\Support\Jsonable;
 
 /**
@@ -48,7 +47,7 @@ class AlexaResponse implements Jsonable
     private $card = null;
 
 	/**
-	 * @var Alexa
+	 * @var \Develpr\AlexaApp\Alexa
 	 */
 	private $alexa;
 
@@ -57,6 +56,9 @@ class AlexaResponse implements Jsonable
 		$this->speech = $speech;
 		$this->card = $card;
 		$this->card = $reprompt;
+
+		//this... I'm not sure about this... I might at some point attach the session data
+		//to the response in middleware to remove this somewhat hacky feeling dependency
 		$this->alexa = app()->make('alexa');
 
 		return $this;
@@ -97,9 +99,7 @@ class AlexaResponse implements Jsonable
     private function prepareResponseData()
     {
         $responseData = [];
-
         $responseData['version'] = self::ALEXA_RESPONSE_VERSION;
-
         $response = [
             'shouldEndSession' => $this->shouldSessionEnd
         ];
@@ -132,10 +132,11 @@ class AlexaResponse implements Jsonable
         $this->sessionAttributes = $sessionAttributes;
     }
 
-    /**
-     * @param null $card
-     */
-    public function setCard(Card $card)
+	/**
+	 * @param Card $card
+	 * @return $this
+	 */
+	public function setCard(Card $card)
     {
         $this->card = $card;
 
@@ -155,10 +156,11 @@ class AlexaResponse implements Jsonable
 		return $this;
 	}
 
-    /**
-     * @param null $speech
-     */
-    public function setSpeech(Speech $speech)
+	/**
+	 * @param Speech $speech
+	 * @return $this
+	 */
+	public function setSpeech(Speech $speech)
     {
         $this->speech = $speech;
 
@@ -166,7 +168,8 @@ class AlexaResponse implements Jsonable
     }
 
 	/**
-	 * @param null $reprompt
+	 * @param Reprompt $reprompt
+	 * @return $this
 	 */
 	public function setReprompt(Reprompt $reprompt)
 	{
@@ -184,7 +187,7 @@ class AlexaResponse implements Jsonable
 			if($this->speech)
 				$data['original_prompt'] = $this->speech->getText();
 			if($this->alexa->requestType() == "IntentRequest")
-				$data['original_prompt_intent'] = $this->alexa->request()->toIntentRequest()->getIntent();
+				$data['original_prompt_intent'] = $this->alexa->request()->getIntent();
 		}
 
         return $data;

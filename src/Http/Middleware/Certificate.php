@@ -47,10 +47,9 @@ class Certificate implements Middleware{
 	 */
 	public function handle($request, Closure $next)
 	{
-//		//If this is not an Alexa Request at all, we'll do nothing
-//		//todo: possibly remove this and force users to specify middleware on Alexa specific routes?
-//		if( ! $this->alexaRequest->isAlexaRequest() )
-//			return $next($request);
+
+		if( ! $this->alexaRequest->isAlexaRequest() )
+			return $next($request);
 
 		$this->verifyApplicationId();
 		$this->checkTimestampTolerance();
@@ -66,6 +65,12 @@ class Certificate implements Middleware{
 
 	}
 
+	/**
+	 * Get the certificate from the certificate provider
+	 *
+	 * @param IlluminateRequest $request
+	 * @return mixed
+	 */
 	private function getCertificate(IlluminateRequest $request){
 
 		$signatureChainUri = $request->header(self::CERTIFICATE_URL_HEADER);
@@ -87,16 +92,16 @@ class Certificate implements Middleware{
 
 		$uriParts = parse_url($keychainUri);
 
-		if( strcasecmp($uriParts['host'], 's3.amazonaws.com') != 0)
+		if( strcasecmp($uriParts['host'], array_get($this->config, 'origin.host')) != 0)
 			throw new InvalidCertificateException("The host for the Certificate provided in the header is invalid");
 
-		if( strpos($uriParts['path'], '/echo.api/') !== 0 )
+		if( strpos($uriParts['path'], array_get($this->config, 'origin.path')) !== 0 )
 			throw new InvalidCertificateException("The URL path for the Certificate provided in the header is invalid");
 
-		if( strcasecmp($uriParts['scheme'], 'https') != 0)
+		if( strcasecmp($uriParts['scheme'], array_get($this->config, 'origin.scheme')) != 0)
 			throw new InvalidCertificateException("The URL is using an unsupported scheme. Should be https");
 
-		if( array_key_exists('port', $uriParts) && $uriParts['port'] != 443)
+		if( array_key_exists('port', $uriParts) && $uriParts['port'] != array_get($this->config,'origin.port'))
 			throw new InvalidCertificateException("The URL is using an unsupported https port");
 
 	}

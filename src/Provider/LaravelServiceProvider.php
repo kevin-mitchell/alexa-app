@@ -33,6 +33,7 @@ class LaravelServiceProvider extends ServiceProvider {
 
 	protected function addRequestMiddlewareToBeginning(Kernel $kernel)
 	{
+		/** @var \App\Http\Kernel $kernel */
 		$kernel->prependMiddleware('Develpr\AlexaApp\Http\Middleware\Request');
 	}
 

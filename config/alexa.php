@@ -24,8 +24,8 @@ return [
 	 | @see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/handling-requests-sent-by-the-alexa-service
 	 |
 	 */
-//	'appIds' => env('ALEXA_POSSIBLE_APP_IDS', []),
-	'appIds' => env('ALEXA_POSSIBLE_APP_IDS', ["amzn1.echo-sdk-ams.app.9ec3744a-d1b2-48f2-8e08-3b2045c00616"]),
+	'appIds' => env('ALEXA_POSSIBLE_APP_IDS', []),
+	
 
 	/*
 	 |--------------------------------------------------------------------------
@@ -42,7 +42,67 @@ return [
 	 */
 	'timestampTolerance' => 150,
 
+	/*
+	|--------------------------------------------------------------------------
+	| origin
+	|--------------------------------------------------------------------------
+	|
+	| These configuration options relate to verifying that the request origin is
+	| really Amazon's official AppKit system. Note that while you can change these
+	| if you want to make sample/test request from your own Alexa simulator,
+	| you can also simply not include the Certificate middleware when testing
+	| your application.
+	|
+	*/
+	'origin' => [
+		/*
+		|--------------------------------------------------------------------------
+		| host
+		|--------------------------------------------------------------------------
+		|
+		| The valid host the the request origin needs to match with
+		| (this probably shouldn't be touched unless you're testing, etc)
+		|
+		*/
+		'host' => env('ALEXA_ORIGIN_HOST', 's3.amazonaws.com'),
+
+		/*
+		|--------------------------------------------------------------------------
+		| path
+		|--------------------------------------------------------------------------
+		|
+		| The valid path the the request origin needs to match with
+		| (this probably shouldn't be touched unless you're testing, etc)
+		|
+		*/
+		'path' => env('ALEXA_ORIGIN_PATH', '/echo.api/'),
+
+
+		/*
+		|--------------------------------------------------------------------------
+		| scheme
+		|--------------------------------------------------------------------------
+		|
+		| The scheme (https is default/correct for real requests the origin needs to match with
+		| (this probably shouldn't be touched unless you're testing, etc)
+		|
+		*/
+		'scheme' => env('ALEXA_ORIGIN_SCHEME', 'https'),
+
+		/*
+		|--------------------------------------------------------------------------
+		| port
+		|--------------------------------------------------------------------------
+		|
+		| IF SPECIFIED, which port should the origin request be over?
+		| (this probably shouldn't be touched unless you're testing, etc)
+		|
+		*/
+		'port' => env('ALEXA_ORIGIN_PORT', '443'),
+	],
+
 	'certificate' => [
+
 
 		/*
 		|--------------------------------------------------------------------------

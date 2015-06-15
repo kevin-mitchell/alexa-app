@@ -12,6 +12,7 @@ class LaravelServiceProvider extends ServiceProvider {
 			realpath(__DIR__.'/../../config/alexa.php') => config_path('alexa.php'),
 		]);
 	}
+
 	/**
 	 * Register the service provider.
 	 *
@@ -21,9 +22,7 @@ class LaravelServiceProvider extends ServiceProvider {
 	{
 		/** @var \App\Http\Kernel $kernel */
 		$kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
-
 		$this->app->instance('app.middleware', $this->gatherAppMiddleware($kernel));
-
 		$this->addRequestMiddlewareToBeginning($kernel);
 
 		//Register our universal service provider

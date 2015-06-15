@@ -7,6 +7,7 @@ use Develpr\AlexaApp\Request\UltraRequest;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request as IlluminateRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class Request {
@@ -23,13 +24,6 @@ class Request {
 	 * @var AlexaRouter
 	 */
 	protected $router;
-
-	/**
-	 * HTTP validator instance.
-	 *
-	 * @var \Dingo\Api\Http\Validator
-	 */
-//	protected $validator;
 
 	/**
 	 * Array of middleware.
@@ -73,11 +67,10 @@ class Request {
 	}
 
 	/**
-	 * Send the request through the Dingo router.
+	 * Send through our custom router
 	 *
-	 * @param \Illuminate\Http\Request $request
-	 *
-	 * @return \Dingo\Api\Http\Response
+	 * @param $request
+	 * @return Response
 	 */
 	protected function sendRequestThroughRouter( $request)
 	{

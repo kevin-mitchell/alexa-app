@@ -1,5 +1,6 @@
 <?php namespace Develpr\AlexaApp;
 
+use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
 use Develpr\AlexaApp\Contracts\DeviceProvider;
 use Develpr\AlexaApp\Contracts\AlexaRequest;
 use Develpr\AlexaApp\Response\AlexaResponse;
@@ -12,6 +13,9 @@ class Alexa {
 	 */
 	private $alexaRequest;
 
+	/**
+	 * @var array
+	 */
 	private $session;
 
 	/**
@@ -23,6 +27,11 @@ class Alexa {
 	 * @var array
 	 */
 	private $alexaConfig;
+
+	/**
+	 * @var AmazonEchoDevice | null
+	 */
+	private $device;
 
 	/**
 	 * @var bool
@@ -83,10 +92,16 @@ class Alexa {
 		if( ! $this->isAlexaRequest() )
 			return null;
 
+		if( ! is_null($this->device) )
+			return $this->device;
+
 		if( ! array_key_exists($this->alexaConfig['device']['device_identifier'], $attributes))
 			$attributes[$this->alexaConfig['device']['device_identifier']] = $this->alexaRequest->getUserId();
 
 		$result = $this->deviceProvider->retrieveByCredentials($attributes);
+
+		if($result instanceof AmazonEchoDevice)
+			$this->device = $result;
 
 		return $result;
 	}

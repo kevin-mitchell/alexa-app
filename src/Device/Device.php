@@ -11,12 +11,12 @@ class Device extends Model implements AmazonEchoDevice{
 
 	public function getDeviceId()
 	{
-		return $this->user_id;
+		return $this->device_user_id;
 	}
 
 	public function setDeviceId($deviceId)
 	{
-		$this->attributes['user_id'] = $deviceId;
+		$this->attributes['device_user_id'] = $deviceId;
 	}
 
 } 

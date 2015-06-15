@@ -89,7 +89,7 @@ class AlexaServiceProvider extends ServiceProvider
                 throw new Exception("Unsupported Alexa Device Provider specified - currently only 'database' and 'eloquent' are supported");
             }
 
-            $alexaRequest = $this->app->make('Develpr\AlexaApp\Contracts\AlexaRequest');
+            $alexaRequest = $this->app['alexa.request'];
 
             return new Alexa($alexaRequest, $provider, $app['config']['alexa']);
         });

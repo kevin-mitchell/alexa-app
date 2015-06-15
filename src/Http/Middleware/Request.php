@@ -3,7 +3,6 @@
 use Develpr\AlexaApp\Http\Routing\AlexaRouter;
 use Closure;
 use Develpr\AlexaApp\Contracts\AlexaRequest;
-use Develpr\AlexaApp\Request\UltraRequest;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request as IlluminateRequest;

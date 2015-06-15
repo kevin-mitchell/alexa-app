@@ -65,6 +65,10 @@ If you'd like to protect all routes in your application you can simply add the `
 		...
 	];
 
+###Configuration
+
+There are a number of things you'll likely want/need to configure
+
 ##Usage
 
 ###Routing

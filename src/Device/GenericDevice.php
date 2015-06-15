@@ -14,12 +14,12 @@ class GenericDevice implements AmazonEchoDevice {
 
 	public function getDeviceId()
 	{
-		return $this->attributes['deviceId'];
+		return $this->attributes['device_user_id'];
 	}
 
 	public function setDeviceId($deviceId)
 	{
-		$this->attributes['deviceId'] = $deviceId;
+		$this->attributes['device_user_id'] = $deviceId;
 	}
 
 	/**

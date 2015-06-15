@@ -2,7 +2,7 @@
 
 use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
 use Develpr\AlexaApp\Contracts\DeviceProvider;
-use Develpr\AlexaApp\Contracts\AlexaRequest;
+use Develpr\AlexaApp\Request\AlexaRequest;
 use Develpr\AlexaApp\Response\AlexaResponse;
 use Develpr\AlexaApp\Response\Speech;
 
@@ -108,22 +108,12 @@ class Alexa {
 
 	public function slot($requestedSlot = "")
 	{
-
-		if( ! $this->isAlexaRequest() || $this->alexaRequest->getRequestType() != "IntentRequest"){
-			return null;
-		}
-
-		return $this->alexaRequest->toIntentRequest()->slot($requestedSlot);
-
+		return $this->alexaRequest->slot($requestedSlot);
 	}
 
 	public function slots()
 	{
-		if( ! $this->isAlexaRequest() || $this->alexaRequest->getRequestType() != "IntentRequest"){
-			return null;
-		}
-
-		return $this->alexaRequest->toIntentRequest()->slots();
+		return $this->alexaRequest->slots();
 	}
 
 	public function session($key = null, $value = null)

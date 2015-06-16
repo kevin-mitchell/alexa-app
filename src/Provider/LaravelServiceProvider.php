@@ -10,7 +10,10 @@ class LaravelServiceProvider extends ServiceProvider {
 	{
 		$this->publishes([
 			realpath(__DIR__.'/../../config/alexa.php') => config_path('alexa.php'),
-		]);
+		], 'config');
+		$this->publishes([
+			realpath(__DIR__.'/../../database/create_alexa_devices_table.php') => database_path('/migrations'),
+		], 'migrations');
 	}
 
 	/**

@@ -34,7 +34,7 @@ For a quick example:
 
 ###Prerequisites
 
-The only thing that is required for AlexaApp is the Laravel or Lumen (versions based on 5.1 )framework.
+The only thing that is required for AlexaApp is the Laravel or Lumen (versions based on 5.1) framework.
 
 After installing via composer (i.e. `composer require develpr/alexa-app`):
 
@@ -76,7 +76,7 @@ This is not required, but it can be very handy. If you'd prefer, you can inject 
 
 ####Lumen
 
-The truth is I'm not 100% sure if there is an "official" way of adding aliases/facades in Lumen, and I generally don't use custom facades with Lumen, however [http://stackoverflow.com/questions/30399766/where-to-register-facades-service-providers-in-lumen](as mentioned in this stackexchange post), this should work:
+The truth is I'm not 100% sure if there is an "official" way of adding aliases/facades in Lumen, and I generally don't use custom facades with Lumen, however [as mentioned in this stackexchange post](http://stackoverflow.com/questions/30399766/where-to-register-facades-service-providers-in-lumen), this should work:
 
 First make sure aliases/facades are enabled in your `bootstrap/app.php` file by uncommenting `$app->withFacades();` and then after this add
 
@@ -87,8 +87,7 @@ For lumen it might be easier to simply use `$app['alexa.router']` or inject an i
 
 ###3: Register Certificate middleware for verifying request comes from Amazon/AppKit (optional)
 
-For any production application, it's important and in fact required by Amazon that you protect your application as [https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/developing-your-app-with-the-alexa-appkit](described in their documentation.) You do not *need* to register this middleware however, and for certain testing may choose not to.
-
+For any production application, it's important and in fact required by Amazon that you protect your application as [described in their documentation](https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/developing-your-app-with-the-alexa-appkit). You do not *need* to register this middleware however, and for certain testing may choose not to.
 This package makes this easy by providing middleware that will meet all required security parameters provided by Amazon. At this time, if you'd like to enable this functionality you'll need to register the `Certificate` middleware as outlined by the [Laravel](http://laravel.com/docs/5.1/middleware#registering-middleware)/[Lumen](http://lumen.laravel.com/docs/middleware) documentation.
 
 If you'd like to protect all routes in your application you can simply add the `Certificate` middleware to your global middleware as show below, else you can protect certain end points (i.e. only run the certificate/security check at `/alexa-api-endpoint`).

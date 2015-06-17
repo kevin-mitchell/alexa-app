@@ -123,9 +123,9 @@ class Certificate implements Middleware{
 		if( ! boolval(array_get($this->config, 'verifyAppId')) )
 			return;
 
-		$possible = array_get($this->config, 'appIds');
+		$possible = array_get($this->config, 'applicationIds');
 
-		//Somebody might use the .env files and set the appIds as a string instead of an array so we'll be sure
+		//Somebody might use the .env files and set the applicationIds as a string instead of an array so we'll be sure
 		if( ! is_array($possible) )
 			$possible = array($possible);
 

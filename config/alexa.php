@@ -25,7 +25,7 @@ return [
 	 |
 	 */
 	'appIds' => env('ALEXA_POSSIBLE_APP_IDS', []),
-	
+
 
 	/*
 	 |--------------------------------------------------------------------------
@@ -40,7 +40,7 @@ return [
 	 | @see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/developing-your-app-with-the-alexa-appkit
 	 |
 	 */
-	'timestampTolerance' => 150,
+	'timestampTolerance' => env('ALEXA_TIMESTAMP_TOLERANCE', 150),
 
 	/*
 	|--------------------------------------------------------------------------

@@ -164,7 +164,7 @@ There is a sample migration provided with AlexaApp that can be copied to your mi
 
 ##Usage
 
-In the following sections you can see how you might use this package. **Note please that while I may use facades/aliases in most of the examples below, you certainly don't need to! [Check out the Installation section -> facades/aliases](#installation) if you want to read more.
+In the following sections you can see how you might use this package. **Note please that while I may use facades/aliases in most of the examples below, you certainly don't need to!** [Check out the Installation section -> facades/aliases](#installation) if you want to read more.
 
 ###Routing
 

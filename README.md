@@ -59,7 +59,7 @@ In your application's `bootstrap/app.php` file, add:
 	$app->register(\Develpr\AlexaApp\Provider\LumenServiceProvider::class);
 
 
-###2: Adding the Facades/Aliases for `Alexa` and `AlexaRoute` (optional)
+###2: Adding the facades/aliases for `Alexa` and `AlexaRoute` (optional)
 
 This is not required, but it can be very handy. If you'd prefer, you can inject an instance of the `\Develpr\AlexaApp\Alexa` or `\Develpr\AlexaApp\Routing\AlexaRouter` class, or grab them with `$app['alexa']` or $app['alexa.router'], respectively.
 
@@ -150,15 +150,22 @@ By default, AlexaApp will use file storage for locally caching Amazon's remote c
 
 If you'd like to use the device functionality (i.e. `Alexa::device()`), you will more then likely need to configure a number of options.
 
-###Device Provider
+Essentially, you need to tell Alexa app about where you are persistent and how to access the device information - two providers are supplied at this time, `eloquent` and `database`. If you use the eloquent provider you'll need to be sure eloquent is enabled if you're using Lumen.
+
+####Device Provider
 
 Currently only `database` and `eloquent` options are supported, but more providers could easily be supported by implementing the `\Develpr\AlexaApp\Contracts\DeviceProvider` contract.
 
+The default device provider is Eloquent, and there is a sample Device in `/vendor/develpr/alexa-app/Device/Device.php` that can be copied to your `app` directory and modified for your purposes. This model can be thought of as similar to the `User` model provided with a base installation of Laravel.
 
+####Sample migration
 
+There is a sample migration provided with AlexaApp that can be copied to your migrations folder (manually or using console command in Laravel `php artisan vendor:publish --tag="migrations"`) and once migrated, will work "out of the box" with the included `DeviceProvider`s. If you'd prefer not to use this migration that's 100% fine, but you'll want to make sure to take a look at the config file to be sure you modify/understand any options you may need to update for your storage schema.
 
 
 ##Usage
+
+In the following sections you can see how you might use this package. **Note please that while I may use facades/aliases in most of the examples below, you certainly don't need to! [Check out the Installation section -> facades/aliases](#installation) if you want to read more.
 
 ###Routing
 
@@ -166,51 +173,93 @@ There are three types of requests that will be made from the Amazon AlexaApp mid
 
 1. LaunchRequest (happens when your application is "opened")
 2. SessionEndedRequest (send to your application with the application is closed)
-3. IntentRequest (these are the all of the requests that are not one of the above - most meaningful interactions)
+3. IntentRequest (these are the all of the requests that are not one of the above - likely the "bread and butter" of your application - most meaningful interactions)
 
-These three types of requests can be routed within your application just like normal Lumen requests using the new functionality provided by this package! 
+These three types of requests can be routed within your application just like normal LaravelLumen requests using the new functionality provided by this package! All of these samples would be in your `app/Http/routes.php` most likely.
 
 **LaunchRequest**
 
-    $app->launch('/your-app-uri', 'App\Http\Controllers\AnyController@anyMethod');
-	
+    AlexaRoute::launch('/your-app-uri', 'App\Http\Controllers\AnyController@anyMethod');
+
+or
+
+    $app['alexa.router']->launch('/your-app-uri', 'App\Http\Controllers\AnyController@anyMethod');
+
 **SessionEndedRequest**
 	
-    $app->sessionEnded('/your-app-uri', function() use ($app) {
+    AlexaRoute::sessionEnded('/your-app-uri', function() use ($app) {
         return '{"version":"1.0","response":{"shouldEndSession":true}}';
-    })
+    });
+
+or
+
+    $app['alexa.router']->sessionEnded('/your-app-uri', function() use ($app) {
+		return '{"version":"1.0","response":{"shouldEndSession":true}}';
+	});
 
 **IntentRequest**
 
-    $app->intent('/your-app-uri', 'GetZodiacHoroscopeIntent', 'App\Http\Controllers\AnyController@anyMethod');
+    AlexaRoute::intent('/your-app-uri', 'GetZodiacHoroscopeIntent', 'App\Http\Controllers\AnyController@anyMethod');
 
-Note that in these examples both a closure and a controller was used to handle the request, but there is no specific requirement to use one vs. another based on the request type. In fact there is nothing "special" about the routes in terms of how they are actually handled (controller vs closure vs ??), it's just standard Lumen.
+or
+
+	$app['alexa.router']->intent('/your-app-uri', 'GetZodiacHoroscopeIntent', 'App\Http\Controllers\AnyController@anyMethod');
+
+
+Note that in these examples both a closure and a controller was used to handle the request, but there is no specific requirement to use one vs. another based on the request type.
 
 *Note that the other `get`, `post`, `put`, `patch`, `delete`, etc options are still available an are unchanged*
 
-
 ###Session
 
-Session values are passed to and from your application in the json payload. There are many ways of dealing with this, but I thought that it might be handy if you could just access the Alexa "native" session values using Lumen's Session facade.
+Session values are passed to and from your application in the json payload from Amazon / AppKit. These are accessible in the `AlexaRequest`, or using the Alexa facade/alias.
 
-To access a session value that was passed to your application from the Amazon AlexaApp middleware, simply use the name of the session variable as you normally would with Lumen
+####To retrieve a session value
 
-`$previousChoice = Session::get('choice');`
+`$previousChoice = Alexa::session('previousChoice');`
 
-Session values will also be included in the response json, but **only if you are using the `AlexaResponse` class!**
+####to retrieve all session values
 
-###IntentRequest
+`Alexa::session();`
 
-You can always type hint an `IntentRequest` or otherwise retrieve an instance of this class from the IoC container, and it can be useful (though admittedly limitedly so at this point!) for retrieving the "slot" values from the IntentRequest. For example
+####To set a session value
 
-    $intentRequest = $app->make(IntentRequest::class);
-    $requestedMeal = $intentRequest->slot('RequestedMeal');
-	
-Essentially this is simply parsing the "slots" from the json string and returning them, but it may save a bit of time for you to use this instead of parsing these out yourself. I had considered figuring out if there was some way of cleaning extending/adding to the `Input` facade to add something like an `Input::slot('RequestedMeal')` option, but for now this should work!
+`Alexa::session('previousChoice', "Pizza");`
+
+or
+
+`Alexa::setSession('previousChoice', "Pizza");`
+
+####To unset a session value
+
+`Alexa::unsetSession('previousChoice');`
+
+Session values will also be included in the response json, but **only if you are using the `AlexaResponse` class!**.
 
 
+###Slots
+
+You can retrieve the value of a slot (only applicable for IntentRequests as of this moment):
+
+`$usersChoice = Alexa::slot('choice');`
 
 ###Responses
+
+You can use this package and the Alexa facade to easily create valid responses from your application, but it's worth knowing about the classes behind the facade. The most important thing to know is that `Alexa::say("Hello");` is simply returning a new `\Develpr\AlexaApp\Response\AlexaResponse` object with a `\Develpr\AlexaApp\Response\Speech` object inside.
+
+####Using the Alexa facade/alias
+
+The easiest way to send a valid response to Amazon/AppKit/an end user is
+
+`return Alexa::say("Oh hi Denny");`
+
+As mentioned above, at the end of the day an `AlexaResponse` is being generated and returned, so you can chain other methods to add other response features. For example...
+
+`return Alexa::say("Oh hi Denny")->withCard(new Card("Hello message"))->endSession();`
+
+...will return a spoken message ("Oh hi Denny"), a card that has a title of "Hello message", and it will end the session.
+
+####The AlexaResponse
 
 There are a number of useful classes that can be used to generate valid Amazon Echo friendly json responses. There is nothing particularly complex or magical about these classes, they simply make it easier to create valid responses without having to think too much.
 
@@ -227,12 +276,12 @@ You can tell the Echo that the session should be ended
     
     return $alexaResponse;
 	
-Or, you can add one (or both) Speech/Card objects to have spoken text or a card sent back to the end Echo user (*note that you don't need to return both!*).
+Or, you can add one (or both) Speech/Card/Reprompt objects to have spoken text or a card sent back to the end Echo user (*note that you don't need to return both!*).
 
     $alexaResponse = new AlexaResponse;
-    $alexaResponse->setSpeech(new Speech("Hello!!"));
+    $alexaResponse->withSpeech(new Speech("Hello!!"));
     
-    $alexaResponse->setCard(new Card("Hello Title", "Hello Subtitle", "Hello content here!"));
+    $alexaResponse->withCard(new Card("Hello Title", "Hello Subtitle", "Hello content here!"));
     
     return $alexaResponse;
 
@@ -243,25 +292,12 @@ You can always return this in a single line,
 
 Here the third parameter, when set to true, will end the session.
 
-#Auth (very very unstable)
 
-1. Configure the database
-2. Register the AlexaAuthentication middleware
-3. Enable Eloquent
-
-AUTH_DRIVER=eloquent
-AUTH_MODEL=App\:
-
-ALEXA_AUTH_MODEL=Develpr\AlexaApp\AlexaUser
-
-
-
-
-###Thanks
+##Thanks
 
 Thanks for checking this out. I'm guessing over the next weeks/months/year many things will change (quickly) with the Amazon Echo developer community, the developer APIs, etc, but I'll do my best to keep up with things and will certainly look at and appreciate any pull requests, feature requests, etc.
 
-###To Do
+##`//todo`
 
 I'd consider this currently to be in a beta. I have no doubt bugs will pop up as I continue to really test this and I'd really appreciate any feedback, bug reports, feature requests, or comments. There are a number of aspects I'm still not sure I won't change a bit (for instance the `Alexa::` facade if you use it does a **lot** of different things and I'm thinking I might be wise to split up some functionality.
 

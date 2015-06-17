@@ -132,6 +132,21 @@ class AlexaResponse implements Jsonable
         $this->sessionAttributes = $sessionAttributes;
     }
 
+	public function withCard(Card $card)
+	{
+		return $this->setCard($card);
+	}
+
+	public function withReprompt(Reprompt $reprompt)
+	{
+		return $this->setReprompt($reprompt);
+	}
+
+	public function withSpeech(Speech $speech)
+	{
+		return $this->setSpeech($speech);
+	}
+
 	/**
 	 * @param Card $card
 	 * @return $this

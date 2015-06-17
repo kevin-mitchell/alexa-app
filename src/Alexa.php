@@ -4,6 +4,7 @@ use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
 use Develpr\AlexaApp\Contracts\DeviceProvider;
 use Develpr\AlexaApp\Request\AlexaRequest;
 use Develpr\AlexaApp\Response\AlexaResponse;
+use Develpr\AlexaApp\Response\Card;
 use Develpr\AlexaApp\Response\Speech;
 
 class Alexa {
@@ -82,6 +83,15 @@ class Alexa {
 		$response = new AlexaResponse(new Speech($question));
 
 		$response->setIsPrompt(true);
+
+		return $response;
+	}
+
+	public function card($title = "", $subtitle = "", $content = "")
+	{
+		$response = new AlexaResponse();
+
+		$response->setCard(new Card($title, $subtitle, $content));
 
 		return $response;
 	}

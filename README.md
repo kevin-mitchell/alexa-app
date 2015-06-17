@@ -295,7 +295,9 @@ Here the third parameter, when set to true, will end the session.
 
 ##Thanks
 
-Thanks for checking this out. I'm guessing over the next weeks/months/year many things will change (quickly) with the Amazon Echo developer community, the developer APIs, etc, but I'll do my best to keep up with things and will certainly look at and appreciate any pull requests, feature requests, etc.
+**Thanks to @jasonlewis** - I re-used a lot of the ideas for some of the routing pieces from his [`ding/api`](https://github.com/dingo/api) package.
+
+Thanks to all for checking this out. I'm guessing over the next weeks/months/year many things will change (quickly) with the Amazon Echo developer community, the developer APIs, etc, but I'll do my best to keep up with things and will certainly look at and appreciate any pull requests, feature requests, etc.
 
 ##`//todo`
 

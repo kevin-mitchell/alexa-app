@@ -214,7 +214,7 @@ Note that in these examples both a closure and a controller was used to handle t
 
 Session values are passed to and from your application in the json payload from Amazon / AppKit. These are accessible in the `AlexaRequest`, or using the Alexa facade/alias.
 
-####To retrieve a session value
+####to retrieve a session value
 
 `$previousChoice = Alexa::session('previousChoice');`
 
@@ -222,7 +222,7 @@ Session values are passed to and from your application in the json payload from 
 
 `Alexa::session();`
 
-####To set a session value
+####to set a session value
 
 `Alexa::session('previousChoice', "Pizza");`
 
@@ -230,7 +230,7 @@ or
 
 `Alexa::setSession('previousChoice', "Pizza");`
 
-####To unset a session value
+####to unset a session value
 
 `Alexa::unsetSession('previousChoice');`
 

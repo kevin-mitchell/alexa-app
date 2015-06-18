@@ -56,22 +56,22 @@ class LaravelServiceProvider extends ServiceProvider {
 
 		$middleware = $property->getValue($kernel);
 
-		$middleware = $this->unsetCsrfMiddlware($middleware);
+		if( $this->app['config']['alexa.skipCsrfCheck'] )
+			$middleware = $this->unsetCsrfMiddleware($middleware);
 
 		return $middleware;
 	}
 
-	private function unsetCsrfMiddlware($allMiddleware)
+	private function unsetCsrfMiddleware($allMiddleware)
 	{
-		$newMiddleware = [];
-
 		foreach($allMiddleware as $position => $aMiddleware){
-			if(strpos(strtolower($aMiddleware), 'verifycsrftoken') !== false)
-				continue;
-			$newMiddleware[$position] = $aMiddleware;
+			if(strpos(strtolower($aMiddleware), 'verifycsrftoken') !== false){
+				unset($allMiddleware[$position]);
+				break;
+			}
 		}
 
-		return $newMiddleware;
+		return $allMiddleware;
 	}
 
 

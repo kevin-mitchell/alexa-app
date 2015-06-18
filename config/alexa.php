@@ -16,7 +16,7 @@ return [
 
 	/*
 	 |--------------------------------------------------------------------------
-	 | appIds
+	 | applicationIds
 	 |--------------------------------------------------------------------------
 	 |
 	 | Application IDs for your application(s)
@@ -24,7 +24,7 @@ return [
 	 | @see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/handling-requests-sent-by-the-alexa-service
 	 |
 	 */
-	'appIds' => env('ALEXA_POSSIBLE_APP_IDS', []),
+	'applicationIds' => env('ALEXA__APPLICATION_IDS', []),
 
 
 	/*

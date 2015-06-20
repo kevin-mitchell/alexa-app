@@ -23,14 +23,22 @@ class LaravelServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		$this->setupConfig();
+
 		/** @var \App\Http\Kernel $kernel */
 		$kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
-		$this->app->instance('app.middleware', $this->gatherAppMiddleware($kernel));
 		$this->addRequestMiddlewareToBeginning($kernel);
+		$this->app->instance('alexa.router.middleware', $this->gatherAppMiddleware($kernel));
 
 		//Register our universal service provider
 		$this->app->register('Develpr\AlexaApp\Provider\AlexaServiceProvider');
 	}
+
+	protected function setupConfig()
+	{
+		$this->mergeConfigFrom(realpath(__DIR__.'/../../config/alexa.php'), 'alexa');
+	}
+
 
 
 	protected function addRequestMiddlewareToBeginning(Kernel $kernel)

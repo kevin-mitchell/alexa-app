@@ -31,8 +31,6 @@ class AlexaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-		$this->setupConfig();
-
 		$request = $this->app->make('request');
 
 		$this->setupClassAliases();
@@ -58,10 +56,6 @@ class AlexaServiceProvider extends ServiceProvider
 		});
 	}
 
-	protected function setupConfig()
-	{
-		$this->mergeConfigFrom(realpath(__DIR__.'/../../config/alexa.php'), 'alexa');
-	}
 
 	/**
 	 *	Bind the appropriate AlexaResponse type to the IoC container
@@ -102,7 +96,7 @@ class AlexaServiceProvider extends ServiceProvider
 	protected function registerMiddleware()
 	{
 		$this->app->singleton('Develpr\AlexaApp\Http\Middleware\Request', function ($app) {
-			return new \Develpr\AlexaApp\Http\Middleware\Request($app, $app['alexa.router'], $app['alexa.request'], $app['app.middleware']);
+			return new \Develpr\AlexaApp\Http\Middleware\Request($app, $app['alexa.router'], $app['alexa.request'], $app['alexa.router.middleware']);
 		});
 		$this->app->singleton('Develpr\AlexaApp\Http\Middleware\Certificate', function ($app) {
 			return new \Develpr\AlexaApp\Http\Middleware\Certificate($app['alexa.request'], $app['alexa.certificateProvider'], $app['config']['alexa']);

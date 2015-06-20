@@ -13,15 +13,19 @@ class LumenServiceProvider extends ServiceProvider{
 	 */
 	public function register()
 	{
+		$this->setupConfig();
 		$reflection = new ReflectionClass($this->app);
-
 		$this->app->instance('app.middleware', $this->gatherAppMiddleware($reflection));
-
 		$this->addRequestMiddlewareToBeginning($reflection);
-
 		$this->app->register('Develpr\AlexaApp\Provider\AlexaServiceProvider');
 
 	}
+
+	protected function setupConfig()
+	{
+		$this->mergeConfigFrom(realpath(__DIR__.'/../../config/alexa.php'), 'alexa');
+	}
+
 
 	/**
 	 * Add the request middleware to the beginning of the middleware stack on the

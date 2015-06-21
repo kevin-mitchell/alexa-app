@@ -12,7 +12,7 @@ class LaravelServiceProvider extends ServiceProvider {
 			realpath(__DIR__.'/../../config/alexa.php') => config_path('alexa.php'),
 		], 'config');
 		$this->publishes([
-			realpath(__DIR__.'/../../database/create_alexa_devices_table.php') => database_path('/migrations/create_alexa_devices_table.php'),
+			realpath(__DIR__.'/../../database/2015_06_21_000000_create_alexa_devices_table.php') => database_path('/migrations/2015_06_21_000000_create_alexa_devices_table.php'),
 		], 'migrations');
 	}
 

@@ -66,7 +66,7 @@ class Speech implements Arrayable
      */
     public function getText()
     {
-        return $this->$text;
+        return $this->text;
     }
 
 

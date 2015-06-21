@@ -16,9 +16,10 @@ class LumenServiceProvider extends ServiceProvider{
 		$this->setupConfig();
 		$reflection = new ReflectionClass($this->app);
 		$this->app->instance('app.middleware', $this->gatherAppMiddleware($reflection));
-		$this->addRequestMiddlewareToBeginning($reflection);
+
 		$this->app->register('Develpr\AlexaApp\Provider\AlexaServiceProvider');
 
+		$this->addRequestMiddlewareToBeginning($reflection);
 	}
 
 	protected function setupConfig()

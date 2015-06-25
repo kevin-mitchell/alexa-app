@@ -20,7 +20,7 @@ return [
 	 |--------------------------------------------------------------------------
 	 |
 	 | Should we attempt to skip the CSRF middleware on the AlexaApp routes? For security reasons it may
-	 | be best to exclude the Alexa/AppKit specific routes in the `VerifyCsrfToken` middleware's `$except` array
+	 | be best to exclude the Alexa/AlexaSkillsKit specific routes in the `VerifyCsrfToken` middleware's `$except` array
 	 |
 	 */
 	'skipCsrfCheck' => boolval(env('ALEXA_SKIP_CSRF', true)),
@@ -59,7 +59,7 @@ return [
 	|--------------------------------------------------------------------------
 	|
 	| These configuration options relate to verifying that the request origin is
-	| really Amazon's official AppKit system. Note that while you can change these
+	| really Amazon's official AlexaSkillsKit system. Note that while you can change these
 	| if you want to make sample/test request from your own Alexa simulator,
 	| you can also simply not include the Certificate middleware when testing
 	| your application.

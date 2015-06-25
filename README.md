@@ -9,13 +9,13 @@ Set of classes to make creating simple Amazon Echo Alexa Apps easier with Larave
 
 ##Major Update - 0.2.0 - call me beta
 
-I've recently refactored nearly all of this package to make it Laravel compatible, and to avoid the previous heavy handed solution of completely replace the default Lumen `Application`. I've also made a number of changes I feel are for the best, for instance I've decoupled the Laravel/Lumen Session with the Alexa AppKit specific session data, and I've created a single interface to make it possible to handle most Alexa interactions through a single facade. But that's mainly related to the refactor - there are also a *bunch* of new features, including most importantly support for Amazon's AppKit security related requirements.
+I've recently refactored nearly all of this package to make it Laravel compatible, and to avoid the previous heavy handed solution of completely replace the default Lumen `Application`. I've also made a number of changes I feel are for the best, for instance I've decoupled the Laravel/Lumen Session with the Alexa AlexaSkillsKit specific session data, and I've created a single interface to make it possible to handle most Alexa interactions through a single facade. But that's mainly related to the refactor - there are also a *bunch* of new features, including most importantly support for Amazon's AlexaSkillsKit security related requirements.
 
 ##Main Features
 
 1. Allows Laravel/Lumen style routing for intent, launch, and session end requests.
 2. Handles verification of all security requirements put forth by Amazon, including certificate/signature verification, timestamp verification, etc
-3. Provides access to Alexa AppKit session data through familiar Laravel style interface
+3. Provides access to Alexa AlexaSkillsKit session data through familiar Laravel style interface
 4. Populates the response with Laravel session data to maintain a 1:1 set of session data between Lumen and Alexa
 5. Provides classes to easily return Alexa friendly responses, including `Speech`, `Card`, and `Re-prompt` responses
 6. Optionally provides a way to easily retrieve information about the connected Echo device (`$device = Alexa::device();`)
@@ -85,9 +85,9 @@ First make sure aliases/facades are enabled in your `bootstrap/app.php` file by 
 
 For lumen it might be easier to simply use `$app['alexa.router']` or inject an instance of one of the above classes into your class.
 
-###3: Register Certificate middleware for verifying request comes from Amazon/AppKit (optional)
+###3: Register Certificate middleware for verifying request comes from Amazon/AlexaSkillsKit (optional)
 
-For any production application, it's important and in fact required by Amazon that you protect your application as [https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/developing-your-app-with-the-alexa-appkit](described in their documentation.) You do not *need* to register this middleware however, and for certain testing may choose not to.
+For any production application, it's important and in fact required by Amazon that you protect your application as [https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/developing-your-app-with-the-alexa-AlexaSkillsKit](described in their documentation.) You do not *need* to register this middleware however, and for certain testing may choose not to.
 
 This package makes this easy by providing middleware that will meet all required security parameters provided by Amazon. At this time, if you'd like to enable this functionality you'll need to register the `Certificate` middleware as outlined by the [Laravel](http://laravel.com/docs/5.1/middleware#registering-middleware)/[Lumen](http://lumen.laravel.com/docs/middleware) documentation.
 
@@ -128,11 +128,11 @@ If you're using Laravel, you can use the console artisan command to publish the 
 
 ###Certificate/Security
 
-There are a few simple configuration options that need to be set for AlexaApp to successfully verify a request is valid/from Amazon/AppKit.
+There are a few simple configuration options that need to be set for AlexaApp to successfully verify a request is valid/from Amazon/AlexaSkillsKit.
 
-####Amazon / AppKit "applicationId"s
+####Amazon / AlexaSkillsKit "applicationId"s
 
-This is your AppKit's application id and is used to verify the request is for your application. If you're not sure of what your application id is, the easiest way (for me at least) to find it is by taking a look at a sample request going to your web server from your application. Part of the json body will include `..."application":{"applicationId":"amzn1.echo-sdk-ams.app.9ec3744a-d1b2-48f2-8e08-3b2045c00616"},...` - the applicationId you'll want to enter in the configuration is this `applicationId`.
+This is your AlexaSkillsKit's application id and is used to verify the request is for your application. If you're not sure of what your application id is, the easiest way (for me at least) to find it is by taking a look at a sample request going to your web server from your application. Part of the json body will include `..."application":{"applicationId":"amzn1.echo-sdk-ams.app.9ec3744a-d1b2-48f2-8e08-3b2045c00616"},...` - the applicationId you'll want to enter in the configuration is this `applicationId`.
 
 The `applicationIds` configuration value can be set with the `ALEXA_POSSIBLE_APP_IDS` key in an .env file, or in the configuration file directly. Note that the configuration file accepts an *array* of applicationIds in case you are planning on serving multiple applications from one Laravel/Lumen application. The .env file method only allows a single applicationId to be specified.
 
@@ -212,7 +212,7 @@ Note that in these examples both a closure and a controller was used to handle t
 
 ###Session
 
-Session values are passed to and from your application in the json payload from Amazon / AppKit. These are accessible in the `AlexaRequest`, or using the Alexa facade/alias.
+Session values are passed to and from your application in the json payload from Amazon / AlexaSkillsKit. These are accessible in the `AlexaRequest`, or using the Alexa facade/alias.
 
 ####to retrieve a session value
 
@@ -249,7 +249,7 @@ You can use this package and the Alexa facade to easily create valid responses f
 
 ####Using the Alexa facade/alias
 
-The easiest way to send a valid response to Amazon/AppKit/an end user is
+The easiest way to send a valid response to Amazon/AlexaSkillsKit/an end user is
 
 `return Alexa::say("Oh hi Denny");`
 

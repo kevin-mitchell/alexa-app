@@ -38,7 +38,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 	}
 
 	/**
-	 * Is this a new session according to Amazon AppKit?
+	 * Is this a new session according to Amazon AlexaSkillsKit?
 	 * @return boolean
 	 */
 	public function isNewSession()

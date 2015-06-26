@@ -138,7 +138,47 @@ return [
 
 	],
 
+	/*
+	|--------------------------------------------------------------------------
+	| prompts
+	|--------------------------------------------------------------------------
+	|
+	| Configuration related to "asking" questions and automatically routing "answers"
+	| to the proper intent/configurations
+	|
+	*/
+	'prompt' => [
 
+		/*
+		|--------------------------------------------------------------------------
+		| auto_route_enabled
+		|--------------------------------------------------------------------------
+		|
+		|	Should alexa-app automatically attempt to route Intents matching the configured
+		|	Intent to a specified Intent/route?
+		|
+		*/
+		'enable' => env('ALEXA_PROMPT_ENABLE', true),
+
+		/*
+		|--------------------------------------------------------------------------
+		| prompt_response_intent
+		|--------------------------------------------------------------------------
+		|
+		|	The Intent that will be used to route your responses to the specified Intent
+		|
+		*/
+		'response_intent' => env('ALEXA_PROMPT_RESPONSE_INTENT', 'PromptResponse'),
+	],
+
+	/*
+	|--------------------------------------------------------------------------
+	| device
+	|--------------------------------------------------------------------------
+	|
+	| Configuration related to the persistence of the Alexa device
+	|
+	*/
 	'device' => [
 
 		/*

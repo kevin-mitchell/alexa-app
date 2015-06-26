@@ -22,7 +22,10 @@ class AlexaValidator implements ValidatorInterface{
 		if( ! $route instanceof AlexaRoute )
 			return false;
 
-		return ($request->getRequestType() . $request->getIntent() == $route->getRouteIntent());
+		if( ! $request->isPromptResponse() )
+			return ($request->getRequestType() . $request->getIntent() == $route->getRouteIntent());
+		else
+			return ($request->getRequestType() . $request->getPromptResponseIntent() == $route->getRouteIntent());
 	}
 
 

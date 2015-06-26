@@ -62,9 +62,18 @@ class AlexaServiceProvider extends ServiceProvider
 	 */
 	private function bindAlexaRequest(Request $request)
 	{
-		$this->app->singleton('alexa.request', function() use ($request) {
-			return AlexaRequest::capture();
-			//todo: originally I had different request types based on the intent type
+		$this->app->singleton('alexa.request', function($app) use ($request) {
+			/** @var AlexaRequest $alexaRequest */
+			$alexaRequest = AlexaRequest::capture();
+
+			if( ! $app['config']['alexa.prompt.enable'] || $alexaRequest->getIntent() !== $app['config']['alexa.prompt.response_intent'] || is_null($alexaRequest->getPromptResponseIntent())){
+				return $alexaRequest;
+			}
+			else{
+				$alexaRequest->setPromptResponse(true);
+				return $alexaRequest;
+			}
+
 		});
 	}
 

@@ -8,6 +8,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 	private $processed = false;
 	private $intent = null;
 	private $slots = null;
+	private $promptResponse = null;
 
 	protected function getData()
 	{
@@ -25,6 +26,11 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 	public function getRequestType()
 	{
 		return array_get($this->getData(), 'request.type');
+	}
+
+	public function getPromptResponseIntent(){
+		$intent = trim($this->getSessionValue('original_prompt_intent'));
+		return (strlen($intent) > 0) ? $intent : null;
 	}
 
 	/**
@@ -97,7 +103,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 	 */
 	public function getIntent()
 	{
-		return $this->intent;
+		return array_get($this->getData(), 'request.intent.name');
 	}
 
 	/**
@@ -139,5 +145,20 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 		$this->processed = true;
 	}
 
+	/**
+	 * @param boolean $promptResponse
+	 */
+	public function setPromptResponse($promptResponse)
+	{
+		$this->promptResponse = $promptResponse;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isPromptResponse()
+	{
+		return boolval($this->promptResponse);
+	}
 
 } 

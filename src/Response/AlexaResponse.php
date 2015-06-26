@@ -51,6 +51,18 @@ class AlexaResponse implements Jsonable
 	 */
 	private $alexa;
 
+	/**
+	 * The Intent that a response should be routed to if a response comes in
+	 *
+	 * @var string | null
+	 */
+	private $promptResponseIntent = null;
+
+	/**
+	 * @param Speech $speech
+	 * @param Card $card
+	 * @param Reprompt $reprompt
+	 */
 	function __construct(Speech $speech = null, Card $card = null, Reprompt $reprompt = null)
     {
 		$this->speech = $speech;
@@ -193,12 +205,23 @@ class AlexaResponse implements Jsonable
 		return $this;
 	}
 
+	public function setPromptResponseIntent($intent){
+		$this->promptResponseIntent = $intent;
+		return $this;
+	}
+
+	public function sendResponseTo($intent){
+		return $this->setPromptResponseIntent($intent);
+	}
+
     private function getSessionData()
     {
         $data = $this->alexa->session();
 
 		if($this->isPrompt()){
 			$data['possible_prompt_response'] = true;
+			if($this->promptResponseIntent)
+				$data['prompt_response_intent'] = $this->promptResponseIntent;
 			if($this->speech)
 				$data['original_prompt'] = $this->speech->getText();
 			if($this->alexa->requestType() == "IntentRequest")

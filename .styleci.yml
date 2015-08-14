@@ -16,14 +16,12 @@ finder:
     - "tests"
   name:
     - "*.php"
-  not-name:
-    - "*Stub.php"
   contains:
-    - "Foo"
+    - "Develpr"
   not-contains:
     - "config"
   path:
-    - "foo/Stuff"
+    - "src"
   not-path:
     - "libraries"
   depth:

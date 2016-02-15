@@ -112,10 +112,11 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 	 */
 	public function slot($slotKey)
 	{
-		$key_exists = (array_key_exists($slotKey, $this->slots))
+		$key_exists = (array_key_exists($slotKey, $this->slots));
 
-		if (!$key_exists)
-			 return null;
+		if (!$key_exists) {
+			return null;	
+		}
 
 		return (array_key_exists("value", $this->slots[$slotKey])) ?  $this->slots[$slotKey]['value'] : null;
 	}

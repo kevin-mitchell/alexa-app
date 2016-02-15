@@ -71,9 +71,9 @@ class Alexa {
 		return new AlexaResponse;
 	}
 
-	public function say($statementWords)
+	public function say($statementWords, $speechType = Speech::DEFAULT_TYPE)
 	{
-		$response = new AlexaResponse(new Speech($statementWords));
+		$response = new AlexaResponse(new Speech($statementWords, $speechType));
 
 		return $response;
 	}

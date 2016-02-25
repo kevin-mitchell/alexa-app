@@ -1,4 +1,4 @@
-<?php  namespace Develpr\AlexaApp\Response; 
+<?php  namespace Develpr\AlexaApp\Response;
 
 use Illuminate\Contracts\Support\Arrayable;
 
@@ -6,10 +6,9 @@ class Speech implements Arrayable
 {
     const DEFAULT_TYPE = 'PlainText';
 
-    private $validTypes = ['PlainText'];
-
-    private $text = '';
-    private $type = 'PlainText';
+    private $validTypes = ['PlainText', 'SSML'];
+    private $text;
+    private $type;
 
     function __construct($text = '', $type = self::DEFAULT_TYPE)
     {
@@ -24,9 +23,10 @@ class Speech implements Arrayable
      */
     public function toArray()
     {
+        $textKey = ($this->type == 'SSML') ? 'ssml' : 'text';
         return [
             'type'  => $this->type,
-            'text'  => $this->text
+            $textKey  => $this->text
         ];
     }
 
@@ -72,4 +72,4 @@ class Speech implements Arrayable
 
 
 
-} 
+}

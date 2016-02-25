@@ -112,7 +112,13 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 	 */
 	public function slot($slotKey)
 	{
-		return (array_key_exists($slotKey, $this->slots)) ? $this->slots[$slotKey]['value'] : null;
+		$key_exists = (array_key_exists($slotKey, $this->slots));
+
+		if (!$key_exists) {
+			return null;	
+		}
+
+		return (array_key_exists("value", $this->slots[$slotKey])) ?  $this->slots[$slotKey]['value'] : null;
 	}
 
 	/**
@@ -161,4 +167,4 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 		return boolval($this->promptResponse);
 	}
 
-} 
+}

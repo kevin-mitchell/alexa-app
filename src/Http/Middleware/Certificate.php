@@ -5,12 +5,11 @@ use Develpr\AlexaApp\Contracts\CertificateProvider;
 use Develpr\AlexaApp\Exceptions\InvalidRequestTimestamp;
 use Develpr\AlexaApp\Exceptions\InvalidSignatureChainException;
 use Develpr\AlexaApp\Contracts\AlexaRequest;
-use Illuminate\Contracts\Routing\Middleware;
 use Develpr\AlexaApp\Exceptions\InvalidCertificateException;
 use Develpr\AlexaApp\Exceptions\InvalidAppIdException;
 use Illuminate\Http\Request as IlluminateRequest;
 
-class Certificate implements Middleware{
+class Certificate{
 
 	const CERTIFICATE_URL_HEADER 	= "Signaturecertchainurl";
 	const SIGNATURE_HEADER 			= "Signature";
@@ -48,8 +47,9 @@ class Certificate implements Middleware{
 	public function handle($request, Closure $next)
 	{
 
-		if( ! $this->alexaRequest->isAlexaRequest() )
+		if( ! $this->alexaRequest->isAlexaRequest() ){
 			return $next($request);
+		}
 
 		$this->verifyApplicationId();
 		$this->checkTimestampTolerance();

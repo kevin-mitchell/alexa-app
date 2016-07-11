@@ -51,7 +51,7 @@ class AlexaRouter extends IlluminateRouter{
 	 */
 	protected function newAlexaRoute($methods, $uri, $intent, $action)
 	{
-		return (new AlexaRoute($methods, $uri, $intent, $action))->setContainer($this->container);
+		return (new AlexaRoute($methods, $uri, $intent, $action))->setContainer($this->container)->setRouter($this);
 	}
 
 

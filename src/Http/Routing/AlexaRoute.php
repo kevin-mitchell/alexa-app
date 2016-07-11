@@ -23,6 +23,20 @@ class AlexaRoute extends Route{
 
 
 	/**
+	 * Set the router instance on the route.
+	 *
+	 * @param  \Illuminate\Routing\Router  $router
+	 * @return $this
+	 */
+	public function setRouter(\Illuminate\Routing\Router $router)
+	{
+		$this->router = $router;
+
+		return $this;
+	}
+
+
+	/**
 	 * Determine if the route matches given request.
 	 *
 	 * @param  \Illuminate\Http\Request  $request

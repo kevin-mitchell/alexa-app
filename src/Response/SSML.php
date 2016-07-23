@@ -13,7 +13,7 @@ class SSML implements OutputSpeech
     const TYPE = 'SSML';
     const TYPE_KEY = 'ssml';
 
-    const SIMPLE_SSML_TEMPLATE = '<speek>{{CONTENT}}</speek>';
+    const SIMPLE_SSML_TEMPLATE = '<speak>{{CONTENT}}</speak>';
 
     private $ssml = self::SIMPLE_SSML_TEMPLATE;
 

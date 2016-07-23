@@ -90,10 +90,10 @@ class Alexa {
 		return $response;
 	}
 
-	public function ssml($ssml)
+	public function ssml($ssmlValue)
 	{
 		$ssml = new SSML();
-		$ssml->setValue($ssml);
+		$ssml->setValue($ssmlValue);
 
 		$response = new AlexaResponse($ssml);
 

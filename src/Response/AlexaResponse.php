@@ -1,7 +1,7 @@
 <?php  namespace Develpr\AlexaApp\Response; 
 
 use Illuminate\Contracts\Support\Jsonable;
-
+use Develpr\AlexaApp\Contracts\OutputSpeech as Speech;
 /**
  * This class represents a valid response to be send back to Alexa.
  *
@@ -87,7 +87,7 @@ class AlexaResponse implements Jsonable
     {
         $alexaResponseData = $this->prepareResponseData();
 
-        return json_encode($alexaResponseData);
+        return json_encode($alexaResponseData, JSON_UNESCAPED_SLASHES);
     }
 
     /**
@@ -223,7 +223,7 @@ class AlexaResponse implements Jsonable
 			if($this->promptResponseIntent)
 				$data['prompt_response_intent'] = $this->promptResponseIntent;
 			if($this->speech)
-				$data['original_prompt'] = $this->speech->getText();
+				$data['original_prompt'] = $this->speech->getValue();
 			if($this->alexa->requestType() == "IntentRequest")
 				$data['original_prompt_intent'] = $this->alexa->request()->getIntent();
 		}

@@ -1,18 +1,20 @@
 <?php  namespace Develpr\AlexaApp\Response;
 
-use Illuminate\Contracts\Support\Arrayable;
+use Develpr\AlexaApp\Contracts\OutputSpeech;
 
-class Speech implements Arrayable
+class Speech implements OutputSpeech
 {
     const DEFAULT_TYPE = 'PlainText';
+    const SPEECH_TYPE_PLAINTEXT = 'PlainText';
+    const SPEECH_TYPE_SSML = 'SSML';
 
     private $validTypes = ['PlainText', 'SSML'];
-    private $text;
+    private $value;
     private $type;
 
-    function __construct($text = '', $type = self::DEFAULT_TYPE)
+    function __construct($value = '', $type = self::DEFAULT_TYPE)
     {
-        $this->text = $text;
+        $this->value = $value;
         $this->type = $type;
     }
 
@@ -23,10 +25,10 @@ class Speech implements Arrayable
      */
     public function toArray()
     {
-        $textKey = ($this->type == 'SSML') ? 'ssml' : 'text';
+        $textKey = ($this->getType() == 'SSML') ? 'ssml' : 'text';
         return [
-            'type'  => $this->type,
-            $textKey  => $this->text
+            'type'  => $this->getType(),
+            $textKey  => $this->getValue()
         ];
     }
 
@@ -37,7 +39,7 @@ class Speech implements Arrayable
     public function setType($type)
     {
         if( ! in_array($type, $this->validTypes) )
-            throw new \Exception('Invalid speech type');
+            throw new \Exception('Invalid speech type'); //todo: should be specific exception ?  is this helpful?
 
         $this->type = $type;
 
@@ -53,23 +55,37 @@ class Speech implements Arrayable
     }
 
     /**
+     * @param string
+     */
+    public function setValue($value){
+        $this->value = $value;
+    }
+
+    /**
+     * This is here to implement the Speech contract and allow for backwards compatability
+     * @return string
+     */
+    public function getValue(){
+        return $this->value;
+    }
+
+    /**
+     * @deprecated since v 0.3.0
      * @param string $text
      */
     public function setText($text)
     {
-        $this->text = $text;
-        return $this;
+        return $this->setValue($text);
     }
 
     /**
+     * @deprecated since v 0.3.0
      * @return string
      */
     public function getText()
     {
-        return $this->text;
+        return $this->getValue();
     }
-
-
 
 
 }

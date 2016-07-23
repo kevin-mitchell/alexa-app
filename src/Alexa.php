@@ -4,8 +4,10 @@ use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
 use Develpr\AlexaApp\Contracts\DeviceProvider;
 use Develpr\AlexaApp\Request\AlexaRequest;
 use Develpr\AlexaApp\Response\AlexaResponse;
+use Develpr\AlexaApp\Response\AudioFile;
 use Develpr\AlexaApp\Response\Card;
 use Develpr\AlexaApp\Response\Speech;
+use Develpr\AlexaApp\Response\SSML;
 
 class Alexa {
 
@@ -74,6 +76,26 @@ class Alexa {
 	public function say($statementWords, $speechType = Speech::DEFAULT_TYPE)
 	{
 		$response = new AlexaResponse(new Speech($statementWords, $speechType));
+
+		return $response;
+	}
+
+	public function playAudio($audioURI)
+	{
+		$audio = new AudioFile();
+		$audio->addAudioFile($audioURI);
+
+		$response = new AlexaResponse($audio);
+
+		return $response;
+	}
+
+	public function ssml($ssml)
+	{
+		$ssml = new SSML();
+		$ssml->setValue($ssml);
+
+		$response = new AlexaResponse($ssml);
 
 		return $response;
 	}

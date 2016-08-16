@@ -243,6 +243,10 @@ You can retrieve the value of a slot (only applicable for IntentRequests as of t
 
 `$usersChoice = Alexa::slot('choice');`
 
+If the slot is empty, `null` will be returned.  You can change this default value to something else by passing in your preferred default as the second parameter:
+
+`$usersChoice = Alexa::slot('choice', 'foo');`
+
 ###Responses
 
 You can use this package and the Alexa facade to easily create valid responses from your application, but it's worth knowing about the classes behind the facade. The most important thing to know is that `Alexa::say("Hello");` is simply returning a new `\Develpr\AlexaApp\Response\AlexaResponse` object with a `\Develpr\AlexaApp\Response\Speech` object inside.

@@ -107,18 +107,20 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 	}
 
 	/**
-	 * @param $slotKey
-	 * @return null
+	 * @param string     $slotKey
+	 * @param mixed|null $default
+	 *
+	 * @return mixed|null
 	 */
-	public function slot($slotKey)
+	public function slot($slotKey, $default = null)
 	{
 		$key_exists = (array_key_exists($slotKey, $this->slots));
 
 		if (!$key_exists) {
-			return null;	
+			return $default;
 		}
 
-		return (array_key_exists("value", $this->slots[$slotKey])) ?  $this->slots[$slotKey]['value'] : null;
+		return (array_key_exists("value", $this->slots[$slotKey])) ?  $this->slots[$slotKey]['value'] : $default;
 	}
 
 	/**

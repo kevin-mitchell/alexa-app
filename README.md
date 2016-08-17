@@ -40,7 +40,7 @@ For a quick example:
 
 ###Prerequisites
 
-The only thing that is required for AlexaApp is the Laravel or Lumen (versions based on 5.1) framework.
+The only thing that is required for AlexaApp is the Laravel or Lumen (versions based on 5.2) framework.
 
 After installing via composer (i.e. `composer require develpr/alexa-app`):
 

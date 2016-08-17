@@ -67,7 +67,7 @@ class AlexaResponse implements Jsonable
     {
 		$this->speech = $speech;
 		$this->card = $card;
-		$this->card = $reprompt;
+		$this->reprompt = $reprompt;
 
 		//this... I'm not sure about this... I might at some point attach the session data
 		//to the response in middleware to remove this somewhat hacky feeling dependency

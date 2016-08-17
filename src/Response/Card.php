@@ -92,7 +92,7 @@ class Card implements Arrayable
      */
     public function setType($type)
     {
-        if( in_array($type, $this->validCardTypes) )
+        if( ! in_array($type, $this->validCardTypes) )
             throw new \Exception('Invalid Card type supplied');
 
         $this->type = $type;

@@ -134,7 +134,7 @@ There are a few simple configuration options that need to be set for AlexaApp to
 
 This is your AlexaSkillsKit's application id and is used to verify the request is for your application. If you're not sure of what your application id is, the easiest way (for me at least) to find it is by taking a look at a sample request going to your web server from your application. Part of the json body will include `..."application":{"applicationId":"amzn1.echo-sdk-ams.app.9ec3744a-d1b2-48f2-8e08-3b2045c00616"},...` - the applicationId you'll want to enter in the configuration is this `applicationId`.
 
-The `applicationIds` configuration value can be set with the `ALEXA_POSSIBLE_APP_IDS` key in an .env file, or in the configuration file directly. Note that the configuration file accepts an *array* of applicationIds in case you are planning on serving multiple applications from one Laravel/Lumen application. The .env file method only allows a single applicationId to be specified.
+The `applicationIds` configuration value can be set with the `ALEXA__APPLICATION_IDS` key in an .env file, or in the configuration file directly. Note that the configuration file accepts an *array* of applicationIds in case you are planning on serving multiple applications from one Laravel/Lumen application. The .env file method only allows a single applicationId to be specified.
 
 ####Request timestamp tolerance
 

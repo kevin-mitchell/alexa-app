@@ -22,7 +22,7 @@ class AlexaResponse implements Jsonable
      * Should the session be ended
      * @var bool
      */
-    private $shouldSessionEnd = false;
+    private $shouldSessionEnd = true;
 
     /**
      * @var Speech

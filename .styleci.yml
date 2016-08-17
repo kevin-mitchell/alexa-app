@@ -8,6 +8,7 @@ enabled:
 
 disabled:
   - align_double_arrow
+  - phpdoc_summary
 
 finder:
   exclude:

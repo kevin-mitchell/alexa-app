@@ -2,4 +2,4 @@
 
 class InvalidSignatureChainException extends AlexaException {
 
-} 
+}

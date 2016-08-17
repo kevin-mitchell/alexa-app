@@ -3,4 +3,4 @@
 
 class AlexaException extends \Exception {
 
-} 
+}

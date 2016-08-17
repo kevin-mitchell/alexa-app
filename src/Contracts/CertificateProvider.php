@@ -11,6 +11,6 @@ namespace Develpr\AlexaApp\Contracts;
 
 interface CertificateProvider {
 
-	public function getCertificateFromUri($certificateChainUri);
+    public function getCertificateFromUri($certificateChainUri);
 
-} 
+}

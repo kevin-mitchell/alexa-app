@@ -11,178 +11,178 @@ use Develpr\AlexaApp\Response\SSML;
 
 class Alexa {
 
-	/**
-	 * @var \Develpr\AlexaApp\Contracts\AlexaRequest
-	 */
-	private $alexaRequest;
+    /**
+     * @var \Develpr\AlexaApp\Contracts\AlexaRequest
+     */
+    private $alexaRequest;
 
-	/**
-	 * @var array
-	 */
-	private $session;
+    /**
+     * @var array
+     */
+    private $session;
 
-	/**
-	 * @var Contracts\DeviceProvider
-	 */
-	private $deviceProvider;
+    /**
+     * @var Contracts\DeviceProvider
+     */
+    private $deviceProvider;
 
-	/**
-	 * @var array
-	 */
-	private $alexaConfig;
+    /**
+     * @var array
+     */
+    private $alexaConfig;
 
-	/**
-	 * @var AmazonEchoDevice | null
-	 */
-	private $device;
+    /**
+     * @var AmazonEchoDevice | null
+     */
+    private $device;
 
-	/**
-	 * @var bool
-	 */
-	private $isAlexaRequest;
+    /**
+     * @var bool
+     */
+    private $isAlexaRequest;
 
-	public function __construct(AlexaRequest $alexaRequest, DeviceProvider $deviceProvider, array $alexaConfig)
-	{
-		$this->alexaRequest = $alexaRequest;
-		$this->deviceProvider = $deviceProvider;
+    public function __construct(AlexaRequest $alexaRequest, DeviceProvider $deviceProvider, array $alexaConfig)
+    {
+        $this->alexaRequest = $alexaRequest;
+        $this->deviceProvider = $deviceProvider;
 
-		$this->setupSession();
+        $this->setupSession();
 
-		$this->alexaConfig = $alexaConfig;
+        $this->alexaConfig = $alexaConfig;
 
-		$this->isAlexaRequest = $this->alexaRequest->isAlexaRequest();
-	}
+        $this->isAlexaRequest = $this->alexaRequest->isAlexaRequest();
+    }
 
-	public function isAlexaRequest()
-	{
-		return $this->isAlexaRequest;
-	}
+    public function isAlexaRequest()
+    {
+        return $this->isAlexaRequest;
+    }
 
-	public function requestType()
-	{
-		return $this->alexaRequest->getRequestType();
-	}
+    public function requestType()
+    {
+        return $this->alexaRequest->getRequestType();
+    }
 
-	public function request()
-	{
-		return $this->alexaRequest;
-	}
+    public function request()
+    {
+        return $this->alexaRequest;
+    }
 
-	public function response()
-	{
-		return new AlexaResponse;
-	}
+    public function response()
+    {
+        return new AlexaResponse;
+    }
 
-	public function say($statementWords, $speechType = Speech::DEFAULT_TYPE)
-	{
-		$response = new AlexaResponse(new Speech($statementWords, $speechType));
+    public function say($statementWords, $speechType = Speech::DEFAULT_TYPE)
+    {
+        $response = new AlexaResponse(new Speech($statementWords, $speechType));
 
-		return $response;
-	}
+        return $response;
+    }
 
-	public function playAudio($audioURI)
-	{
-		$audio = new AudioFile();
-		$audio->addAudioFile($audioURI);
+    public function playAudio($audioURI)
+    {
+        $audio = new AudioFile();
+        $audio->addAudioFile($audioURI);
 
-		$response = new AlexaResponse($audio);
+        $response = new AlexaResponse($audio);
 
-		return $response;
-	}
+        return $response;
+    }
 
-	public function ssml($ssmlValue)
-	{
-		$ssml = new SSML();
-		$ssml->setValue($ssmlValue);
+    public function ssml($ssmlValue)
+    {
+        $ssml = new SSML();
+        $ssml->setValue($ssmlValue);
 
-		$response = new AlexaResponse($ssml);
+        $response = new AlexaResponse($ssml);
 
-		return $response;
-	}
+        return $response;
+    }
 
-	public function ask($question)
-	{
-		$response = new AlexaResponse(new Speech($question));
+    public function ask($question)
+    {
+        $response = new AlexaResponse(new Speech($question));
 
-		$response->setIsPrompt(true);
+        $response->setIsPrompt(true);
 
-		return $response;
-	}
+        return $response;
+    }
 
-	public function card($title = "", $subtitle = "", $content = "")
-	{
-		$response = new AlexaResponse();
+    public function card($title = "", $subtitle = "", $content = "")
+    {
+        $response = new AlexaResponse();
 
-		$response->setCard(new Card($title, $subtitle, $content));
+        $response->setCard(new Card($title, $subtitle, $content));
 
-		return $response;
-	}
+        return $response;
+    }
 
-	public function device($attributes = [])
-	{
+    public function device($attributes = [])
+    {
 
-		if( ! $this->isAlexaRequest() )
-			return null;
+        if( ! $this->isAlexaRequest() )
+            return null;
 
-		if( ! is_null($this->device) )
-			return $this->device;
+        if( ! is_null($this->device) )
+            return $this->device;
 
-		if( ! array_key_exists($this->alexaConfig['device']['device_identifier'], $attributes))
-			$attributes[$this->alexaConfig['device']['device_identifier']] = $this->alexaRequest->getUserId();
+        if( ! array_key_exists($this->alexaConfig['device']['device_identifier'], $attributes))
+            $attributes[$this->alexaConfig['device']['device_identifier']] = $this->alexaRequest->getUserId();
 
-		$result = $this->deviceProvider->retrieveByCredentials($attributes);
+        $result = $this->deviceProvider->retrieveByCredentials($attributes);
 
-		if($result instanceof AmazonEchoDevice)
-			$this->device = $result;
+        if($result instanceof AmazonEchoDevice)
+            $this->device = $result;
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function slot($requestedSlot = "")
-	{
-		return $this->alexaRequest->slot($requestedSlot);
-	}
+    public function slot($requestedSlot = "")
+    {
+        return $this->alexaRequest->slot($requestedSlot);
+    }
 
-	public function slots()
-	{
-		return $this->alexaRequest->slots();
-	}
+    public function slots()
+    {
+        return $this->alexaRequest->slots();
+    }
 
-	public function session($key = null, $value = null)
-	{
-		if( ! is_null($value) ){
-			$this->setSession($key, $value);
-		}
-		else if( is_null($key) ){
-			return $this->session;
-		}
-		else{
-			return array_key_exists($key, $this->session) ? $this->session[$key] : null;
-		}
-	}
+    public function session($key = null, $value = null)
+    {
+        if( ! is_null($value) ){
+            $this->setSession($key, $value);
+        }
+        else if( is_null($key) ){
+            return $this->session;
+        }
+        else{
+            return array_key_exists($key, $this->session) ? $this->session[$key] : null;
+        }
+    }
 
-	public function setSession($key, $value = null)
-	{
-		if( is_array($key) ){
-			foreach($key as $aKey => $aValue){
-				$this->session[$aKey] = $aValue;
-			}
-		}
-		else if( ! is_null($key) ) {
-			$this->session[$key] = $value;
-		}
-	}
+    public function setSession($key, $value = null)
+    {
+        if( is_array($key) ){
+            foreach($key as $aKey => $aValue){
+                $this->session[$aKey] = $aValue;
+            }
+        }
+        else if( ! is_null($key) ) {
+            $this->session[$key] = $value;
+        }
+    }
 
-	public function unsetSession($key)
-	{
-		unset($this->session[$key]);
-	}
+    public function unsetSession($key)
+    {
+        unset($this->session[$key]);
+    }
 
 
-	private function setupSession()
-	{
-		$this->session = $this->alexaRequest->getSession();
-	}
+    private function setupSession()
+    {
+        $this->session = $this->alexaRequest->getSession();
+    }
 
 
 }

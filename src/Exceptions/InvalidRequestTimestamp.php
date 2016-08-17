@@ -2,4 +2,4 @@
 
 class InvalidRequestTimestamp extends AlexaException {
 
-} 
+}

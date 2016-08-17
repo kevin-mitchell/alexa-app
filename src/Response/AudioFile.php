@@ -4,7 +4,7 @@
 class AudioFile extends SSML
 {
     const SIMPLE_SSML_AUDIO_TEMPLATE = '<audio src="{{SRC}}" />';
-    
+
     private $audioURICollection = [];
 
     public function addAudioFile($fileURI)
@@ -20,7 +20,7 @@ class AudioFile extends SSML
         {
             $audioSSML .= str_replace('{{SRC}}', $URI, self::SIMPLE_SSML_AUDIO_TEMPLATE);
         }
-        
+
         $result = str_replace('{{CONTENT}}', $audioSSML, self::SIMPLE_SSML_TEMPLATE);
 
         return $result;

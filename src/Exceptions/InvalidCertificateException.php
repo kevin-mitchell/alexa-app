@@ -2,4 +2,4 @@
 
 class InvalidCertificateException extends AlexaException {
 
-} 
+}

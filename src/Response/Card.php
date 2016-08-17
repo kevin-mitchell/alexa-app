@@ -1,4 +1,4 @@
-<?php  namespace Develpr\AlexaApp\Response; 
+<?php  namespace Develpr\AlexaApp\Response;
 
 use Illuminate\Contracts\Support\Arrayable;
 
@@ -135,4 +135,4 @@ class Card implements Arrayable
 
 
 
-} 
+}

@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Facade;
 
 class Alexa extends Facade{
 
-	protected static function getFacadeAccessor() {
-		return 'alexa';
-	}
+    protected static function getFacadeAccessor() {
+        return 'alexa';
+    }
 
-} 
+}

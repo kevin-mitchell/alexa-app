@@ -6,7 +6,7 @@ interface OutputSpeech extends Arrayable
 {
     /**
      * The "value" represents the actual speech "output" - i.e. the text to be spoken or ssml to be output
-     * 
+     *
      * @return string
      */
     public function getValue();

@@ -1,4 +1,4 @@
-<?php  namespace Develpr\AlexaApp; 
+<?php  namespace Develpr\AlexaApp;
 
 use Laravel\Lumen\Application;
 
@@ -23,8 +23,8 @@ class AlexaApplication extends Application
 
     public function sessionEnded($uri, $action)
     {
-		$this->intentRoutes[] = $uri;
-		$this->addRoute('INTENT', '**' . 'SESSION_ENDED_REQUEST', $action);
+        $this->intentRoutes[] = $uri;
+        $this->addRoute('INTENT', '**' . 'SESSION_ENDED_REQUEST', $action);
     }
 
     protected function getMethod()
@@ -84,4 +84,4 @@ class AlexaApplication extends Application
     }
 
 
-} 
+}

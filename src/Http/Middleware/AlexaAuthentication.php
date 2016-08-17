@@ -7,16 +7,16 @@ use Closure;
 
 class AlexaAuthentication implements Middleware {
 
-	public function handle($request, Closure $next)
-	{
-		/** @var AmazonEchoDevice $device */
-		$device = \Alexa::device();
+    public function handle($request, Closure $next)
+    {
+        /** @var AmazonEchoDevice $device */
+        $device = \Alexa::device();
 
-		if( ! $device ){
-				return response('Unauthorized.', 401);
-		}
+        if( ! $device ){
+                return response('Unauthorized.', 401);
+        }
 
-		return $next($request);
+        return $next($request);
 
-	}
-} 
+    }
+}

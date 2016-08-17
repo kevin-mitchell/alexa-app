@@ -26,4 +26,4 @@ finder:
     - "libraries"
   depth:
     - "< 3"
-    
+

@@ -1,5 +1,5 @@
 # AlexaApp
-Set of classes to make creating simple Amazon Echo Alexa Apps easier with Laravel and Lumen
+Set of classes to make creating simple Amazon Echo Alexa Apps easier with Laravel and Lumen ([note that 5.2.x Lumen has a known issue that needs addressing](https://github.com/develpr/alexa-app/issues/5))
 
 - [Main Features](#main-features)
 - [Demo](#demo)

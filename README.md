@@ -1,4 +1,10 @@
 # AlexaApp
+
+[![Latest Version](https://img.shields.io/packagist/v/develpr/alexa-app.svg?style=flat-square)](https://packagist.org/packages/develpr/alexa-app)
+[![Total Downloads](https://img.shields.io/packagist/dt/develpr/alexa-app.svg?style=flat-square)](https://packagist.org/packages/develpr/alexa-app)
+[![Software License](https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![StyleCI](https://styleci.io/repos/34590394/shield)](https://styleci.io/repos/34590394)
+
 Set of classes to make creating simple Amazon Echo Alexa Apps easier with Laravel and Lumen ([note that 5.2.x Lumen has a known issue that needs addressing](https://github.com/develpr/alexa-app/issues/5))
 
 - [Main Features](#main-features)

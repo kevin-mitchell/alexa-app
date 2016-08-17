@@ -1,4 +1,6 @@
-<?php namespace Develpr\AlexaApp\Provider;
+<?php
+
+namespace Develpr\AlexaApp\Provider;
 
 use Develpr\AlexaApp\Alexa;
 use Develpr\AlexaApp\Certificate\DatabaseCertificateProvider;
@@ -12,11 +14,9 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Exception;
-use Illuminate\Redis\Database as RedisDatabase;
 
 class AlexaServiceProvider extends ServiceProvider
 {
-
     public function boot()
     {
     }
@@ -47,7 +47,7 @@ class AlexaServiceProvider extends ServiceProvider
 
 
     /**
-     *    Bind the appropriate AlexaResponse type to the IoC container
+     * Bind the appropriate AlexaResponse type to the IoC container
      */
     private function bindAlexaRequest(Request $request)
     {
@@ -55,28 +55,28 @@ class AlexaServiceProvider extends ServiceProvider
             /** @var AlexaRequest $alexaRequest */
             $alexaRequest = AlexaRequest::capture();
 
-            if( ! $app['config']['alexa.prompt.enable'] || $alexaRequest->getIntent() !== $app['config']['alexa.prompt.response_intent'] || is_null($alexaRequest->getPromptResponseIntent())){
+            if (!$app['config']['alexa.prompt.enable'] || $alexaRequest->getIntent() !== $app['config']['alexa.prompt.response_intent'] || is_null($alexaRequest->getPromptResponseIntent())) {
                 return $alexaRequest;
-            }
-            else{
+            } else{
                 $alexaRequest->setPromptResponse(true);
+
                 return $alexaRequest;
             }
-
         });
     }
 
     private function bindAlexa()
     {
-        $this->app->singleton('alexa', function($app){
+        $this->app->singleton('alexa', function($app) {
             $providerType = $app['config']['alexa.device.provider'];
             $provider = null;
-            if($providerType == "eloquent"){
+
+            if ($providerType == "eloquent") {
                 $provider = new EloquentDeviceProvider($app['config']['alexa.device.model']);
-            }else if($providerType == "database"){
+            } elseif ($providerType == "database") {
                 $connection = $app['db']->connection();
                 $provider = new DatabaseDeviceProvider($connection, $app['config']['alexa.device.table']);
-            }else{
+            } else {
                 throw new Exception("Unsupported Alexa Device Provider specified - currently only 'database' and 'eloquent' are supported");
             }
 
@@ -88,41 +88,35 @@ class AlexaServiceProvider extends ServiceProvider
 
     /**
      * Register the middleware.
-     *
-     * @return void
      */
     protected function registerMiddleware()
     {
         $this->app->singleton(\Develpr\AlexaApp\Http\Middleware\Request::class, function ($app) {
             return new \Develpr\AlexaApp\Http\Middleware\Request($app, $app['alexa.router'], $app['alexa.request'], $app['alexa.router.middleware']);
         });
+
         $this->app->singleton(\Develpr\AlexaApp\Http\Middleware\Certificate::class, function ($app) {
             return new \Develpr\AlexaApp\Http\Middleware\Certificate($app['alexa.request'], $app['alexa.certificateProvider'], $app['config']['alexa']);
         });
     }
 
-
     private function bindCertificateProvider()
     {
-        $this->app->bind('alexa.certificateProvider', function($app){
-
+        $this->app->bind('alexa.certificateProvider', function($app) {
             $providerType = $this->app['config']['alexa.certificate.provider'];
 
-            if($providerType == "file"){
-                $provider = new FileCertificateProvider(new Filesystem, $this->app['config']['alexa.certificate.filePath']);
-            }else if($providerType == "redis"){
-                $redis = $app->make('redis');
-                $provider = new RedisCertificateProvider($redis);
-            }else if($providerType == "eloquent"){
-                $provider = new EloquentCertificateProvider($app['config']['alexa.certificate.model']);
-            }else if($providerType == "database"){
-                $connection = $app['db']->connection();
-                $provider = new DatabaseCertificateProvider($connection, $app['config']['alexa.device.table']);
-            }else{
-                throw new Exception("Unsupported Alexa Certificate Provider specified - currently only 'file', 'database', and 'eloquent' are supported");
+            switch ($providerType) {
+                case 'file':
+                    return new FileCertificateProvider(new Filesystem, $this->app['config']['alexa.certificate.filePath']);
+                case 'redis':
+                    return new RedisCertificateProvider($app->make('redis'));
+                case 'eloquent':
+                    return new EloquentCertificateProvider($app['config']['alexa.certificate.model']);
+                case 'database':
+                    return new DatabaseCertificateProvider($app['db']->connection(), $app['config']['alexa.device.table']);
             }
 
-            return $provider;
+            throw new Exception("Unsupported Alexa Certificate Provider specified - currently only 'file', 'database', and 'eloquent' are supported");
         });
     }
 }

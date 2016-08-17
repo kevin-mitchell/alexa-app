@@ -1,8 +1,9 @@
-<?php  namespace Develpr\AlexaApp\Contracts;
+<?php
+
+namespace Develpr\AlexaApp\Contracts;
 
 interface AlexaRequest
 {
-
     /**
      * returns the request type, i.e. IntentRequest
      *
@@ -41,7 +42,8 @@ interface AlexaRequest
     /**
      * Get a particular session value by key
      *
-     * @param String $key
+     * @param string $key
+     *
      * @return mixed|null
      */
     public function getSessionValue($key = null);
@@ -50,5 +52,4 @@ interface AlexaRequest
      * @return int
      */
     public function getTimestamp();
-
 }

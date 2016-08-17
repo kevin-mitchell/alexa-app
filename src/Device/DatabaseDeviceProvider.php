@@ -1,11 +1,13 @@
-<?php  namespace Develpr\AlexaApp\Device;
+<?php
 
-use Develpr\AlexaApp\Contracts\DeviceProvider;
+namespace Develpr\AlexaApp\Device;
+
 use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
+use Develpr\AlexaApp\Contracts\DeviceProvider;
 use Illuminate\Database\ConnectionInterface;
 
-class DatabaseDeviceProvider implements DeviceProvider{
-
+class DatabaseDeviceProvider implements DeviceProvider
+{
     /**
      * The active database connection.
      *
@@ -23,9 +25,8 @@ class DatabaseDeviceProvider implements DeviceProvider{
     /**
      * Create a new database user provider.
      *
-     * @param  \Illuminate\Database\ConnectionInterface  $conn
-     * @param  string  $table
-     * @return void
+     * @param ConnectionInterface $conn
+     * @param string              $table
      */
     public function __construct(ConnectionInterface $conn, $table)
     {
@@ -36,7 +37,8 @@ class DatabaseDeviceProvider implements DeviceProvider{
     /**
      * Retrieve a user by the given credentials.
      *
-     * @param  array  $credentials
+     * @param array $credentials
+     *
      * @return AmazonEchoDevice|null
      */
     public function retrieveByCredentials(array $credentials)
@@ -46,10 +48,8 @@ class DatabaseDeviceProvider implements DeviceProvider{
         // generic "user" object that will be utilized by the Guard instances.
         $query = $this->conn->table($this->table);
 
-        foreach ($credentials as $key => $value)
-        {
-            if ( ! str_contains($key, 'password'))
-            {
+        foreach ($credentials as $key => $value) {
+            if (!tr_contains($key, 'password')) {
                 $query->where($key, $value);
             }
         }
@@ -61,5 +61,4 @@ class DatabaseDeviceProvider implements DeviceProvider{
 
         return $this->getGenericUser($user);
     }
-
 }

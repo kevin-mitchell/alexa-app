@@ -1,6 +1,7 @@
-<?php  namespace Develpr\AlexaApp\Exceptions;
+<?php
 
+namespace Develpr\AlexaApp\Exceptions;
 
-class AlexaException extends \Exception {
-
+class AlexaException extends \Exception
+{
 }

@@ -1,5 +1,7 @@
-<?php  namespace Develpr\AlexaApp\Exceptions;
+<?php
 
-class InvalidAppIdException extends  AlexaException{
+namespace Develpr\AlexaApp\Exceptions;
 
+class InvalidAppIdException extends AlexaException
+{
 }

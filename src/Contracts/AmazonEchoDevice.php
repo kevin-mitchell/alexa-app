@@ -1,10 +1,16 @@
-<?php namespace Develpr\AlexaApp\Contracts;
+<?php
 
+namespace Develpr\AlexaApp\Contracts;
 
-interface AmazonEchoDevice {
-
+interface AmazonEchoDevice
+{
+    /**
+     * @return mixed
+     */
     public function getDeviceId();
 
+    /**
+     * @param mixed $deviceId
+     */
     public function setDeviceId($deviceId);
-
 }

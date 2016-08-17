@@ -1,32 +1,41 @@
-<?php  namespace Develpr\AlexaApp\Response;
+<?php
+
+namespace Develpr\AlexaApp\Response;
 
 use Illuminate\Contracts\Support\Arrayable;
 
 class Card implements Arrayable
 {
-    const DEFAULT_CARD_TYPE = "Simple";
+    const DEFAULT_CARD_TYPE = 'Simple';
 
     private $validCardTypes = ['Simple'];
 
     //The type of card
     //todo: as of now only Simple is valid but this is likely to change
     //@see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/alexa-appkit-app-interface-reference
-    private $type = "Simple";
+    private $type = 'Simple';
 
-    private $title = "";
+    private $title = '';
 
-    private $subtitle = "";
+    private $subtitle = '';
 
-    private $content = "";
+    private $content = '';
 
-    function __construct($title = '', $subtitle = '', $content = '', $type = self::DEFAULT_CARD_TYPE)
+    /**
+     * Card constructor.
+     *
+     * @param string $title
+     * @param string $subtitle
+     * @param string $content
+     * @param string $type
+     */
+    public function __construct($title = '', $subtitle = '', $content = '', $type = self::DEFAULT_CARD_TYPE)
     {
         $this->title = $title;
         $this->subtitle = $subtitle;
         $this->content = $content;
         $this->type = $type;
     }
-
 
     /**
      * Get the instance as an array.
@@ -45,20 +54,23 @@ class Card implements Arrayable
         $this->addAttributeToArray('content', $cardAsArray);
 
         return $cardAsArray;
-
     }
 
-    private function addAttributeToArray($attributeName, array & $outputArray )
+    /**
+     * @param string $attributeName
+     * @param array  $outputArray
+     */
+    private function addAttributeToArray($attributeName, array &$outputArray)
     {
-        if( ! is_string($this->$attributeName) || strlen($this->$attributeName) > 0 ){
-
+        if (!is_string($this->$attributeName) || strlen($this->$attributeName) > 0) {
             $outputArray[$attributeName] = $this->$attributeName;
-
         }
     }
 
     /**
      * @param string $content
+     *
+     * @return $this
      */
     public function setContent($content)
     {
@@ -69,6 +81,8 @@ class Card implements Arrayable
 
     /**
      * @param string $subtitle
+     *
+     * @return $this
      */
     public function setSubtitle($subtitle)
     {
@@ -79,6 +93,8 @@ class Card implements Arrayable
 
     /**
      * @param string $title
+     *
+     * @return $this
      */
     public function setTitle($title)
     {
@@ -89,11 +105,16 @@ class Card implements Arrayable
 
     /**
      * @param string $type
+     *
+     * @throws \Exception
+     *
+     * @return $this
      */
     public function setType($type)
     {
-        if( ! in_array($type, $this->validCardTypes) )
+        if (!in_array($type, $this->validCardTypes)) {
             throw new \Exception('Invalid Card type supplied');
+        }
 
         $this->type = $type;
 
@@ -131,8 +152,4 @@ class Card implements Arrayable
     {
         return $this->type;
     }
-
-
-
-
 }

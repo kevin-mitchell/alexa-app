@@ -1,5 +1,6 @@
-<?php namespace Develpr\AlexaApp\Response;
+<?php
 
+namespace Develpr\AlexaApp\Response;
 
 class AudioFile extends SSML
 {
@@ -7,17 +8,22 @@ class AudioFile extends SSML
 
     private $audioURICollection = [];
 
+    /**
+     * @param string $fileURI
+     */
     public function addAudioFile($fileURI)
     {
         $this->audioURICollection[] = $fileURI;
     }
 
+    /**
+     * @return string
+     */
     public function getValue()
     {
-        $audioSSML = "";
+        $audioSSML = '';
 
-        foreach($this->audioURICollection as $position => $URI)
-        {
+        foreach ($this->audioURICollection as $position => $URI) {
             $audioSSML .= str_replace('{{SRC}}', $URI, self::SIMPLE_SSML_AUDIO_TEMPLATE);
         }
 
@@ -25,5 +31,4 @@ class AudioFile extends SSML
 
         return $result;
     }
-
 }

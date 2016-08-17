@@ -1,5 +1,7 @@
-<?php  namespace Develpr\AlexaApp\Exceptions;
+<?php
 
-class InvalidRequestTimestamp extends AlexaException {
+namespace Develpr\AlexaApp\Exceptions;
 
+class InvalidRequestTimestamp extends AlexaException
+{
 }

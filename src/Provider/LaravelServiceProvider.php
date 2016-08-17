@@ -1,16 +1,19 @@
-<?php  namespace Develpr\AlexaApp\Provider;
+<?php
+
+namespace Develpr\AlexaApp\Provider;
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 use ReflectionClass;
 
-class LaravelServiceProvider extends ServiceProvider {
-
+class LaravelServiceProvider extends ServiceProvider
+{
     public function boot()
     {
         $this->publishes([
             realpath(__DIR__.'/../../config/alexa.php') => config_path('alexa.php'),
         ], 'config');
+
         $this->publishes([
             realpath(__DIR__.'/../../database/2015_06_21_000000_create_alexa_devices_table.php') => database_path('/migrations/2015_06_21_000000_create_alexa_devices_table.php'),
         ], 'migrations');
@@ -18,8 +21,6 @@ class LaravelServiceProvider extends ServiceProvider {
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -30,7 +31,7 @@ class LaravelServiceProvider extends ServiceProvider {
 
         $this->app->instance('alexa.router.middleware', $this->gatherAppMiddleware($kernel));
 
-        //Register our universal service provider
+        // Register our universal service provider
         $this->app->register('Develpr\AlexaApp\Provider\AlexaServiceProvider');
 
         $this->addRequestMiddlewareToBeginning($kernel);
@@ -40,8 +41,6 @@ class LaravelServiceProvider extends ServiceProvider {
     {
         $this->mergeConfigFrom(realpath(__DIR__.'/../../config/alexa.php'), 'alexa');
     }
-
-
 
     protected function addRequestMiddlewareToBeginning(Kernel $kernel)
     {
@@ -66,16 +65,17 @@ class LaravelServiceProvider extends ServiceProvider {
 
         $middleware = $property->getValue($kernel);
 
-        if( $this->app['config']['alexa.skipCsrfCheck'] )
+        if ($this->app['config']['alexa.skipCsrfCheck']) {
             $middleware = $this->unsetCsrfMiddleware($middleware);
+        }
 
         return $middleware;
     }
 
     private function unsetCsrfMiddleware($allMiddleware)
     {
-        foreach($allMiddleware as $position => $aMiddleware){
-            if(strpos(strtolower($aMiddleware), 'verifycsrftoken') !== false){
+        foreach ($allMiddleware as $position => $aMiddleware) {
+            if (strpos(strtolower($aMiddleware), 'verifycsrftoken') !== false) {
                 unset($allMiddleware[$position]);
                 break;
             }
@@ -83,6 +83,4 @@ class LaravelServiceProvider extends ServiceProvider {
 
         return $allMiddleware;
     }
-
-
 }

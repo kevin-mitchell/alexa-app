@@ -1,4 +1,6 @@
-<?php namespace Develpr\AlexaApp;
+<?php
+
+namespace Develpr\AlexaApp;
 
 use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
 use Develpr\AlexaApp\Contracts\DeviceProvider;
@@ -9,8 +11,8 @@ use Develpr\AlexaApp\Response\Card;
 use Develpr\AlexaApp\Response\Speech;
 use Develpr\AlexaApp\Response\SSML;
 
-class Alexa {
-
+class Alexa
+{
     /**
      * @var \Develpr\AlexaApp\Contracts\AlexaRequest
      */
@@ -41,6 +43,13 @@ class Alexa {
      */
     private $isAlexaRequest;
 
+    /**
+     * Alexa constructor.
+     *
+     * @param AlexaRequest   $alexaRequest
+     * @param DeviceProvider $deviceProvider
+     * @param array          $alexaConfig
+     */
     public function __construct(AlexaRequest $alexaRequest, DeviceProvider $deviceProvider, array $alexaConfig)
     {
         $this->alexaRequest = $alexaRequest;
@@ -53,26 +62,44 @@ class Alexa {
         $this->isAlexaRequest = $this->alexaRequest->isAlexaRequest();
     }
 
+    /**
+     * @return bool
+     */
     public function isAlexaRequest()
     {
         return $this->isAlexaRequest;
     }
 
+    /**
+     * @return mixed
+     */
     public function requestType()
     {
         return $this->alexaRequest->getRequestType();
     }
 
+    /**
+     * @return \Develpr\AlexaApp\Contracts\AlexaRequest
+     */
     public function request()
     {
         return $this->alexaRequest;
     }
 
+    /**
+     * @return \Develpr\AlexaApp\Response\AlexaResponse
+     */
     public function response()
     {
-        return new AlexaResponse;
+        return new AlexaResponse();
     }
 
+    /**
+     * @param string $statementWords
+     * @param string $speechType
+     *
+     * @return \Develpr\AlexaApp\Response\AlexaResponse
+     */
     public function say($statementWords, $speechType = Speech::DEFAULT_TYPE)
     {
         $response = new AlexaResponse(new Speech($statementWords, $speechType));
@@ -80,6 +107,11 @@ class Alexa {
         return $response;
     }
 
+    /**
+     * @param string $audioURI
+     *
+     * @return \Develpr\AlexaApp\Response\AlexaResponse
+     */
     public function playAudio($audioURI)
     {
         $audio = new AudioFile();
@@ -90,6 +122,11 @@ class Alexa {
         return $response;
     }
 
+    /**
+     * @param string $ssmlValue
+     *
+     * @return \Develpr\AlexaApp\Response\AlexaResponse
+     */
     public function ssml($ssmlValue)
     {
         $ssml = new SSML();
@@ -100,6 +137,11 @@ class Alexa {
         return $response;
     }
 
+    /**
+     * @param string $question
+     *
+     * @return \Develpr\AlexaApp\Response\AlexaResponse
+     */
     public function ask($question)
     {
         $response = new AlexaResponse(new Speech($question));
@@ -109,7 +151,14 @@ class Alexa {
         return $response;
     }
 
-    public function card($title = "", $subtitle = "", $content = "")
+    /**
+     * @param string $title
+     * @param string $subtitle
+     * @param string $content
+     *
+     * @return \Develpr\AlexaApp\Response\AlexaResponse
+     */
+    public function card($title = '', $subtitle = '', $content = '')
     {
         $response = new AlexaResponse();
 
@@ -118,71 +167,94 @@ class Alexa {
         return $response;
     }
 
+    /**
+     * @param array $attributes
+     *
+     * @return \Develpr\AlexaApp\Contracts\AmazonEchoDevice|null
+     */
     public function device($attributes = [])
     {
+        if (!$this->isAlexaRequest()) {
+            return;
+        }
 
-        if( ! $this->isAlexaRequest() )
-            return null;
-
-        if( ! is_null($this->device) )
+        if (!is_null($this->device)) {
             return $this->device;
+        }
 
-        if( ! array_key_exists($this->alexaConfig['device']['device_identifier'], $attributes))
+        if (!array_key_exists($this->alexaConfig['device']['device_identifier'], $attributes)) {
             $attributes[$this->alexaConfig['device']['device_identifier']] = $this->alexaRequest->getUserId();
+        }
 
         $result = $this->deviceProvider->retrieveByCredentials($attributes);
 
-        if($result instanceof AmazonEchoDevice)
+        if ($result instanceof AmazonEchoDevice) {
             $this->device = $result;
+        }
 
         return $result;
     }
 
-    public function slot($requestedSlot = "")
+    /**
+     * @param string $requestedSlot
+     *
+     * @return mixed|null
+     */
+    public function slot($requestedSlot = '')
     {
         return $this->alexaRequest->slot($requestedSlot);
     }
 
+    /**
+     * @return array
+     */
     public function slots()
     {
         return $this->alexaRequest->slots();
     }
 
+    /**
+     * @param string|null $key
+     * @param mixed|null  $value
+     *
+     * @return array|mixed|null
+     */
     public function session($key = null, $value = null)
     {
-        if( ! is_null($value) ){
+        if (!is_null($value)) {
             $this->setSession($key, $value);
-        }
-        else if( is_null($key) ){
+        } elseif (is_null($key)) {
             return $this->session;
-        }
-        else{
+        } else {
             return array_key_exists($key, $this->session) ? $this->session[$key] : null;
         }
     }
 
+    /**
+     * @param string|array $key
+     * @param mixed|null   $value
+     */
     public function setSession($key, $value = null)
     {
-        if( is_array($key) ){
-            foreach($key as $aKey => $aValue){
+        if (is_array($key)) {
+            foreach ($key as $aKey => $aValue) {
                 $this->session[$aKey] = $aValue;
             }
-        }
-        else if( ! is_null($key) ) {
+        } elseif (!is_null($key)) {
             $this->session[$key] = $value;
         }
     }
 
+    /**
+     * @param string $key
+     */
     public function unsetSession($key)
     {
         unset($this->session[$key]);
     }
 
-
     private function setupSession()
     {
         $this->session = $this->alexaRequest->getSession();
     }
-
-
 }

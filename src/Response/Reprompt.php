@@ -1,6 +1,7 @@
-<?php  namespace Develpr\AlexaApp\Response;
+<?php
 
+namespace Develpr\AlexaApp\Response;
 
-class Reprompt extends Speech{
-
+class Reprompt extends Speech
+{
 }

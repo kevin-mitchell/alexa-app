@@ -1,4 +1,6 @@
-<?php  namespace Develpr\AlexaApp\Response;
+<?php
+
+namespace Develpr\AlexaApp\Response;
 
 use Develpr\AlexaApp\Contracts\OutputSpeech;
 
@@ -12,7 +14,13 @@ class Speech implements OutputSpeech
     private $value;
     private $type;
 
-    function __construct($value = '', $type = self::DEFAULT_TYPE)
+    /**
+     * Speech constructor.
+     *
+     * @param string $value
+     * @param string $type
+     */
+    public function __construct($value = '', $type = self::DEFAULT_TYPE)
     {
         $this->value = $value;
         $this->type = $type;
@@ -25,21 +33,26 @@ class Speech implements OutputSpeech
      */
     public function toArray()
     {
-        $textKey = ($this->getType() == 'SSML') ? 'ssml' : 'text';
+        $textKey = ($this->getType() === 'SSML') ? 'ssml' : 'text';
+
         return [
-            'type'  => $this->getType(),
-            $textKey  => $this->getValue()
+            'type' => $this->getType(),
+            $textKey => $this->getValue(),
         ];
     }
 
-
     /**
      * @param string $type
+     *
+     * @throws \Exception
+     *
+     * @return $this
      */
     public function setType($type)
     {
-        if( ! in_array($type, $this->validTypes) )
+        if (!in_array($type, $this->validTypes)) {
             throw new \Exception('Invalid speech type'); //todo: should be specific exception ?  is this helpful?
+        }
 
         $this->type = $type;
 
@@ -56,22 +69,32 @@ class Speech implements OutputSpeech
 
     /**
      * @param string
+     *
+     * @return $this
      */
-    public function setValue($value){
+    public function setValue($value)
+    {
         $this->value = $value;
+
+        return $this;
     }
 
     /**
-     * This is here to implement the Speech contract and allow for backwards compatability
+     * This is here to implement the Speech contract and allow for backwards comparability
+     *
      * @return string
      */
-    public function getValue(){
+    public function getValue()
+    {
         return $this->value;
     }
 
     /**
      * @deprecated since v 0.3.0
+     *
      * @param string $text
+     *
+     * @return $this
      */
     public function setText($text)
     {
@@ -80,12 +103,11 @@ class Speech implements OutputSpeech
 
     /**
      * @deprecated since v 0.3.0
+     *
      * @return string
      */
     public function getText()
     {
         return $this->getValue();
     }
-
-
 }

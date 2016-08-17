@@ -1,17 +1,25 @@
-<?php  namespace Develpr\AlexaApp\Device;
+<?php
 
-use Develpr\AlexaApp\Contracts\DeviceProvider;
+namespace Develpr\AlexaApp\Device;
+
 use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
+use Develpr\AlexaApp\Contracts\DeviceProvider;
 
-class EloquentDeviceProvider implements DeviceProvider {
-
-
+class EloquentDeviceProvider implements DeviceProvider
+{
     /**
      * The model to be used
+     *
+     * @var string
      */
     private $model;
 
-    function __construct($model)
+    /**
+     * EloquentDeviceProvider constructor.
+     *
+     * @param string $model
+     */
+    public function __construct($model)
     {
         $this->model = $model;
     }
@@ -19,7 +27,8 @@ class EloquentDeviceProvider implements DeviceProvider {
     /**
      * Retrieve a device by the given credentials.
      *
-     * @param  array  $credentials
+     * @param array $credentials
+     *
      * @return AmazonEchoDevice|null
      */
     public function retrieveByCredentials(array $credentials)
@@ -29,9 +38,10 @@ class EloquentDeviceProvider implements DeviceProvider {
         // Eloquent User "model" that will be utilized by the Guard instances.
         $query = $this->createModel()->newQuery();
 
-        foreach ($credentials as $key => $value)
-        {
-            if ( ! str_contains($key, 'password')) $query->where($key, $value);
+        foreach ($credentials as $key => $value) {
+            if (!str_contains($key, 'password')) {
+                $query->where($key, $value);
+            }
         }
 
         return $query->first();
@@ -46,7 +56,6 @@ class EloquentDeviceProvider implements DeviceProvider {
     {
         $class = '\\'.ltrim($this->model, '\\');
 
-        return new $class;
+        return new $class();
     }
-
 }

@@ -1,15 +1,16 @@
-<?php  namespace Develpr\AlexaApp\Http\Middleware;
+<?php
 
-use Develpr\AlexaApp\Http\Routing\AlexaRouter;
+namespace Develpr\AlexaApp\Http\Middleware;
+
 use Closure;
 use Develpr\AlexaApp\Contracts\AlexaRequest;
-use Illuminate\Pipeline\Pipeline;
+use Develpr\AlexaApp\Http\Routing\AlexaRouter;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Http\Request as IlluminateRequest;
+use Illuminate\Pipeline\Pipeline;
 use Symfony\Component\HttpFoundation\Response;
 
-
-class Request {
+class Request
+{
     /**
      * Application instance.
      *
@@ -30,16 +31,17 @@ class Request {
      * @var array
      */
     protected $middleware;
+
     /**
      * @var \Develpr\AlexaApp\Contracts\AlexaRequest
      */
     private $alexaRequest;
 
     /**
-     * @param Application $app
-     * @param AlexaRouter $router
+     * @param Application  $app
+     * @param AlexaRouter  $router
      * @param AlexaRequest $alexaRequest
-     * @param array $middleware
+     * @param array        $middleware
      */
     public function __construct(Application $app, AlexaRouter $router, AlexaRequest $alexaRequest, array $middleware)
     {
@@ -62,6 +64,7 @@ class Request {
         if ($this->alexaRequest->isAlexaRequest()) {
             return $this->sendRequestThroughRouter($request);
         }
+
         return $next($request);
     }
 
@@ -69,9 +72,10 @@ class Request {
      * Send through our custom router
      *
      * @param $request
+     *
      * @return Response
      */
-    protected function sendRequestThroughRouter( $request)
+    protected function sendRequestThroughRouter($request)
     {
         $this->app->instance('request', $request);
 

@@ -1,22 +1,37 @@
-<?php  namespace Develpr\AlexaApp\Device;
+<?php
 
+namespace Develpr\AlexaApp\Device;
 
 use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
 
-class GenericDevice implements AmazonEchoDevice {
-
+class GenericDevice implements AmazonEchoDevice
+{
+    /**
+     * @var array
+     */
     protected $attributes;
 
-    public function __construct(array $attributes = array())
+    /**
+     * GenericDevice constructor.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
     {
         $this->attributes = $attributes;
     }
 
+    /**
+     * @return mixed
+     */
     public function getDeviceId()
     {
         return $this->attributes['device_user_id'];
     }
 
+    /**
+     * @param mixed $deviceId
+     */
     public function setDeviceId($deviceId)
     {
         $this->attributes['device_user_id'] = $deviceId;
@@ -25,7 +40,8 @@ class GenericDevice implements AmazonEchoDevice {
     /**
      * Dynamically access the user's attributes.
      *
-     * @param  string  $key
+     * @param string $key
+     *
      * @return mixed
      */
     public function __get($key)
@@ -36,9 +52,8 @@ class GenericDevice implements AmazonEchoDevice {
     /**
      * Dynamically set an attribute on the user.
      *
-     * @param  string  $key
-     * @param  mixed   $value
-     * @return void
+     * @param string $key
+     * @param mixed  $value
      */
     public function __set($key, $value)
     {
@@ -48,7 +63,8 @@ class GenericDevice implements AmazonEchoDevice {
     /**
      * Dynamically check if a value is set on the user.
      *
-     * @param  string  $key
+     * @param string $key
+     *
      * @return bool
      */
     public function __isset($key)
@@ -59,14 +75,10 @@ class GenericDevice implements AmazonEchoDevice {
     /**
      * Dynamically unset a value on the user.
      *
-     * @param  string  $key
-     * @return void
+     * @param string $key
      */
     public function __unset($key)
     {
         unset($this->attributes[$key]);
     }
-
-
-
 }

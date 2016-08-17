@@ -1,9 +1,11 @@
-<?php  namespace Develpr\AlexaApp\Request;
+<?php
+
+namespace Develpr\AlexaApp\Request;
 
 use Illuminate\Http\Request;
 
-class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaRequest{
-
+class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaRequest
+{
     private $data = null;
     private $processed = false;
     private $intent = null;
@@ -12,8 +14,9 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 
     protected function getData()
     {
-        if( ! $this->processed )
+        if (!$this->processed) {
             $this->process();
+        }
 
         return $this->data;
     }
@@ -28,8 +31,13 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
         return array_get($this->getData(), 'request.type');
     }
 
-    public function getPromptResponseIntent(){
+    /**
+     * @return string|null
+     */
+    public function getPromptResponseIntent()
+    {
         $intent = trim($this->getSessionValue('original_prompt_intent'));
+
         return (strlen($intent) > 0) ? $intent : null;
     }
 
@@ -45,7 +53,8 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 
     /**
      * Is this a new session according to Amazon AlexaSkillsKit?
-     * @return boolean
+     *
+     * @return bool
      */
     public function isNewSession()
     {
@@ -81,8 +90,9 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
     {
         $sessionAttributes = array_get($this->getData(), 'session.attributes');
 
-        if(! $sessionAttributes)
+        if (!$sessionAttributes) {
             return [];
+        }
 
         return $sessionAttributes;
     }
@@ -90,7 +100,8 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
     /**
      * Get a particular session value by key
      *
-     * @param String $key
+     * @param string $key
+     *
      * @return mixed|null
      */
     public function getSessionValue($key = null)
@@ -99,7 +110,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
     }
 
     /**
-     * @return string | null
+     * @return string|null
      */
     public function getIntent()
     {
@@ -114,8 +125,9 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function slot($slotKey, $default = null)
     {
-        if( ! $this->processed )
+        if (!$this->processed) {
             $this->process();
+        }
 
         $key_exists = (array_key_exists($slotKey, $this->slots));
 
@@ -123,16 +135,17 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
             return $default;
         }
 
-        return (array_key_exists("value", $this->slots[$slotKey])) ?  $this->slots[$slotKey]['value'] : $default;
+        return (array_key_exists('value', $this->slots[$slotKey])) ? $this->slots[$slotKey]['value'] : $default;
     }
 
     /**
-     * @return array | null
+     * @return array
      */
     public function slots()
     {
-        if( ! $this->processed )
+        if (!$this->processed) {
             $this->process();
+        }
 
         return $this->slots;
     }
@@ -145,7 +158,6 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
         return strtotime(array_get($this->getData(), 'request.timestamp'));
     }
 
-
     private function process()
     {
         $data = $this->getContent();
@@ -153,14 +165,11 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
         $this->intent = array_get($this->data, 'request.intent.name');
         $this->slots = array_get($this->data, 'request.intent.slots', []);
 
-        if(!$this->slots)
-            $this->slots = [];
-
         $this->processed = true;
     }
 
     /**
-     * @param boolean $promptResponse
+     * @param bool $promptResponse
      */
     public function setPromptResponse($promptResponse)
     {
@@ -168,11 +177,10 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPromptResponse()
     {
         return boolval($this->promptResponse);
     }
-
 }

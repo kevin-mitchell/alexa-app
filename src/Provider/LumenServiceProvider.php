@@ -1,11 +1,12 @@
-<?php  namespace Develpr\AlexaApp\Provider;
+<?php
 
+namespace Develpr\AlexaApp\Provider;
 
-use ReflectionClass;
 use Illuminate\Support\ServiceProvider;
+use ReflectionClass;
 
-class LumenServiceProvider extends ServiceProvider{
-
+class LumenServiceProvider extends ServiceProvider
+{
     /**
      * Register the service provider.
      *
@@ -33,8 +34,6 @@ class LumenServiceProvider extends ServiceProvider{
      * Lumen application instance.
      *
      * @param \ReflectionClass $reflection
-     *
-     * @return void
      */
     protected function addRequestMiddlewareToBeginning(ReflectionClass $reflection)
     {

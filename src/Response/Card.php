@@ -63,6 +63,8 @@ class Card implements Arrayable
     public function setContent($content)
     {
         $this->content = $content;
+
+        return $this;
     }
 
     /**
@@ -71,6 +73,8 @@ class Card implements Arrayable
     public function setSubtitle($subtitle)
     {
         $this->subtitle = $subtitle;
+
+        return $this;
     }
 
     /**

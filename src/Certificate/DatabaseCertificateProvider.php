@@ -1,6 +1,7 @@
-<?php  namespace Develpr\AlexaApp\Certificate;
+<?php
 
+namespace Develpr\AlexaApp\Certificate;
 
-class DatabaseCertificateProvider {
-
-} 
+class DatabaseCertificateProvider
+{
+}

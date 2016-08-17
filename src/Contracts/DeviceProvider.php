@@ -1,14 +1,15 @@
-<?php  namespace Develpr\AlexaApp\Contracts;
+<?php
 
-interface DeviceProvider {
+namespace Develpr\AlexaApp\Contracts;
 
-	/**
-	 * Retrieve a device by the given credentials.
-	 *
-	 * @param  array  $credentials
-	 * @return AmazonEchoDevice | null
-	 */
-	public function retrieveByCredentials(array $credentials);
-
-
-} 
+interface DeviceProvider
+{
+    /**
+     * Retrieve a device by the given credentials.
+     *
+     * @param array $credentials
+     *
+     * @return AmazonEchoDevice|null
+     */
+    public function retrieveByCredentials(array $credentials);
+}

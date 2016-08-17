@@ -1,4 +1,10 @@
 # AlexaApp
+
+[![Latest Version](https://img.shields.io/packagist/v/develpr/alexa-app.svg?style=flat-square)](https://packagist.org/packages/develpr/alexa-app)
+[![Total Downloads](https://img.shields.io/packagist/dt/develpr/alexa-app.svg?style=flat-square)](https://packagist.org/packages/develpr/alexa-app)
+[![Software License](https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![StyleCI](https://styleci.io/repos/34590394/shield)](https://styleci.io/repos/34590394)
+
 Set of classes to make creating simple Amazon Echo Alexa Apps easier with Laravel and Lumen ([note that 5.2.x Lumen has a known issue that needs addressing](https://github.com/develpr/alexa-app/issues/5))
 
 - [Main Features](#main-features)
@@ -22,9 +28,9 @@ I've recently refactored nearly all of this package to make it Laravel compatibl
 
 For a quick example:
 
-	AlexaRoute::intent('/alexa-end-point', 'GetAntiJoke', function(){
-		Alexa::say("Why was the little boy crying? Because he had a frog stapled to his face!");
-	});
+    AlexaRoute::intent('/alexa-end-point', 'GetAntiJoke', function(){
+        Alexa::say("Why was the little boy crying? Because he had a frog stapled to his face!");
+    });
 
 ##Demo
 
@@ -34,7 +40,7 @@ For a quick example:
 
 ###Prerequisites
 
-The only thing that is required for AlexaApp is the Laravel or Lumen (versions based on 5.1) framework.
+The only thing that is required for AlexaApp is the Laravel or Lumen (versions based on 5.2) framework.
 
 After installing via composer (i.e. `composer require develpr/alexa-app`):
 
@@ -46,17 +52,17 @@ The `Develpr\AlexaApp\Provider\LaravelServiceProvider` needs to be added to the 
 
 In the `config/app.php` configuration file, add:
 
-	'providers' => [
-		...snip...
-		\Develpr\AlexaApp\Provider\LaravelServiceProvider::class,
-		...snip...
-	],
+    'providers' => [
+        ...snip...
+        \Develpr\AlexaApp\Provider\LaravelServiceProvider::class,
+        ...snip...
+    ],
 
 ####Lumen
 
 In your application's `bootstrap/app.php` file, add:
 
-	$app->register(\Develpr\AlexaApp\Provider\LumenServiceProvider::class);
+    $app->register(\Develpr\AlexaApp\Provider\LumenServiceProvider::class);
 
 
 ###2: Adding the facades/aliases for `Alexa` and `AlexaRoute` (optional)
@@ -67,12 +73,12 @@ This is not required, but it can be very handy. If you'd prefer, you can inject 
 
 **If** you'd like to use facades/aliases you'll need to add two separate alias configurations in the `config/app.php` file.
 
-		'aliases' => [
-			...
-			'AlexaRoute' => \Develpr\AlexaApp\Facades\AlexaRouter::class,
-    		'Alexa' => \Develpr\AlexaApp\Facades\Alexa::class,
-    		...
-    	],
+        'aliases' => [
+            ...
+            'AlexaRoute' => \Develpr\AlexaApp\Facades\AlexaRouter::class,
+            'Alexa' => \Develpr\AlexaApp\Facades\Alexa::class,
+            ...
+        ],
 
 ####Lumen
 
@@ -80,8 +86,8 @@ The truth is I'm not 100% sure if there is an "official" way of adding aliases/f
 
 First make sure aliases/facades are enabled in your `bootstrap/app.php` file by uncommenting `$app->withFacades();` and then after this add
 
-	class_alias(\Develpr\AlexaApp\Facades\AlexaRouter::class, 'AlexaRoute');
-	class_alias(\Develpr\AlexaApp\Facades\Alexa::class, 'Alexa');
+    class_alias(\Develpr\AlexaApp\Facades\AlexaRouter::class, 'AlexaRoute');
+    class_alias(\Develpr\AlexaApp\Facades\Alexa::class, 'Alexa');
 
 For lumen it might be easier to simply use `$app['alexa.router']` or inject an instance of one of the above classes into your class.
 
@@ -97,21 +103,21 @@ If you'd like to protect all routes in your application you can simply add the `
 
 To protect **all routes**, in your `app/Http/Kernal.php` file:
 
-	protected $middleware = [
-		...
-		\Develpr\AlexaApp\Http\Middleware\Certificate::class,
-		...
-	];
+    protected $middleware = [
+        ...
+        \Develpr\AlexaApp\Http\Middleware\Certificate::class,
+        ...
+    ];
 
 ####Lumen
 
 To protect **all routes**, in your `bootstrap/app.php` file:
 
-	$app->middleware([
-		...snip...
-		\Develpr\AlexaApp\Http\Middleware\Certificate::class,
-		...snip...
-	]);
+    $app->middleware([
+        ...snip...
+        \Develpr\AlexaApp\Http\Middleware\Certificate::class,
+        ...snip...
+    ]);
 
 
 ###Everything is installed
@@ -186,7 +192,7 @@ or
     $app['alexa.router']->launch('/your-app-uri', 'App\Http\Controllers\AnyController@anyMethod');
 
 **SessionEndedRequest**
-	
+
     AlexaRoute::sessionEnded('/your-app-uri', function() use ($app) {
         return '{"version":"1.0","response":{"shouldEndSession":true}}';
     });
@@ -194,8 +200,8 @@ or
 or
 
     $app['alexa.router']->sessionEnded('/your-app-uri', function() use ($app) {
-		return '{"version":"1.0","response":{"shouldEndSession":true}}';
-	});
+        return '{"version":"1.0","response":{"shouldEndSession":true}}';
+    });
 
 **IntentRequest**
 
@@ -203,7 +209,7 @@ or
 
 or
 
-	$app['alexa.router']->intent('/your-app-uri', 'GetZodiacHoroscopeIntent', 'App\Http\Controllers\AnyController@anyMethod');
+    $app['alexa.router']->intent('/your-app-uri', 'GetZodiacHoroscopeIntent', 'App\Http\Controllers\AnyController@anyMethod');
 
 
 Note that in these examples both a closure and a controller was used to handle the request, but there is no specific requirement to use one vs. another based on the request type.
@@ -277,20 +283,20 @@ You can tell the Echo that the session should be ended
 
     $alexaResponse = new AlexaResponse;
     $alexaResponse->endSession();
-    
+
     return $alexaResponse;
-	
+
 Or, you can add one (or both) Speech/Card/Reprompt objects to have spoken text or a card sent back to the end Echo user (*note that you don't need to return both!*).
 
     $alexaResponse = new AlexaResponse;
     $alexaResponse->withSpeech(new Speech("Hello!!"));
-    
+
     $alexaResponse->withCard(new Card("Hello Title", "Hello Subtitle", "Hello content here!"));
-    
+
     return $alexaResponse;
 
 
-You can always return this in a single line, 
+You can always return this in a single line,
 
     return new AlexaResponse(new Speech("Hello!!"), new Card("Hello Title", "Hello Subtitle", "Hello content here!"), true);
 

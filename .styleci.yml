@@ -3,13 +3,12 @@ preset: recommended
 linting: true
 
 enabled:
-  - long_array_syntax
   - strict
   - unalign_double_arrow
 
 disabled:
   - align_double_arrow
-  - short_array_syntax
+  - phpdoc_summary
 
 finder:
   exclude:
@@ -26,4 +25,4 @@ finder:
     - "libraries"
   depth:
     - "< 3"
-    
+

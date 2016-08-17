@@ -1,22 +1,29 @@
-<?php namespace Develpr\AlexaApp\Device;
+<?php
+
+namespace Develpr\AlexaApp\Device;
 
 use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
 use Illuminate\Database\Eloquent\Model;
 
-class Device extends Model implements AmazonEchoDevice{
+class Device extends Model implements AmazonEchoDevice
+{
+    protected $table = 'alexa_devices';
 
-	protected $table = "alexa_devices";
+    protected $hidden = ['password'];
 
-	protected $hidden = array('password');
+    /**
+     * @return mixed
+     */
+    public function getDeviceId()
+    {
+        return $this->device_user_id;
+    }
 
-	public function getDeviceId()
-	{
-		return $this->device_user_id;
-	}
-
-	public function setDeviceId($deviceId)
-	{
-		$this->attributes['device_user_id'] = $deviceId;
-	}
-
-} 
+    /**
+     * @param mixed $deviceId
+     */
+    public function setDeviceId($deviceId)
+    {
+        $this->attributes['device_user_id'] = $deviceId;
+    }
+}

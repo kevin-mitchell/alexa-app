@@ -1,78 +1,79 @@
-<?php  namespace Develpr\AlexaApp\Http\Routing;
+<?php
+
+namespace Develpr\AlexaApp\Http\Routing;
 
 use Develpr\AlexaApp\Http\Routing\Matching\AlexaValidator;
 use Illuminate\Routing\Matching\UriValidator;
-use \Illuminate\Routing\Route;
-use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 
-class AlexaRoute extends Route{
+class AlexaRoute extends Route
+{
+    /**
+     * @var string
+     */
+    private $routeIntent;
 
-	private $routeIntent = null;
+    /**
+     * AlexaRoute constructor.
+     * @param array|string   $methods
+     * @param string         $uri
+     * @param string         $intent
+     * @param \Closure|array $action
+     */
+    public function __construct($methods, $uri, $intent, $action)
+    {
+        parent::__construct($methods, $uri, $action);
 
-	public function __construct($methods, $uri, $intent, $action)
-	{
-		parent::__construct($methods, $uri, $action);
+        $this->routeIntent = $intent;
+    }
 
-		$this->routeIntent = $intent;
-	}
+    /**
+     * @return string
+     */
+    public function getRouteIntent()
+    {
+        return $this->routeIntent;
+    }
 
-	public function getRouteIntent()
-	{
-		return $this->routeIntent;
-	}
+    /**
+     * Set the router instance on the route.
+     *
+     * @param  \Illuminate\Routing\Router $router
+     *
+     * @return $this
+     */
+    public function setRouter(\Illuminate\Routing\Router $router)
+    {
+        $this->router = $router;
 
+        return $this;
+    }
 
-	/**
-	 * Set the router instance on the route.
-	 *
-	 * @param  \Illuminate\Routing\Router  $router
-	 * @return $this
-	 */
-	public function setRouter(\Illuminate\Routing\Router $router)
-	{
-		$this->router = $router;
+    /**
+     * Get the route validators for the instance.
+     *
+     * @return array
+     */
+    public static function getValidators()
+    {
+        $validators = parent::getValidators();
 
-		return $this;
-	}
+        foreach ($validators as $key => $validator) {
+            if ($validator instanceof UriValidator) {
+                break;
+            }
+        }
 
+        $validators[] = new AlexaValidator;
 
-	/**
-	 * Determine if the route matches given request.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  bool  $includingMethod
-	 * @return bool
-	 */
-//	public function matches(Request $request, $includingMethod = true){
-//
-//	}
+        return $validators;
+    }
 
-	/**
-	 * Get the route validators for the instance.
-	 *
-	 * @return array
-	 */
-	public static function getValidators()
-	{
-		$validators = parent::getValidators();
-
-		foreach($validators as $key => $validator)
-		{
-			if($validator instanceof UriValidator){
-				//unset($validators[$key]);
-				break;
-			}
-		}
-
-		$validators[] = new AlexaValidator;
-
-		return $validators;
-	}
-
-	public function getUri()
-	{
-		return parent::getUri() . $this->getRouteIntent();
-	}
-
-
-} 
+    /**
+     * @return string
+     */
+    public function getUri()
+    {
+        return parent::getUri() . $this->getRouteIntent();
+    }
+}

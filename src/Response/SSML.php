@@ -1,4 +1,6 @@
-<?php namespace Develpr\AlexaApp\Response;
+<?php
+
+namespace Develpr\AlexaApp\Response;
 
 use Develpr\AlexaApp\Contracts\OutputSpeech;
 
@@ -6,7 +8,6 @@ use Develpr\AlexaApp\Contracts\OutputSpeech;
  * Used for directly creating SSML - more useful as SSML becomes standard in more ASK apps
  *
  * Class SSML
- * @package Develpr\AlexaApp\Response
  */
 class SSML implements OutputSpeech
 {
@@ -17,14 +18,22 @@ class SSML implements OutputSpeech
 
     private $ssml = self::SIMPLE_SSML_TEMPLATE;
 
+    /**
+     * @return array
+     */
     public function toArray()
     {
         return [
             'type' => self::TYPE,
-            'ssml' => $this->getValue()
+            'ssml' => $this->getValue(),
         ];
     }
 
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
     public function setValue($value)
     {
         $this->ssml = $value;
@@ -32,6 +41,11 @@ class SSML implements OutputSpeech
         return $this;
     }
 
+    /**
+     * @param string $ssml
+     *
+     * @return $this
+     */
     public function setSSML($ssml)
     {
         return $this->setValue($ssml);
@@ -52,5 +66,4 @@ class SSML implements OutputSpeech
     {
         return self::TYPE;
     }
-
 }

@@ -1,5 +1,7 @@
-<?php  namespace Develpr\AlexaApp\Exceptions;
+<?php
 
-class InvalidCertificateException extends AlexaException {
+namespace Develpr\AlexaApp\Exceptions;
 
-} 
+class InvalidCertificateException extends AlexaException
+{
+}

@@ -4,6 +4,8 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased][unreleased]
 
+## [0.3.2] - 2016-08-17
+
 ### Added
 
  - A default value can be provided when trying to access slot values (#8)
@@ -113,7 +115,8 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## 0.1.0 - 2015-04-30
 
-[unreleased]: https://github.com/develpr/alexa-app/compare/0.3.1...master
+[unreleased]: https://github.com/develpr/alexa-app/compare/0.3.2...master
+[0.3.2]: https://github.com/develpr/alexa-app/compare/0.3.1...0.3.2
 [0.3.1]: https://github.com/develpr/alexa-app/compare/0.3.0...0.3.1
 [0.3.0]: https://github.com/develpr/alexa-app/compare/0.2.9...0.3.0
 [0.2.9]: https://github.com/develpr/alexa-app/compare/0.2.8...0.2.9

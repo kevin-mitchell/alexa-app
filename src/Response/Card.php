@@ -7,11 +7,11 @@ use Illuminate\Contracts\Support\Arrayable;
 class Card implements Arrayable
 {
     const DEFAULT_CARD_TYPE = 'Simple';
+    const LINK_ACCOUNT_CARD_TYPE = 'LinkAccount';
 
-    private $validCardTypes = ['Simple'];
+    private $validCardTypes = ['Simple','LinkAccount'];
 
     //The type of card
-    //todo: as of now only Simple is valid but this is likely to change
     //@see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/alexa-appkit-app-interface-reference
     private $type = 'Simple';
 

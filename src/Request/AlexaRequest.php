@@ -71,6 +71,17 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
         return array_get($this->getData(), 'session.user.userId');
     }
 
+
+    /**
+     * Get the accessToken provided in the request
+     *
+     * @return mixed
+     */
+    public function getAccessToken()
+    {
+        return array_get($this->getData(), 'session.user.accessToken');
+    }
+
     /**
      * Get the unique Application Id
      *

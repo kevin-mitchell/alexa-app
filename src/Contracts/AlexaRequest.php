@@ -25,6 +25,14 @@ interface AlexaRequest
      */
     public function getUserId();
 
+
+    /**
+     * Get the accessToken provided in the request
+     *
+     * @return mixed
+     */
+    public function getAccessToken();
+
     /**
      * Get the unique Application Id
      *

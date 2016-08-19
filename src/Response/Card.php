@@ -9,7 +9,7 @@ class Card implements Arrayable
     const DEFAULT_CARD_TYPE = 'Simple';
     const LINK_ACCOUNT_CARD_TYPE = 'LinkAccount';
 
-    private $validCardTypes = ['Simple','LinkAccount'];
+    private $validCardTypes = ['Simple', 'LinkAccount'];
 
     //The type of card
     //@see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/alexa-appkit-app-interface-reference

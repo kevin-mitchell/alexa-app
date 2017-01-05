@@ -2,7 +2,7 @@
     "name": "frijj2k/laralexa",
     "description": "Set of classes to make creating simple Amazon Echo Alexa Apps easier with Lumen and to a lesser extent Laravel",
     "license": "MIT",
-    "keywords": ["echo", "echo dot", "Amazon", "Amazon Echo", "Alexa", "LarAlexa", "Lumen", "Laravel"],
+    "keywords": ["echo", "echo dot", "Amazon", "Amazon Echo", "Alexa", "LarAlexa", "frijj2k", "PDS", "Lumen", "Laravel"],
     "authors": [
         {
             "name": "Dave Pearson",

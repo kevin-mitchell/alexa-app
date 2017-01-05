@@ -1,6 +1,9 @@
 # LarAlexa
 
+<!--- [![Latest Version](https://img.shields.io/packagist/v/develpr/alexa-app.svg?style=flat-square)](https://packagist.org/packages/develpr/alexa-app) -->
+<!--- [![Total Downloads](https://img.shields.io/packagist/dt/develpr/alexa-app.svg?style=flat-square)](https://packagist.org/packages/develpr/alexa-app) -->
 [![Software License](https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+<!--- [![StyleCI](https://styleci.io/repos/34590394/shield)](https://styleci.io/repos/34590394) -->
 
 Set of classes to make creating simple Amazon Echo Alexa Apps easier with Laravel and Lumen forked from [alexa-app](https://github.com/frijj2k/laralexa) by Kevin Mitchell ([note that 5.2.x Lumen has a known issue that needs addressing](https://github.com/frijj2k/laralexa/issues/5))
 
@@ -39,7 +42,24 @@ For a quick example:
 
 The only thing that is required for LarAlexa is the Laravel or Lumen (versions based on 5.2) framework.
 
-After installing via composer (i.e. `composer require frijj2k/laralexa`):
+<!--- ##### NOT AVAILABLE IN COMPOSER -->
+<!--- After installing via composer (i.e. `composer require frijj2k/laralexa`): -->
+
+Add to your composer.json file:
+
+    {
+        "repositories": [
+            {
+                "type": "vcs",
+                "url": "https://github.com/frijj2k/laralexa"
+            }
+        ],
+        "require": {
+            "frijj2k/laralexa": "dev-master"
+        }
+    }
+
+Then run ``` $ composer update ``` to install the package into your app.
 
 ###1 : Auto-load the appropriate service provider for your framework
 

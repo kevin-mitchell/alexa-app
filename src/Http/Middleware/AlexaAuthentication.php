@@ -1,9 +1,9 @@
 <?php
 
-namespace Develpr\AlexaApp\Http\Middleware;
+namespace Frijj2k\LarAlexa\Http\Middleware;
 
 use Closure;
-use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
+use Frijj2k\LarAlexa\Contracts\AmazonEchoDevice;
 use Illuminate\Contracts\Routing\Middleware;
 
 class AlexaAuthentication implements Middleware

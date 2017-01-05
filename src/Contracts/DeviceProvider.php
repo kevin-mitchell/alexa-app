@@ -1,6 +1,6 @@
 <?php
 
-namespace Develpr\AlexaApp\Contracts;
+namespace Frijj2k\LarAlexa\Contracts;
 
 interface DeviceProvider
 {

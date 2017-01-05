@@ -9,7 +9,7 @@ return [
      |
      | Should the application verify that the incoming appId matches your appId?
      |
-     | @see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/handling-requests-sent-by-the-alexa-service
+     | @see https://developer.amazon.com/public/solutions/devices/echo/laralexa-kit/docs/handling-requests-sent-by-the-alexa-service
      |
      */
     'verifyAppId' => env('ALEXA_VERIFY_APP_ID', true),
@@ -19,7 +19,7 @@ return [
      | skipCsrfCheck
      |--------------------------------------------------------------------------
      |
-     | Should we attempt to skip the CSRF middleware on the AlexaApp routes? For security reasons it may
+     | Should we attempt to skip the CSRF middleware on the LarAlexa routes? For security reasons it may
      | be best to exclude the Alexa/AlexaSkillsKit specific routes in the `VerifyCsrfToken` middleware's `$except` array
      |
      */
@@ -32,7 +32,7 @@ return [
      |
      | Application IDs for your application(s)
      |
-     | @see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/handling-requests-sent-by-the-alexa-service
+     | @see https://developer.amazon.com/public/solutions/devices/echo/laralexa-kit/docs/handling-requests-sent-by-the-alexa-service
      |
      */
     'applicationIds' => env('ALEXA__APPLICATION_IDS', []),
@@ -48,7 +48,7 @@ return [
      | Note that if this value is set to 0 the timestamp will not be checked
      | which is designed for testing.
      |
-     | @see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/developing-your-app-with-the-alexa-appkit
+     | @see https://developer.amazon.com/public/solutions/devices/echo/laralexa-kit/docs/developing-your-app-with-the-laralexakit
      |
      */
     'timestampTolerance' => env('ALEXA_TIMESTAMP_TOLERANCE', 150),
@@ -154,7 +154,7 @@ return [
         | auto_route_enabled
         |--------------------------------------------------------------------------
         |
-        |    Should alexa-app automatically attempt to route Intents matching the configured
+        |    Should laralexa automatically attempt to route Intents matching the configured
         |    Intent to a specified Intent/route?
         |
         */
@@ -201,7 +201,7 @@ return [
         | as long as it implements the AmazonEchoDevice contract.
         |
         */
-        'model' => env('ALEXA_ELOQUENT_DEVICE_MODEL', 'Develpr\AlexaApp\Device\Device'),
+        'model' => env('ALEXA_ELOQUENT_DEVICE_MODEL', 'Frijj2k\LarAlexa\Device\Device'),
 
         /*
         |--------------------------------------------------------------------------

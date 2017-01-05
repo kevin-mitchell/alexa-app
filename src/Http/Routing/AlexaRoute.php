@@ -1,8 +1,8 @@
 <?php
 
-namespace Develpr\AlexaApp\Http\Routing;
+namespace Frijj2k\LarAlexa\Http\Routing;
 
-use Develpr\AlexaApp\Http\Routing\Matching\AlexaValidator;
+use Frijj2k\LarAlexa\Http\Routing\Matching\AlexaValidator;
 use Illuminate\Routing\Matching\UriValidator;
 use Illuminate\Routing\Route;
 

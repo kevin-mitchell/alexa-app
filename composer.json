@@ -1,12 +1,12 @@
 {
-    "name": "develpr/alexa-app",
+    "name": "frijj2k/laralexa",
     "description": "Set of classes to make creating simple Amazon Echo Alexa Apps easier with Lumen and to a lesser extent Laravel",
     "license": "MIT",
-    "keywords": ["echo", "Amazon Echo", "Alexa", "AlexaApp", "Lumen", "Laravel"],
+    "keywords": ["echo", "echo dot", "Amazon", "Amazon Echo", "Alexa", "LarAlexa", "Lumen", "Laravel"],
     "authors": [
         {
-            "name": "Kevin Mitchell",
-            "email": "kevin@develpr.com"
+            "name": "Dave Pearson",
+            "email": "dave@pds-uk.com"
         }
     ],
     "require": {
@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Develpr\\AlexaApp\\": "src"
+            "Frijj2k\\LarAlexa\\": "src"
         }
     },
     "extra": {

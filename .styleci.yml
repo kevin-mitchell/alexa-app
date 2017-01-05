@@ -16,7 +16,7 @@ finder:
   name:
     - "*.php"
   contains:
-    - "Develpr"
+    - "frijj2k"
   not-contains:
     - "config"
   path:

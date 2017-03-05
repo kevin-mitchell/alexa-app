@@ -1,8 +1,8 @@
 <?php
 
-namespace Develpr\AlexaApp\Certificate;
+namespace Frijj2k\LarAlexa\Certificate;
 
-use Develpr\AlexaApp\Contracts\CertificateProvider;
+use Frijj2k\LarAlexa\Contracts\CertificateProvider;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 

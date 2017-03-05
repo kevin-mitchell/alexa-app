@@ -1,10 +1,10 @@
 <?php
 
-namespace Develpr\AlexaApp\Request;
+namespace Frijj2k\LarAlexa\Request;
 
 use Illuminate\Http\Request;
 
-class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaRequest
+class AlexaRequest extends Request implements \Frijj2k\LarAlexa\Contracts\AlexaRequest
 {
     private $data = null;
     private $processed = false;

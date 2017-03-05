@@ -1,6 +1,6 @@
 <?php
 
-namespace Develpr\AlexaApp\Facades;
+namespace Frijj2k\LarAlexa\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

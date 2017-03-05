@@ -1,10 +1,10 @@
 <?php
 
-namespace Develpr\AlexaApp;
+namespace Frijj2k\LarAlexa;
 
 use Laravel\Lumen\Application;
 
-class AlexaApplication extends Application
+class LarAlexalication extends Application
 {
     private $intentRoutes = [];
 

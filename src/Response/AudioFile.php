@@ -1,6 +1,6 @@
 <?php
 
-namespace Develpr\AlexaApp\Response;
+namespace Frijj2k\LarAlexa\Response;
 
 class AudioFile extends SSML
 {

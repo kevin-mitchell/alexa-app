@@ -1,20 +1,20 @@
 <?php
 
-namespace Develpr\AlexaApp;
+namespace Frijj2k\LarAlexa;
 
-use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
-use Develpr\AlexaApp\Contracts\DeviceProvider;
-use Develpr\AlexaApp\Request\AlexaRequest;
-use Develpr\AlexaApp\Response\AlexaResponse;
-use Develpr\AlexaApp\Response\AudioFile;
-use Develpr\AlexaApp\Response\Card;
-use Develpr\AlexaApp\Response\Speech;
-use Develpr\AlexaApp\Response\SSML;
+use Frijj2k\LarAlexa\Contracts\AmazonEchoDevice;
+use Frijj2k\LarAlexa\Contracts\DeviceProvider;
+use Frijj2k\LarAlexa\Request\AlexaRequest;
+use Frijj2k\LarAlexa\Response\AlexaResponse;
+use Frijj2k\LarAlexa\Response\AudioFile;
+use Frijj2k\LarAlexa\Response\Card;
+use Frijj2k\LarAlexa\Response\Speech;
+use Frijj2k\LarAlexa\Response\SSML;
 
 class Alexa
 {
     /**
-     * @var \Develpr\AlexaApp\Contracts\AlexaRequest
+     * @var \Frijj2k\LarAlexa\Contracts\AlexaRequest
      */
     private $alexaRequest;
 
@@ -79,7 +79,7 @@ class Alexa
     }
 
     /**
-     * @return \Develpr\AlexaApp\Contracts\AlexaRequest
+     * @return \Frijj2k\LarAlexa\Contracts\AlexaRequest
      */
     public function request()
     {
@@ -87,7 +87,7 @@ class Alexa
     }
 
     /**
-     * @return \Develpr\AlexaApp\Response\AlexaResponse
+     * @return \Frijj2k\LarAlexa\Response\AlexaResponse
      */
     public function response()
     {
@@ -98,7 +98,7 @@ class Alexa
      * @param string $statementWords
      * @param string $speechType
      *
-     * @return \Develpr\AlexaApp\Response\AlexaResponse
+     * @return \Frijj2k\LarAlexa\Response\AlexaResponse
      */
     public function say($statementWords, $speechType = Speech::DEFAULT_TYPE)
     {
@@ -110,7 +110,7 @@ class Alexa
     /**
      * @param string $audioURI
      *
-     * @return \Develpr\AlexaApp\Response\AlexaResponse
+     * @return \Frijj2k\LarAlexa\Response\AlexaResponse
      */
     public function playAudio($audioURI)
     {
@@ -125,7 +125,7 @@ class Alexa
     /**
      * @param string $ssmlValue
      *
-     * @return \Develpr\AlexaApp\Response\AlexaResponse
+     * @return \Frijj2k\LarAlexa\Response\AlexaResponse
      */
     public function ssml($ssmlValue)
     {
@@ -140,7 +140,7 @@ class Alexa
     /**
      * @param string $question
      *
-     * @return \Develpr\AlexaApp\Response\AlexaResponse
+     * @return \Frijj2k\LarAlexa\Response\AlexaResponse
      */
     public function ask($question)
     {
@@ -156,7 +156,7 @@ class Alexa
      * @param string $subtitle
      * @param string $content
      *
-     * @return \Develpr\AlexaApp\Response\AlexaResponse
+     * @return \Frijj2k\LarAlexa\Response\AlexaResponse
      */
     public function card($title = '', $subtitle = '', $content = '')
     {
@@ -170,7 +170,7 @@ class Alexa
     /**
      * @param array $attributes
      *
-     * @return \Develpr\AlexaApp\Contracts\AmazonEchoDevice|null
+     * @return \Frijj2k\LarAlexa\Contracts\AmazonEchoDevice|null
      */
     public function device($attributes = [])
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Develpr\AlexaApp\Certificate;
+namespace Frijj2k\LarAlexa\Certificate;
 
 class EloquentCertificateProvider
 {

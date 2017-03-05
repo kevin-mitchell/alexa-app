@@ -1,8 +1,8 @@
 <?php
 
-namespace Develpr\AlexaApp\Device;
+namespace Frijj2k\LarAlexa\Device;
 
-use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
+use Frijj2k\LarAlexa\Contracts\AmazonEchoDevice;
 use Illuminate\Database\Eloquent\Model;
 
 class Device extends Model implements AmazonEchoDevice

@@ -1,8 +1,8 @@
 <?php
 
-namespace Develpr\AlexaApp\Response;
+namespace Frijj2k\LarAlexa\Response;
 
-use Develpr\AlexaApp\Contracts\OutputSpeech as Speech;
+use Frijj2k\LarAlexa\Contracts\OutputSpeech as Speech;
 use Illuminate\Contracts\Support\Jsonable;
 
 /**
@@ -51,7 +51,7 @@ class AlexaResponse implements Jsonable
     private $card = null;
 
     /**
-     * @var \Develpr\AlexaApp\Alexa
+     * @var \Frijj2k\LarAlexa\Alexa
      */
     private $alexa;
 

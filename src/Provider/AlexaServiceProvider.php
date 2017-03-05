@@ -1,15 +1,15 @@
 <?php
 
-namespace Develpr\AlexaApp\Provider;
+namespace Frijj2k\LarAlexa\Provider;
 
-use Develpr\AlexaApp\Alexa;
-use Develpr\AlexaApp\Certificate\DatabaseCertificateProvider;
-use Develpr\AlexaApp\Certificate\EloquentCertificateProvider;
-use Develpr\AlexaApp\Certificate\FileCertificateProvider;
-use Develpr\AlexaApp\Certificate\RedisCertificateProvider;
-use Develpr\AlexaApp\Device\DatabaseDeviceProvider;
-use Develpr\AlexaApp\Device\EloquentDeviceProvider;
-use Develpr\AlexaApp\Request\AlexaRequest;
+use Frijj2k\LarAlexa\Alexa;
+use Frijj2k\LarAlexa\Certificate\DatabaseCertificateProvider;
+use Frijj2k\LarAlexa\Certificate\EloquentCertificateProvider;
+use Frijj2k\LarAlexa\Certificate\FileCertificateProvider;
+use Frijj2k\LarAlexa\Certificate\RedisCertificateProvider;
+use Frijj2k\LarAlexa\Device\DatabaseDeviceProvider;
+use Frijj2k\LarAlexa\Device\EloquentDeviceProvider;
+use Frijj2k\LarAlexa\Request\AlexaRequest;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
@@ -41,7 +41,7 @@ class AlexaServiceProvider extends ServiceProvider
     protected function registerRouter()
     {
         $this->app->singleton('alexa.router', function ($app) {
-            return $app->make(\Develpr\AlexaApp\Http\Routing\AlexaRouter::class);
+            return $app->make(\Frijj2k\LarAlexa\Http\Routing\AlexaRouter::class);
         });
     }
 
@@ -91,12 +91,12 @@ class AlexaServiceProvider extends ServiceProvider
      */
     protected function registerMiddleware()
     {
-        $this->app->singleton(\Develpr\AlexaApp\Http\Middleware\Request::class, function ($app) {
-            return new \Develpr\AlexaApp\Http\Middleware\Request($app, $app['alexa.router'], $app['alexa.request'], $app['alexa.router.middleware']);
+        $this->app->singleton(\Frijj2k\LarAlexa\Http\Middleware\Request::class, function ($app) {
+            return new \Frijj2k\LarAlexa\Http\Middleware\Request($app, $app['alexa.router'], $app['alexa.request'], $app['alexa.router.middleware']);
         });
 
-        $this->app->singleton(\Develpr\AlexaApp\Http\Middleware\Certificate::class, function ($app) {
-            return new \Develpr\AlexaApp\Http\Middleware\Certificate($app['alexa.request'], $app['alexa.certificateProvider'], $app['config']['alexa']);
+        $this->app->singleton(\Frijj2k\LarAlexa\Http\Middleware\Certificate::class, function ($app) {
+            return new \Frijj2k\LarAlexa\Http\Middleware\Certificate($app['alexa.request'], $app['alexa.certificateProvider'], $app['config']['alexa']);
         });
     }
 

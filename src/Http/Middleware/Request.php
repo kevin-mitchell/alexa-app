@@ -1,10 +1,10 @@
 <?php
 
-namespace Develpr\AlexaApp\Http\Middleware;
+namespace Frijj2k\LarAlexa\Http\Middleware;
 
 use Closure;
-use Develpr\AlexaApp\Contracts\AlexaRequest;
-use Develpr\AlexaApp\Http\Routing\AlexaRouter;
+use Frijj2k\LarAlexa\Contracts\AlexaRequest;
+use Frijj2k\LarAlexa\Http\Routing\AlexaRouter;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Pipeline\Pipeline;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +33,7 @@ class Request
     protected $middleware;
 
     /**
-     * @var \Develpr\AlexaApp\Contracts\AlexaRequest
+     * @var \Frijj2k\LarAlexa\Contracts\AlexaRequest
      */
     private $alexaRequest;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Develpr\AlexaApp\Provider;
+namespace Frijj2k\LarAlexa\Provider;
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
@@ -32,7 +32,7 @@ class LaravelServiceProvider extends ServiceProvider
         $this->app->instance('alexa.router.middleware', $this->gatherAppMiddleware($kernel));
 
         // Register our universal service provider
-        $this->app->register('Develpr\AlexaApp\Provider\AlexaServiceProvider');
+        $this->app->register('Frijj2k\LarAlexa\Provider\AlexaServiceProvider');
 
         $this->addRequestMiddlewareToBeginning($kernel);
     }
@@ -45,7 +45,7 @@ class LaravelServiceProvider extends ServiceProvider
     protected function addRequestMiddlewareToBeginning(Kernel $kernel)
     {
         /** @var \App\Http\Kernel $kernel */
-        $kernel->prependMiddleware('Develpr\AlexaApp\Http\Middleware\Request');
+        $kernel->prependMiddleware('Frijj2k\LarAlexa\Http\Middleware\Request');
     }
 
     /**

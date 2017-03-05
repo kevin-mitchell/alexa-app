@@ -1,8 +1,8 @@
 <?php
 
-namespace Develpr\AlexaApp\Certificate;
+namespace Frijj2k\LarAlexa\Certificate;
 
-use Develpr\AlexaApp\Exceptions\InvalidCertificateException;
+use Frijj2k\LarAlexa\Exceptions\InvalidCertificateException;
 
 abstract class BaseCertificateProvider
 {

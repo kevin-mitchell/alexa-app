@@ -1,6 +1,6 @@
 <?php
 
-namespace Develpr\AlexaApp\Response;
+namespace Frijj2k\LarAlexa\Response;
 
 use Illuminate\Contracts\Support\Arrayable;
 
@@ -12,7 +12,7 @@ class Card implements Arrayable
     private $validCardTypes = ['Simple', 'LinkAccount'];
 
     //The type of card
-    //@see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/alexa-appkit-app-interface-reference
+    //@see https://developer.amazon.com/public/solutions/devices/echo/laralexa-kit/docs/laralexakit-app-interface-reference
     private $type = 'Simple';
 
     private $title = '';

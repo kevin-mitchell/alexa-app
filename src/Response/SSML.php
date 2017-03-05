@@ -1,8 +1,8 @@
 <?php
 
-namespace Develpr\AlexaApp\Response;
+namespace Frijj2k\LarAlexa\Response;
 
-use Develpr\AlexaApp\Contracts\OutputSpeech;
+use Frijj2k\LarAlexa\Contracts\OutputSpeech;
 
 /**
  * Used for directly creating SSML - more useful as SSML becomes standard in more ASK apps

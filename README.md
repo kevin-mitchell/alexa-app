@@ -1,11 +1,11 @@
-# AlexaApp
+# LarAlexa
 
-[![Latest Version](https://img.shields.io/packagist/v/develpr/alexa-app.svg?style=flat-square)](https://packagist.org/packages/develpr/alexa-app)
-[![Total Downloads](https://img.shields.io/packagist/dt/develpr/alexa-app.svg?style=flat-square)](https://packagist.org/packages/develpr/alexa-app)
+<!--- [![Latest Version](https://img.shields.io/packagist/v/develpr/alexa-app.svg?style=flat-square)](https://packagist.org/packages/develpr/alexa-app) -->
+<!--- [![Total Downloads](https://img.shields.io/packagist/dt/develpr/alexa-app.svg?style=flat-square)](https://packagist.org/packages/develpr/alexa-app) -->
 [![Software License](https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![StyleCI](https://styleci.io/repos/34590394/shield)](https://styleci.io/repos/34590394)
+<!--- [![StyleCI](https://styleci.io/repos/34590394/shield)](https://styleci.io/repos/34590394) -->
 
-Set of classes to make creating simple Amazon Echo Alexa Apps easier with Laravel and Lumen ([note that 5.2.x Lumen has a known issue that needs addressing](https://github.com/develpr/alexa-app/issues/5))
+Set of classes to make creating simple Amazon Echo Alexa Apps easier with Laravel and Lumen forked from [alexa-app](https://github.com/frijj2k/laralexa) by Kevin Mitchell ([note that 5.2.x Lumen has a known issue that needs addressing](https://github.com/frijj2k/laralexa/issues/5))
 
 - [Main Features](#main-features)
 - [Demo](#demo)
@@ -40,13 +40,30 @@ For a quick example:
 
 ###Prerequisites
 
-The only thing that is required for AlexaApp is the Laravel or Lumen (versions based on 5.2) framework.
+The only thing that is required for LarAlexa is the Laravel or Lumen (versions based on 5.2) framework.
 
-After installing via composer (i.e. `composer require develpr/alexa-app`):
+<!--- ##### NOT AVAILABLE IN COMPOSER -->
+<!--- After installing via composer (i.e. `composer require frijj2k/laralexa`): -->
+
+Add to your composer.json file:
+
+    {
+        "repositories": [
+            {
+                "type": "vcs",
+                "url": "https://github.com/frijj2k/laralexa"
+            }
+        ],
+        "require": {
+            "frijj2k/laralexa": "dev-master"
+        }
+    }
+
+Then run ``` $ composer update ``` to install the package into your app.
 
 ###1 : Auto-load the appropriate service provider for your framework
 
-The `Develpr\AlexaApp\Provider\LaravelServiceProvider` needs to be added to the array of auto-loaded service providers
+The `Frijj2k\LarAlexa\Provider\LaravelServiceProvider` needs to be added to the array of auto-loaded service providers
 
 ####Laravel
 
@@ -54,7 +71,7 @@ In the `config/app.php` configuration file, add:
 
     'providers' => [
         ...snip...
-        \Develpr\AlexaApp\Provider\LaravelServiceProvider::class,
+        \Frijj2k\LarAlexa\Provider\LaravelServiceProvider::class,
         ...snip...
     ],
 
@@ -62,12 +79,12 @@ In the `config/app.php` configuration file, add:
 
 In your application's `bootstrap/app.php` file, add:
 
-    $app->register(\Develpr\AlexaApp\Provider\LumenServiceProvider::class);
+    $app->register(\Frijj2k\LarAlexa\Provider\LumenServiceProvider::class);
 
 
 ###2: Adding the facades/aliases for `Alexa` and `AlexaRoute` (optional)
 
-This is not required, but it can be very handy. If you'd prefer, you can inject an instance of the `\Develpr\AlexaApp\Alexa` or `\Develpr\AlexaApp\Routing\AlexaRouter` class, or grab them with `$app['alexa']` or $app['alexa.router'], respectively.
+This is not required, but it can be very handy. If you'd prefer, you can inject an instance of the `\Frijj2k\LarAlexa\Alexa` or `\Frijj2k\LarAlexa\Routing\AlexaRouter` class, or grab them with `$app['alexa']` or $app['alexa.router'], respectively.
 
 ####Laravel
 
@@ -75,8 +92,8 @@ This is not required, but it can be very handy. If you'd prefer, you can inject 
 
         'aliases' => [
             ...
-            'AlexaRoute' => \Develpr\AlexaApp\Facades\AlexaRouter::class,
-            'Alexa' => \Develpr\AlexaApp\Facades\Alexa::class,
+            'AlexaRoute' => \Frijj2k\LarAlexa\Facades\AlexaRouter::class,
+            'Alexa' => \Frijj2k\LarAlexa\Facades\Alexa::class,
             ...
         ],
 
@@ -86,8 +103,8 @@ The truth is I'm not 100% sure if there is an "official" way of adding aliases/f
 
 First make sure aliases/facades are enabled in your `bootstrap/app.php` file by uncommenting `$app->withFacades();` and then after this add
 
-    class_alias(\Develpr\AlexaApp\Facades\AlexaRouter::class, 'AlexaRoute');
-    class_alias(\Develpr\AlexaApp\Facades\Alexa::class, 'Alexa');
+    class_alias(\Frijj2k\LarAlexa\Facades\AlexaRouter::class, 'AlexaRoute');
+    class_alias(\Frijj2k\LarAlexa\Facades\Alexa::class, 'Alexa');
 
 For lumen it might be easier to simply use `$app['alexa.router']` or inject an instance of one of the above classes into your class.
 
@@ -105,7 +122,7 @@ To protect **all routes**, in your `app/Http/Kernal.php` file:
 
     protected $middleware = [
         ...
-        \Develpr\AlexaApp\Http\Middleware\Certificate::class,
+        \Frijj2k\LarAlexa\Http\Middleware\Certificate::class,
         ...
     ];
 
@@ -115,7 +132,7 @@ To protect **all routes**, in your `bootstrap/app.php` file:
 
     $app->middleware([
         ...snip...
-        \Develpr\AlexaApp\Http\Middleware\Certificate::class,
+        \Frijj2k\LarAlexa\Http\Middleware\Certificate::class,
         ...snip...
     ]);
 
@@ -128,13 +145,13 @@ At this point, everything should "work" (see below for more information on Usage
 
 A number of things can be modified, or may even need to be modified depending on your application, **most importantly, the security options will need to be setup to match your AppId, etc**. Most if not all of these modifications work the same way regardless if you're using Laravel or Lumen, and all configuration values should be definable in a `config/` file, or by using a/an `.env` file.
 
-If you're using Laravel, you can use the console artisan command to publish the AlexaApp configuration file to your applications configuration directory using `artisan vendor:publish`, or if you prefer (or are using Lumen) you can manually copy this file over from `vendor/develpr/alexa-app/config/alexa.php`.
+If you're using Laravel, you can use the console artisan command to publish the LarAlexa configuration file to your applications configuration directory using `artisan vendor:publish`, or if you prefer (or are using Lumen) you can manually copy this file over from `vendor/frijj2k/laralexa/config/alexa.php`.
 
 **There are quite a few comments in the `alexa.php` config file, so please read through this for much more information on specific options!** - I'll only cover the more important, broader options here.
 
 ###Certificate/Security
 
-There are a few simple configuration options that need to be set for AlexaApp to successfully verify a request is valid/from Amazon/AlexaSkillsKit.
+There are a few simple configuration options that need to be set for LarAlexa to successfully verify a request is valid/from Amazon/AlexaSkillsKit.
 
 ####Amazon / AlexaSkillsKit "applicationId"s
 
@@ -150,7 +167,7 @@ Changes to this can be made in the config file (`'timestampTolerance'`) or by se
 
 ####Certificate provider
 
-By default, AlexaApp will use file storage for locally caching Amazon's remote certificate file. Other providers will be supported shortly, including redis, database, and eloquent. These related options can be seen/configured in the config file.
+By default, LarAlexa will use file storage for locally caching Amazon's remote certificate file. Other providers will be supported shortly, including redis, database, and eloquent. These related options can be seen/configured in the config file.
 
 ###Alexa Device
 
@@ -160,13 +177,13 @@ Essentially, you need to tell Alexa app about where you are persistent and how t
 
 ####Device Provider
 
-Currently only `database` and `eloquent` options are supported, but more providers could easily be supported by implementing the `\Develpr\AlexaApp\Contracts\DeviceProvider` contract.
+Currently only `database` and `eloquent` options are supported, but more providers could easily be supported by implementing the `\Frijj2k\LarAlexa\Contracts\DeviceProvider` contract.
 
-The default device provider is Eloquent, and there is a sample Device in `/vendor/develpr/alexa-app/Device/Device.php` that can be copied to your `app` directory and modified for your purposes. This model can be thought of as similar to the `User` model provided with a base installation of Laravel.
+The default device provider is Eloquent, and there is a sample Device in `/vendor/frijj2k/laralexa/Device/Device.php` that can be copied to your `app` directory and modified for your purposes. This model can be thought of as similar to the `User` model provided with a base installation of Laravel.
 
 ####Sample migration
 
-There is a sample migration provided with AlexaApp that can be copied to your migrations folder (manually or using console command in Laravel `php artisan vendor:publish --tag="migrations"`) and once migrated, will work "out of the box" with the included `DeviceProvider`s. If you'd prefer not to use this migration that's 100% fine, but you'll want to make sure to take a look at the config file to be sure you modify/understand any options you may need to update for your storage schema.
+There is a sample migration provided with LarAlexa that can be copied to your migrations folder (manually or using console command in Laravel `php artisan vendor:publish --tag="migrations"`) and once migrated, will work "out of the box" with the included `DeviceProvider`s. If you'd prefer not to use this migration that's 100% fine, but you'll want to make sure to take a look at the config file to be sure you modify/understand any options you may need to update for your storage schema.
 
 
 ##Usage
@@ -175,7 +192,7 @@ In the following sections you can see how you might use this package. **Note ple
 
 ###Routing
 
-There are three types of requests that will be made from the Amazon AlexaApp middleware to your application. Those are
+There are three types of requests that will be made from the Amazon LarAlexa middleware to your application. Those are
 
 1. LaunchRequest (happens when your application is "opened")
 2. SessionEndedRequest (send to your application with the application is closed)
@@ -255,7 +272,7 @@ If the slot is empty, `null` will be returned.  You can change this default valu
 
 ###Responses
 
-You can use this package and the Alexa facade to easily create valid responses from your application, but it's worth knowing about the classes behind the facade. The most important thing to know is that `Alexa::say("Hello");` is simply returning a new `\Develpr\AlexaApp\Response\AlexaResponse` object with a `\Develpr\AlexaApp\Response\Speech` object inside.
+You can use this package and the Alexa facade to easily create valid responses from your application, but it's worth knowing about the classes behind the facade. The most important thing to know is that `Alexa::say("Hello");` is simply returning a new `\Frijj2k\LarAlexa\Response\AlexaResponse` object with a `\Frijj2k\LarAlexa\Response\Speech` object inside.
 
 ####Using the Alexa facade/alias
 

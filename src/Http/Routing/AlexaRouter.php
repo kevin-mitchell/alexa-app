@@ -1,6 +1,6 @@
 <?php
 
-namespace Develpr\AlexaApp\Http\Routing;
+namespace Frijj2k\LarAlexa\Http\Routing;
 
 use Illuminate\Routing\Router as IlluminateRouter;
 

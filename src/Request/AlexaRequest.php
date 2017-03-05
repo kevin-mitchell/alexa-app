@@ -68,7 +68,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function getUserId()
     {
-        return array_get($this->getData(), 'session.user.userId');
+        return array_get($this->getData(), $this->hasSession() ? 'session.user.userId' : 'context.System.user.userId');
     }
 
     /**
@@ -78,7 +78,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function getAccessToken()
     {
-        return array_get($this->getData(), 'session.user.accessToken');
+        return array_get($this->getData(), $this->hasSession() ? 'session.user.accessToken' : 'context.System.user.accessToken');
     }
 
     /**
@@ -88,8 +88,19 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function getAppId()
     {
-        return array_get($this->getData(), 'session.application.applicationId');
+        return  array_get($this->getData(), $this->hasSession() ? 'session.application.applicationId' : 'context.System.application.applicationId');
     }
+
+    /**
+     * Checks if the request contains session informatiom
+     *
+     * @return bool
+     */
+    public function hasSession()
+    {
+        return array_has($this->getData(), 'session');
+    }
+
 
     /**
      * Get all of the session values in an array
@@ -105,6 +116,23 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
         }
 
         return $sessionAttributes;
+    }
+
+
+    /**
+     * Get the contect in an array
+     *
+     * @return array
+     */
+    public function getContext()
+    {
+        $context = array_get($this->getData(), 'context');
+
+        if (!$context) {
+            return [];
+        }
+
+        return $context;
     }
 
     /**

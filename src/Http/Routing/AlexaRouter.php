@@ -2,11 +2,35 @@
 
 namespace Develpr\AlexaApp\Http\Routing;
 
+use Develpr\AlexaApp\Response\AlexaResponse;
 use Illuminate\Routing\Router as IlluminateRouter;
+use Alexa;
 
 class AlexaRouter extends IlluminateRouter
 {
     private $intentRoutes = [];
+
+    private $audioIntents = [
+        'AMAZON.PauseIntent',
+        'AMAZON.ResumeIntent',
+        'AMAZON.CancelIntent',
+        'AMAZON.RepeatIntent',
+        'AMAZON.NextIntent',
+        'AMAZON.PreviousIntent',
+        'AMAZON.LoopOnIntent',
+        'AMAZON.LoopOffIntent',
+        'AMAZON.ShuffleOnIntent',
+        'AMAZON.ShuffleOffIntent',
+        'AMAZON.StartOverIntent'
+    ];
+
+    private $audioEvents = [
+        'PlaybackStarted',
+        'PlaybackStopped',
+        'PlaybackFinished',
+        'PlaybackNearlyFinished',
+        'PlaybackFailed'
+    ];
 
     /**
      * @param string                     $uri
@@ -49,6 +73,56 @@ class AlexaRouter extends IlluminateRouter
         $this->addAlexaRoute('POST', $this->prefix($uri), 'SessionEndedRequest', $action);
 
         return $this;
+    }
+
+
+    /**
+     * @param string                     $uri
+     * @param string                     $event
+     * @param \Closure|array|string|null $action
+     *
+     * @return $this
+     */
+    public function audioPlayer($uri, $event, $action)
+    {
+        $this->intentRoutes[] = $uri;
+        $this->addAlexaRoute('POST', $this->prefix($uri), 'AudioPlayer.' . $event, $action);
+
+        return $this;
+    }
+
+    /**
+     * Adds the routes needed (or optional) for audio playing with empty responses
+     * Can/should be overridden by detailled routes
+     *
+     * This just enables you to quickly start audio playback
+     *
+     * @param $uri
+     */
+    public function audioPlayerRoutes($uri)
+    {
+        foreach($this->audioEvents as $audioEvent)
+        {
+            $this->audioPlayer($uri, $audioEvent, function(){});
+        }
+
+        foreach($this->audioIntents as $audioIntent)
+        {
+            switch($audioIntent)
+            {
+                case 'AMAZON.PauseIntent':
+                    $this->intent($uri, $audioIntent, function(){return Alexa::pause();});
+                    break;
+                case 'AMAZON.ResumeIntent':
+                    $this->intent($uri, $audioIntent, function(){return Alexa::resume();});
+                    break;
+                default:
+                    $this->intent($uri, $audioIntent, function(){return new AlexaResponse();});
+
+            }
+        }
+
+        $this->sessionEnded($uri, function(){return new AlexaResponse();});
     }
 
 

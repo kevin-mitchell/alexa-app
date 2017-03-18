@@ -175,7 +175,7 @@ class Alexa
         $token = $this->context('AudioPlayer.token');
         $url = cache($token);
         $offset = $this->context('AudioPlayer.offsetInMilliseconds');
-        return $this->play($url, $token, $offset - 2500);  // rewind a little to give the listener some context
+        return $this->play($url, $token, $offset); 
     }
 
     /**

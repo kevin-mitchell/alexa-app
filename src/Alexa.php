@@ -8,6 +8,8 @@ use Develpr\AlexaApp\Request\AlexaRequest;
 use Develpr\AlexaApp\Response\AlexaResponse;
 use Develpr\AlexaApp\Response\AudioFile;
 use Develpr\AlexaApp\Response\Card;
+use Develpr\AlexaApp\Response\Directives\AudioPlayer\Play;
+use Develpr\AlexaApp\Response\Directives\AudioPlayer\Stop;
 use Develpr\AlexaApp\Response\Speech;
 use Develpr\AlexaApp\Response\SSML;
 
@@ -22,6 +24,11 @@ class Alexa
      * @var array
      */
     private $session;
+
+    /**
+     * @var array
+     */
+    private $context;
 
     /**
      * @var Contracts\DeviceProvider
@@ -56,6 +63,7 @@ class Alexa
         $this->deviceProvider = $deviceProvider;
 
         $this->setupSession();
+        $this->setupContext();
 
         $this->alexaConfig = $alexaConfig;
 
@@ -120,6 +128,54 @@ class Alexa
         $response = new AlexaResponse($audio);
 
         return $response;
+    }
+
+    /**
+     * @param $url
+     * @param null $token
+     * @param null $playBehavior
+     * @param null $offsetInMilliseconds
+     * @param null $expectedPreviousToken
+     *
+     * @return AlexaResponse
+     */
+    public function play($url, $token = null, $offsetInMilliseconds = null, $playBehavior = null, $expectedPreviousToken = null)
+    {
+        $audio = new Play($url, $token, $offsetInMilliseconds, $playBehavior, $expectedPreviousToken);
+
+        $response = new AlexaResponse();
+        $response->setAudio($audio);
+
+        // Cache the URL that belongs to the token so that we can resume later.
+        cache([$audio->getToken() => $audio->getUrl()], 48*60);
+
+        return $response;
+    }
+
+    /**
+     * Returns a stop response
+     *
+     * @return AlexaResponse
+     */
+    public function pause()
+    {
+        $response = new AlexaResponse();
+        $response->withDirective(new Stop());
+
+        return $response;
+    }
+
+    /**
+     * Resumes from the previous position
+     *
+     * @return AlexaResponse
+     */
+    public function resume()
+    {
+        $token = $this->context('AudioPlayer.token');
+        $url = cache($token);
+        $offset = $this->context('AudioPlayer.offsetInMilliseconds');
+        return $this->play($url, $token, $offset); 
     }
 
     /**
@@ -231,6 +287,20 @@ class Alexa
     }
 
     /**
+     * @param string|null $key
+     *
+     * @return array|mixed|null
+     */
+    public function context($key = null)
+    {
+        if (is_null($key)) {
+            return $this->context;
+        } else {
+            return array_get($this->context, $key);
+        }
+    }
+
+    /**
      * @param string|array $key
      * @param mixed|null   $value
      */
@@ -256,5 +326,10 @@ class Alexa
     private function setupSession()
     {
         $this->session = $this->alexaRequest->getSession();
+    }
+
+    private function setupContext()
+    {
+        $this->context = $this->alexaRequest->getContext();
     }
 }

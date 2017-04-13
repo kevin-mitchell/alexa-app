@@ -3,6 +3,8 @@
 namespace Develpr\AlexaApp\Response;
 
 use Develpr\AlexaApp\Contracts\OutputSpeech as Speech;
+use Develpr\AlexaApp\Response\Directives\AudioPlayer\Play;
+use Develpr\AlexaApp\Response\Directives\Directive;
 use Illuminate\Contracts\Support\Jsonable;
 
 /**
@@ -32,6 +34,11 @@ class AlexaResponse implements Jsonable
      * @var Speech
      */
     private $speech = null;
+
+    /**
+     * @var array
+     */
+    private $directives = null;
 
     /**
      * @var Reprompt
@@ -135,6 +142,13 @@ class AlexaResponse implements Jsonable
             $response['reprompt'] = $this->reprompt->toArray();
         }
 
+        if (!is_null($this->directives)) {
+            foreach($this->directives as $directive)
+            {
+                $response['directives'][] = $directive->toArray();
+            }
+        }
+
         $sessionAttributes = $this->getSessionData();
 
         if ($sessionAttributes && count($sessionAttributes) > 0) {
@@ -182,6 +196,46 @@ class AlexaResponse implements Jsonable
     public function withSpeech(Speech $speech)
     {
         return $this->setSpeech($speech);
+    }
+
+    /**
+     * @param Play $play
+     * @return mixed
+     */
+    public function withAudio(Play $play)
+    {
+        return $this->setAudio($play);
+    }
+
+    /**
+     * @param Directive $directive
+     * @return AlexaResponse
+     */
+    public function withDirective(Directive $directive)
+    {
+        return $this->setDirective($directive);
+    }
+
+    /**
+     * @param Play $play
+     * @return $this
+     */
+    public function setAudio(Play $play)
+    {
+        $this->directives[] = $play;
+
+        return $this;
+    }
+
+    /**
+     * @param Directive $directive
+     * @return $this
+     */
+    public function setDirective(Directive $directive)
+    {
+        $this->directives[] = $directive;
+
+        return $this;
     }
 
     /**

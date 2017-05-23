@@ -141,9 +141,9 @@ class Alexa
      */
     public function play($url, $token = null, $offsetInMilliseconds = null, $playBehavior = null, $expectedPreviousToken = null)
     {
-        if($this->app['config']['alexa.audio.proxy.enabled'])
+        if(config('alexa.audio.proxy.enabled'))
         {
-            $url = url($this->app['config']['alexa.audio.proxy.route'] . '/' . urlencode($url));
+            $url = url(config('alexa.audio.proxy.route') . '/' . base64_encode($url));
         }
         
         $audio = new Play($url, $token, $offsetInMilliseconds, $playBehavior, $expectedPreviousToken);

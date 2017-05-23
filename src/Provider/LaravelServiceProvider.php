@@ -5,18 +5,27 @@ namespace Develpr\AlexaApp\Provider;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 use ReflectionClass;
+use Route;
 
 class LaravelServiceProvider extends ServiceProvider
 {
     public function boot()
     {
         $this->publishes([
-            realpath(__DIR__.'/../../config/alexa.php') => config_path('alexa.php'),
+            realpath(__DIR__ . '/../../config/alexa.php') => config_path('alexa.php'),
         ], 'config');
 
         $this->publishes([
-            realpath(__DIR__.'/../../database/2015_06_21_000000_create_alexa_devices_table.php') => database_path('/migrations/2015_06_21_000000_create_alexa_devices_table.php'),
+            realpath(__DIR__ . '/../../database/2015_06_21_000000_create_alexa_devices_table.php') => database_path('/migrations/2015_06_21_000000_create_alexa_devices_table.php'),
         ], 'migrations');
+
+        if ($this->app['config']['alexa.audio.proxy.enabled'])
+        {
+            Route::get($this->app['config']['alexa.audio.proxy.route'], function($audiofile) {
+                return response(url_decode($audiofile))
+                    ->header('Content-Type', 'application/x-mpegurl');
+            });
+        }
     }
 
     /**

@@ -141,6 +141,11 @@ class Alexa
      */
     public function play($url, $token = null, $offsetInMilliseconds = null, $playBehavior = null, $expectedPreviousToken = null)
     {
+        if($this->app['config']['alexa.audio.proxy.enabled'])
+        {
+            $url = url($this->app['config']['alexa.audio.proxy.route'] . '/' . urlencode($url));
+        }
+        
         $audio = new Play($url, $token, $offsetInMilliseconds, $playBehavior, $expectedPreviousToken);
 
         $response = new AlexaResponse();
@@ -175,7 +180,7 @@ class Alexa
         $token = $this->context('AudioPlayer.token');
         $url = cache($token);
         $offset = $this->context('AudioPlayer.offsetInMilliseconds');
-        return $this->play($url, $token, $offset); 
+        return $this->play($url, $token, $offset);
     }
 
     /**

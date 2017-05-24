@@ -228,4 +228,29 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | audio
+    |--------------------------------------------------------------------------
+    |
+    | Configuration related to playing audio
+    |
+    */
+    'audio' => [
+        /*
+        |--------------------------------------------------------------------------
+        | proxy
+        |--------------------------------------------------------------------------
+        |
+        | Amazon doesn't accept HTTP audio files. If you set a proxy, all audio
+        | files are routed via a proxy which encapsulates the audio file in a m3u
+        | playlist that can be served via HTTPS.
+        |
+        */
+        'proxy' => [
+            'enabled' => env('ALEXA_AUDIO_PROXY_ENABLED', 'false'),
+            'route' => env('ALEXA_AUDIO_PROXY_ROUTE', '/alexa/audio/proxy')
+        ]
+    ]
+
 ];

@@ -2,7 +2,7 @@
 
 namespace Develpr\AlexaApp\Response;
 
-use Develpr\AlexaApp\Contracts\OutputSpeech as OutSpeech;
+use Develpr\AlexaApp\Contracts\OutputSpeech;
 use Develpr\AlexaApp\Response\Directives\AudioPlayer\Play;
 use Develpr\AlexaApp\Response\Directives\Directive;
 use Illuminate\Contracts\Support\Jsonable;
@@ -70,11 +70,11 @@ class AlexaResponse implements Jsonable
     private $promptResponseIntent = null;
 
     /**
-     * @param OutSpeech|null   $speech
+     * @param OutputSpeech|null   $speech
      * @param Card|null     $card
      * @param Reprompt|null $reprompt
      */
-    public function __construct(OutSpeech $speech = null, Card $card = null, Reprompt $reprompt = null)
+    public function __construct(OutputSpeech $speech = null, Card $card = null, Reprompt $reprompt = null)
     {
         $this->speech = $speech;
         $this->card = $card;
@@ -130,7 +130,7 @@ class AlexaResponse implements Jsonable
 
         //Check to see if a speech, card, or reprompt object are set and if so
         //add them to the data object
-        if (!is_null($this->speech) && $this->speech instanceof OutSpeech) {
+        if (!is_null($this->speech) && $this->speech instanceof OutputSpeech) {
             $response['outputSpeech'] = $this->speech->toArray();
         }
 
@@ -189,11 +189,11 @@ class AlexaResponse implements Jsonable
     }
 
     /**
-     * @param OutSpeech $speech
+     * @param OutputSpeech $speech
      *
      * @return $this
      */
-    public function withSpeech(OutSpeech $speech)
+    public function withSpeech(OutputSpeech $speech)
     {
         return $this->setSpeech($speech);
     }
@@ -273,11 +273,11 @@ class AlexaResponse implements Jsonable
     }
 
     /**
-     * @param OutSpeech $speech
+     * @param OutputSpeech $speech
      *
      * @return $this
      */
-    public function setSpeech(OutSpeech $speech)
+    public function setSpeech(OutputSpeech $speech)
     {
         $this->speech = $speech;
 

@@ -59,4 +59,12 @@ interface AlexaRequest
      * @return int
      */
     public function getTimestamp();
+
+    /**
+     * Get the dialog state possible values are:
+     * "STARTED", "IN_PROGRESS", or "COMPLETED"
+     *
+     * @return string|null
+     */
+    public function dialogState();
 }

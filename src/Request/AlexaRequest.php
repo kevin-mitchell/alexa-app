@@ -136,6 +136,17 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
     }
 
     /**
+     * Get the dialog state possible values are:
+     * "STARTED", "IN_PROGRESS", or "COMPLETED"
+     *
+     * @return string|null
+     */
+    public function dialogState()
+    {
+        return array_get($this->getData(), 'request.dialogState');
+    }
+
+    /**
      * Get a particular session value by key
      *
      * @param string $key

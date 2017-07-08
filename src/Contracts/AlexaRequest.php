@@ -67,4 +67,16 @@ interface AlexaRequest
      * @return string|null
      */
     public function dialogState();
+
+    /**
+     * Update a slot
+     *
+     * @param $slotName
+     * @param $value
+     * @param bool $confirmed
+     * @param bool $denied
+     *
+     * @return $this
+     */
+    public function updateSlot($slotName, $value, $confirmed = false, $denied = false);
 }

@@ -8,8 +8,10 @@ class Card implements Arrayable
 {
     const DEFAULT_CARD_TYPE = 'Simple';
     const LINK_ACCOUNT_CARD_TYPE = 'LinkAccount';
+    const STANDARD_CARD_TYPE = 'Standard';
+    const SIMPLE_CARD_TYPE = 'Simple';
 
-    private $validCardTypes = ['Simple', 'LinkAccount'];
+    private $validCardTypes = ['Simple', 'LinkAccount', 'Standard'];
 
     //The type of card
     //@see https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/alexa-appkit-app-interface-reference
@@ -19,22 +21,40 @@ class Card implements Arrayable
 
     private $subtitle = '';
 
+    /** @var string $content Only applicable for simple card types */
     private $content = '';
 
+    /** @var string $text Only applicable for standard card types */
+    private $text = '';
+
+    /** @var array | string $img Only applicable for standard card types */
+    private $img = [];
+
     /**
-     * Card constructor.
+     * Card constructor
      *
      * @param string $title
      * @param string $subtitle
      * @param string $content
      * @param string $type
+     * @param string $text
+     * @param array|string $img url for the image to display on the card
      */
-    public function __construct($title = '', $subtitle = '', $content = '', $type = self::DEFAULT_CARD_TYPE)
+    public function __construct(
+        $title = '',
+        $subtitle = '',
+        $content = '',
+        $type = self::DEFAULT_CARD_TYPE,
+        $text = '',
+        $img = []
+    )
     {
         $this->title = $title;
         $this->subtitle = $subtitle;
         $this->content = $content;
         $this->type = $type;
+        $this->text = $text;
+        $this->setImg($img);
     }
 
     /**
@@ -51,7 +71,15 @@ class Card implements Arrayable
 
         $this->addAttributeToArray('title', $cardAsArray);
         $this->addAttributeToArray('subtitle', $cardAsArray);
-        $this->addAttributeToArray('content', $cardAsArray);
+
+        if($this->isSimpleCard()) {
+            $this->addAttributeToArray('content', $cardAsArray);
+        }
+
+        if($this->isStandardCard()) {
+            $this->addAttributeToArray('text', $cardAsArray);
+            $this->addAttributeToArray('img', $cardAsArray);
+        }
 
         return $cardAsArray;
     }
@@ -68,6 +96,8 @@ class Card implements Arrayable
     }
 
     /**
+     * Set content of the simple card
+     *
      * @param string $content
      *
      * @return $this
@@ -77,6 +107,28 @@ class Card implements Arrayable
         $this->content = $content;
 
         return $this;
+    }
+
+    /**
+     * Set text of the standard card
+     *
+     * @param string $text
+     *
+     * @return $this
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
     }
 
     /**
@@ -151,5 +203,50 @@ class Card implements Arrayable
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @param string | array[string] $img the image url
+     *
+     * @return $this
+     */
+    public function setImg($img)
+    {
+        $requiredKeys = ['smallImageUrl', 'largeImageUrl'];
+
+        if (is_array($img) && array_has($img, $requiredKeys)) {
+            $this->img  = array_only($img, $requiredKeys);
+        } elseif(is_string($img)) {
+            $this->img = [
+                'smallImageUrl' => $img,
+                'largeImageUrl' =>   $img
+            ];
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getImg()
+    {
+        return $this->img;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStandardCard()
+    {
+        return $this->type === Card::STANDARD_CARD_TYPE;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSimpleCard()
+    {
+        return $this->type === Card::SIMPLE_CARD_TYPE;
     }
 }

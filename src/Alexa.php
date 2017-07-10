@@ -10,6 +10,7 @@ use Develpr\AlexaApp\Response\AudioFile;
 use Develpr\AlexaApp\Response\Card;
 use Develpr\AlexaApp\Response\Directives\AudioPlayer\Play;
 use Develpr\AlexaApp\Response\Directives\AudioPlayer\Stop;
+use Develpr\AlexaApp\Response\Reprompt;
 use Develpr\AlexaApp\Response\Speech;
 use Develpr\AlexaApp\Response\SSML;
 
@@ -112,6 +113,20 @@ class Alexa
     {
         $response = new AlexaResponse(new Speech($statementWords, $speechType));
 
+        return $response;
+    }
+
+    /**
+     * @param string $statementWords
+     * @param string $repromptWords
+     * @param string $speechType
+     *
+     * @return \Develpr\AlexaApp\Response\AlexaResponse
+     */
+    public function reprompt($statementWords, $repromptWords = ' ', $speechType = Speech::DEFAULT_TYPE)
+    {
+        $response = $this->say($statementWords, $speechType);
+        $response->setReprompt(new Reprompt($repromptWords, $speechType))->endSession(false);
         return $response;
     }
 

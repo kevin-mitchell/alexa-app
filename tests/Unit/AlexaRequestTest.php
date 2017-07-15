@@ -2,6 +2,7 @@
 
 namespace Develpr\Tests\Unit;
 
+use Carbon\Carbon;
 use Develpr\AlexaApp\Request\AlexaRequest;
 use Develpr\Tests\BaseTestCase;
 use Mockery;
@@ -62,6 +63,7 @@ class AlexaRequestTest extends BaseTestCase
     public function it_can_get_the_user_id_from_the_request()
     {
         $expectedId = array_get($this->requestData, 'session.user.userId');
+        $this->assertNotEmpty($this->request->getUserId());
         $this->assertEquals($expectedId, $this->request->getUserId());
     }
 
@@ -82,6 +84,7 @@ class AlexaRequestTest extends BaseTestCase
     public function it_can_get_the_app_id()
     {
         $expectedId = array_get($this->requestData, 'session.application.applicationId');
+        $this->assertNotEmpty($this->request->getAppId());
         $this->assertEquals($expectedId, $this->request->getAppId());
     }
 
@@ -95,6 +98,7 @@ class AlexaRequestTest extends BaseTestCase
     public function it_can_get_the_session_from_the_request()
     {
         $expectedSession = array_get($this->requestData, 'session.attributes');
+        $this->assertNotEmpty($this->request->getSession());
         $this->assertEquals($expectedSession, $this->request->getSession());
     }
 
@@ -102,6 +106,7 @@ class AlexaRequestTest extends BaseTestCase
     public function it_can_get_the_request_context()
     {
         $expectedSession = array_get($this->requestData, 'context');
+        $this->assertNotEmpty($this->request->getContext());
         $this->assertEquals($expectedSession, $this->request->getContext());
     }
 
@@ -109,6 +114,7 @@ class AlexaRequestTest extends BaseTestCase
     public function it_can_get_the_dialog_state()
     {
         $expectedState = array_get($this->requestData, 'request.dialogState');
+        $this->assertNotEmpty($this->request->dialogState());
         $this->assertEquals($expectedState, $this->request->dialogState());
     }
 
@@ -127,6 +133,86 @@ class AlexaRequestTest extends BaseTestCase
     public function it_can_get_the_intent_name()
     {
         $expectedIntent = array_get($this->requestData, 'request.intent.name');
+        $this->assertNotEmpty($this->request->getIntent());
         $this->assertEquals($expectedIntent, $this->request->getIntent());
+    }
+
+    /** @test */
+    public function it_can_get_a_slot_value()
+    {
+        $expectedSlotValue = Carbon::now()->toIso8601String();
+        array_set(
+            $this->requestData,
+            'request.intent.slots.Date.value',
+            $expectedSlotValue
+        );
+
+        $this->request->shouldReceive('getContent')
+            ->once()
+            ->andReturn(json_encode($this->requestData));
+
+        $this->assertEquals($expectedSlotValue, $this->request->slot('Date'));
+    }
+
+    /** @test */
+    public function it_can_get_a_set_a_default_slot_value()
+    {
+        $expectedSlotValue = 'Bar';
+        $this->assertNull($this->request->slot('Foo'));
+        $this->assertEquals($expectedSlotValue, $this->request->slot('Foo', $expectedSlotValue));
+    }
+
+    /** @test */
+    public function it_can_get_all_slots()
+    {
+        $expectedSlots = array_get($this->requestData, 'request.intent.slots');
+        $this->assertNotEmpty($this->request->slots());
+        $this->assertEquals($expectedSlots, $this->request->slots());
+    }
+
+    /** @test */
+    public function it_can_update_a_slot_with_confirmation()
+    {
+        $expectedSlotValue = Carbon::now()->toIso8601String();
+
+        $previousValue = array_get($this->requestData, 'request.intent.slots.Date.value');
+        $this->assertNull($previousValue);
+
+        $this->request->updateSlot('Date', $expectedSlotValue);
+
+        $this->assertEquals($expectedSlotValue, $this->request->slot('Date'));
+    }
+
+    /** @test */
+    public function test_it_can_get_the_request_timestamp()
+    {
+        $expectedTimestamp = strtotime(array_get($this->requestData, 'request.timestamp'));
+        $this->assertEquals($expectedTimestamp, $this->request->getTimestamp());
+    }
+
+    /** @test */
+    public function it_knows_if_it_has_processed_the_request()
+    {
+        $this->assertFalse($this->request->isProcessed());
+
+        // do something to trigger the private method we can't directly access
+        $this->request->slots();
+
+        $this->assertTrue($this->request->isProcessed());
+    }
+
+    /** @test */
+    public function it_can_set_the_prompt_response_to_true()
+    {
+        $this->assertFalse($this->request->isPromptResponse());
+        $this->request->setPromptResponse(true);
+        $this->assertTrue($this->request->isPromptResponse());
+    }
+
+    /** @test */
+    public function it_can_get_confirmation_status_of_the_request()
+    {
+        $expectedConfirmationStatus = array_get($this->requestData, 'request.intent.confirmationStatus');
+        $this->assertEquals($expectedConfirmationStatus, $this->request->getConfirmationStatus());
     }
 }

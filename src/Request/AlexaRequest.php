@@ -26,6 +26,11 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
         return $this->data;
     }
 
+    public function isProcessed()
+    {
+        return $this->processed;
+    }
+
     /**
      * returns the request type, i.e. IntentRequest
      *
@@ -272,6 +277,10 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
 
     public function getConfirmationStatus()
     {
+        if (!$this->processed) {
+            $this->process();
+        }
+
         return $this->confirmationStatus;
     }
 }

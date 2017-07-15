@@ -23,7 +23,7 @@ class BaseTestCase extends TestCase
             'application' => [
                 'applicationId' => 'amzn1.ask.skill.0000000-0000-0000-0000-000000000000',
             ],
-            'attributes' => [],
+            'attributes' => ['Bazz' => 'Buzz'],
             'user' => [
                 'userId' => 'amzn1.ask.account.000000000000000000',
             ],
@@ -63,13 +63,16 @@ class BaseTestCase extends TestCase
             'requestId' => 'EdwRequestId.0000000-0000-0000-0000-000000000000',
             'locale' => 'en-US',
             'timestamp' => Carbon::now()->toIso8601String(),
-            'intents' => [
-                'intent' => $intent,
-                'slots' => $slots ?: [[
-                    'name' => 'Date',
-                    'type' => 'AMAZON.DATE',
-                    'confirmationStatus' => $confirmationStatus ?: 'NONE',
-                ]]
+            'intent' => [
+                'name' => $intent,
+                'slots' => $slots ?: [
+                    'Date' => [
+                        'name' => 'Date',
+                        'type' => 'AMAZON.DATE',
+                        'confirmationStatus' => $confirmationStatus ?: 'NONE',
+                    ]
+                ],
+                'confirmationStatus' => 'NONE',
             ],
             'dialogState' => "STARTED",
         ];

@@ -25,7 +25,8 @@ abstract class DialogDirective extends Directive
     public function request()
     {
         if(!isset($this->alexaRequest)) {
-            $this->alexaRequest = app(AlexaRequest::class);
+            $this->alexaRequest = function_exists('app') ?
+                app(AlexaRequest::class) : new AlexaRequest();
         }
 
         return $this->alexaRequest;

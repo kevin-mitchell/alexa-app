@@ -2,8 +2,6 @@
 
 namespace Develpr\AlexaApp\Response\Directives\Dialog;
 
-use Develpr\AlexaApp\Response\Directives\Directive;
-
 /**
  * Class Delegate sends Alexa a command to handle the next turn in the dialog with the user.
  *

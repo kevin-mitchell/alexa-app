@@ -78,5 +78,5 @@ interface AlexaRequest
      *
      * @return $this
      */
-    public function updateSlot($slotName, $value, $confirmed = false, $denied = false);
+    public function updateSlot($slotName, $value, $confirmed = false);
 }

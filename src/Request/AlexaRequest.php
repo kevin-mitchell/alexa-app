@@ -214,14 +214,18 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      *
      * @return $this
      */
-    public function updateSlot($slotName, $value, $confirmed = false, $denied = false)
+    public function updateSlot($slotName, $value, $confirmed = null)
     {
+        if (!$this->processed) {
+            $this->process();
+        }
+
         if (array_has($this->slots, [$slotName])) {
             $this->slots[$slotName]['value'] = $value;
 
             if ($confirmed) {
                 $this->slots[$slotName]['confirmationStatus'] = $this::CONFIRMED_STATUS;
-            } elseif ($denied) {
+            } elseif (!is_null($confirmed) && !$confirmed) {
                 $this->slots[$slotName]['confirmationStatus'] = $this::DENIED_STATUS;
             } else {
                 $this->slots[$slotName]['confirmationStatus'] = $this::NO_CONFIRMATION_STATUS;

@@ -12,13 +12,10 @@ class AlexaRequestTest extends BaseTestCase
     /** @var AlexaRequest | Mockery\MockInterface $request */
     protected $request;
 
-    /** @var array $requestData */
-    protected $requestData;
-
     public function setUp()
     {
         parent::setUp();
-        $this->requestData = $this->intentRequestMock();
+        $this->requestData = $this->intentRequestStub('GetDate', null, 'IN_PROGRESS');
 
         // Partial mock the request object so we can fake the request data
         $this->request = Mockery::mock('Develpr\AlexaApp\Request\AlexaRequest[getContent]');
@@ -143,8 +140,8 @@ class AlexaRequestTest extends BaseTestCase
         $expectedSlotValue = Carbon::now()->toIso8601String();
         array_set(
             $this->requestData,
-            'request.intent.slots.Date.value',
-            $expectedSlotValue
+            'request.intent.slots',
+            ['Date' => ['value' => $expectedSlotValue]]
         );
 
         $this->request->shouldReceive('getContent')
@@ -165,17 +162,41 @@ class AlexaRequestTest extends BaseTestCase
     /** @test */
     public function it_can_get_all_slots()
     {
-        $expectedSlots = array_get($this->requestData, 'request.intent.slots');
+        $slots = [
+            'Date' => [
+                'name' => 'Date',
+                'type' => 'AMAZON.DATE',
+                'confirmationStatus' => 'NONE',
+            ]
+        ];
+        $requestData = $this->intentRequestStub('GetDate', $slots);
+        $this->request->shouldReceive('getContent')
+            ->once()
+            ->andReturn(json_encode($requestData))
+            ->byDefault();
+
         $this->assertNotEmpty($this->request->slots());
-        $this->assertEquals($expectedSlots, $this->request->slots());
+        $this->assertEquals($slots, $this->request->slots());
     }
 
     /** @test */
     public function it_can_update_a_slot_with_confirmation()
     {
         $expectedSlotValue = Carbon::now()->toIso8601String();
+        $slots = [
+            'Date' => [
+                'name' => 'Date',
+                'type' => 'AMAZON.DATE',
+                'confirmationStatus' => 'NONE',
+            ]
+        ];
+        $requestData = $this->intentRequestStub('GetDate', $slots);
+        $this->request->shouldReceive('getContent')
+            ->once()
+            ->andReturn(json_encode($requestData))
+            ->byDefault();
 
-        $previousValue = array_get($this->requestData, 'request.intent.slots.Date.value');
+        $previousValue = $this->request->slot('Date');
         $this->assertNull($previousValue);
 
         $this->request->updateSlot('Date', $expectedSlotValue);

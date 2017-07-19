@@ -302,6 +302,10 @@ You can always return this in a single line,
 
 Here the third parameter, when set to true, will end the session.
 
+## Tests
+```
+ $ phpunit --configuration phpunit.xml
+```
 
 ## Thanks
 

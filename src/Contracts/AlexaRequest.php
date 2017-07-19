@@ -59,4 +59,24 @@ interface AlexaRequest
      * @return int
      */
     public function getTimestamp();
+
+    /**
+     * Get the dialog state possible values are:
+     * "STARTED", "IN_PROGRESS", or "COMPLETED"
+     *
+     * @return string|null
+     */
+    public function dialogState();
+
+    /**
+     * Update a slot
+     *
+     * @param $slotName
+     * @param $value
+     * @param bool $confirmed
+     * @param bool $denied
+     *
+     * @return $this
+     */
+    public function updateSlot($slotName, $value, $confirmed = false);
 }

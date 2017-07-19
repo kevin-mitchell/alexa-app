@@ -6,11 +6,16 @@ use Illuminate\Http\Request;
 
 class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaRequest
 {
+    const CONFIRMED_STATUS = 'CONFIRMED';
+    const DENIED_STATUS = 'DENIED';
+    const NO_CONFIRMATION_STATUS = 'NONE';
+
     private $data = null;
     private $processed = false;
     private $intent = null;
     private $slots = [];
     private $promptResponse = null;
+    private $confirmationStatus = null;
 
     protected function getData()
     {
@@ -19,6 +24,11 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
         }
 
         return $this->data;
+    }
+
+    public function isProcessed()
+    {
+        return $this->processed;
     }
 
     /**
@@ -136,6 +146,17 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
     }
 
     /**
+     * Get the dialog state possible values are:
+     * "STARTED", "IN_PROGRESS", or "COMPLETED"
+     *
+     * @return string|null
+     */
+    public function dialogState()
+    {
+        return array_get($this->getData(), 'request.dialogState');
+    }
+
+    /**
      * Get a particular session value by key
      *
      * @param string $key
@@ -189,6 +210,37 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
     }
 
     /**
+     * Update a slot
+     *
+     * @param $slotName
+     * @param $value
+     * @param bool $confirmed
+     * @param bool $denied
+     *
+     * @return $this
+     */
+    public function updateSlot($slotName, $value, $confirmed = null)
+    {
+        if (!$this->processed) {
+            $this->process();
+        }
+
+        if (array_has($this->slots, [$slotName])) {
+            $this->slots[$slotName]['value'] = $value;
+
+            if ($confirmed) {
+                $this->slots[$slotName]['confirmationStatus'] = $this::CONFIRMED_STATUS;
+            } elseif (!is_null($confirmed) && !$confirmed) {
+                $this->slots[$slotName]['confirmationStatus'] = $this::DENIED_STATUS;
+            } else {
+                $this->slots[$slotName]['confirmationStatus'] = $this::NO_CONFIRMATION_STATUS;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getTimestamp()
@@ -202,6 +254,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
         $this->data = json_decode($data, true);
         $this->intent = array_get($this->data, 'request.intent.name');
         $this->slots = array_get($this->data, 'request.intent.slots', []);
+        $this->confirmationStatus = array_get($this->data, 'request.intent.confirmationStatus', '');
 
         $this->processed = true;
     }
@@ -220,5 +273,14 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
     public function isPromptResponse()
     {
         return boolval($this->promptResponse);
+    }
+
+    public function getConfirmationStatus()
+    {
+        if (!$this->processed) {
+            $this->process();
+        }
+
+        return $this->confirmationStatus;
     }
 }

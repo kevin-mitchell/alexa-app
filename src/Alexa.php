@@ -289,6 +289,10 @@ class Alexa
         return $this->alexaRequest->slots();
     }
 
+    public function updateSlot($slotName, $value, $confirmed = false) {
+        return $this->alexaRequest->updateSlot($slotName, $value, $confirmed);
+    }
+
     /**
      * @param string|null $key
      * @param mixed|null  $value

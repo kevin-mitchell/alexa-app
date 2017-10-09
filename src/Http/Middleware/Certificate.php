@@ -163,7 +163,7 @@ class Certificate
     private function checkTimestampTolerance()
     {
         //If the timestamp tolerance is set to 0 we'll skip the check (see config)
-        if (array_get($this->config, 'timestampTolerance') === 0) {
+        if (intval(array_get($this->config, 'timestampTolerance')) === 0) {
             return;
         }
 

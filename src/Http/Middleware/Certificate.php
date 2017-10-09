@@ -69,7 +69,7 @@ class Certificate
 
         if ($certificateResult === 1) {
             return $next($request);
-        } elseif ($certificateResult = 0) {
+        } elseif ($certificateResult === 0) {
             throw new InvalidSignatureChainException("The request did not validate against the certificate chain.");
         } else {
             throw new \Exception("Something went wrong when validating the request and certificate.");

@@ -1,8 +1,8 @@
 <?php
 
-namespace Develpr\AlexaApp\Response\Directives\AudioPlayer;
+namespace Pallant\AlexaApp\Response\Directives\AudioPlayer;
 
-use Develpr\AlexaApp\Response\Directives\Directive;
+use Pallant\AlexaApp\Response\Directives\Directive;
 
 class Stop extends Directive
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Develpr\AlexaApp\Certificate;
+namespace Pallant\AlexaApp\Certificate;
 
 class EloquentCertificateProvider
 {

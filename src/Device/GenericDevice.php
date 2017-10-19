@@ -1,8 +1,8 @@
 <?php
 
-namespace Develpr\AlexaApp\Device;
+namespace Pallant\AlexaApp\Device;
 
-use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
+use Pallant\AlexaApp\Contracts\AmazonEchoDevice;
 
 class GenericDevice implements AmazonEchoDevice
 {

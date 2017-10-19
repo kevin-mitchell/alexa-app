@@ -1,6 +1,6 @@
 <?php
 
-namespace Develpr\AlexaApp\Exceptions;
+namespace Pallant\AlexaApp\Exceptions;
 
 class InvalidAppIdException extends AlexaException
 {

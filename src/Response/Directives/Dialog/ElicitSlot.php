@@ -1,6 +1,6 @@
 <?php
 
-namespace Develpr\AlexaApp\Response\Directives\Dialog;
+namespace Pallant\AlexaApp\Response\Directives\Dialog;
 
 /**
  * Class ElicitSlot sends Alexa a command to ask the user for the value of a specific slot.
@@ -9,7 +9,7 @@ namespace Develpr\AlexaApp\Response\Directives\Dialog;
  *
  * @see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/dialog-interface-reference#elicitslot
  *
- * @package Develpr\AlexaApp\Response\Directives\Dialog
+ * @package Pallant\AlexaApp\Response\Directives\Dialog
  */
 class ElicitSlot extends DialogDirective
 {

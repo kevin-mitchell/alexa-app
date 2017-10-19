@@ -1,10 +1,10 @@
 <?php
 
-namespace Develpr\AlexaApp\Response;
+namespace Pallant\AlexaApp\Response;
 
-use Develpr\AlexaApp\Contracts\OutputSpeech;
-use Develpr\AlexaApp\Response\Directives\AudioPlayer\Play;
-use Develpr\AlexaApp\Response\Directives\Directive;
+use Pallant\AlexaApp\Contracts\OutputSpeech;
+use Pallant\AlexaApp\Response\Directives\AudioPlayer\Play;
+use Pallant\AlexaApp\Response\Directives\Directive;
 use Illuminate\Contracts\Support\Jsonable;
 
 /**
@@ -58,7 +58,7 @@ class AlexaResponse implements Jsonable
     private $card = null;
 
     /**
-     * @var \Develpr\AlexaApp\Alexa
+     * @var \Pallant\AlexaApp\Alexa
      */
     private $alexa;
 

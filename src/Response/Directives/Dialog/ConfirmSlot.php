@@ -1,6 +1,6 @@
 <?php
 
-namespace Develpr\AlexaApp\Response\Directives\Dialog;
+namespace Pallant\AlexaApp\Response\Directives\Dialog;
 
 /**
  * Class ConfirmSlot sends Alexa a command to confirm the value of a specific slot
@@ -11,7 +11,7 @@ namespace Develpr\AlexaApp\Response\Directives\Dialog;
  *
  * @see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/dialog-interface-reference#confirmslot
  *
- * @package Develpr\AlexaApp\Response\Directives\Dialog
+ * @package Pallant\AlexaApp\Response\Directives\Dialog
  */
 class ConfirmSlot extends DialogDirective
 {

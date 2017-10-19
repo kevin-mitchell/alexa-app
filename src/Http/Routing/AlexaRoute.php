@@ -1,8 +1,8 @@
 <?php
 
-namespace Develpr\AlexaApp\Http\Routing;
+namespace Pallant\AlexaApp\Http\Routing;
 
-use Develpr\AlexaApp\Http\Routing\Matching\AlexaValidator;
+use Pallant\AlexaApp\Http\Routing\Matching\AlexaValidator;
 use Illuminate\Routing\Matching\UriValidator;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\RouteCompiler;

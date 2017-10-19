@@ -1,6 +1,6 @@
 <?php
 
-namespace Develpr\AlexaApp;
+namespace Pallant\AlexaApp;
 
 use Laravel\Lumen\Application;
 

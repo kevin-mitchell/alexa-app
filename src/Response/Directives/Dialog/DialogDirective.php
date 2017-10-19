@@ -1,9 +1,9 @@
 <?php
 
-namespace Develpr\AlexaApp\Response\Directives\Dialog;
+namespace Pallant\AlexaApp\Response\Directives\Dialog;
 
-use Develpr\AlexaApp\Response\Directives\Directive;
-use Develpr\AlexaApp\Request\AlexaRequest;
+use Pallant\AlexaApp\Response\Directives\Directive;
+use Pallant\AlexaApp\Request\AlexaRequest;
 
 abstract class DialogDirective extends Directive
 {

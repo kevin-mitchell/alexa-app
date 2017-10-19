@@ -1,6 +1,6 @@
 <?php
 
-namespace Develpr\AlexaApp\Facades;
+namespace Pallant\AlexaApp\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

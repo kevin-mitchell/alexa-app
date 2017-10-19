@@ -1,8 +1,8 @@
 <?php
 
-namespace Develpr\AlexaApp\Response;
+namespace Pallant\AlexaApp\Response;
 
-use Develpr\AlexaApp\Contracts\OutputSpeech;
+use Pallant\AlexaApp\Contracts\OutputSpeech;
 
 /**
  * Used for directly creating SSML - more useful as SSML becomes standard in more ASK apps

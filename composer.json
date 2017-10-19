@@ -8,6 +8,10 @@
         {
             "name": "Kevin Mitchell",
             "email": "kevin@develpr.com"
+        },
+        {
+            "name": "Arran Jacques",
+            "email": "arran@pallant.digital"
         }
     ],
     "require": {
@@ -20,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Develpr\\AlexaApp\\": "src"
+            "Pallant\\AlexaApp\\": "src"
         }
     },
     "autoload-dev": {
@@ -28,7 +32,7 @@
             "tests/"
         ],
         "psr-4": {
-            "Develpr\\Tests\\": "tests"
+            "Pallant\\Tests\\": "tests"
         }
     }
 }

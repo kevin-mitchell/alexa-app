@@ -1,8 +1,8 @@
 <?php
 
-namespace Develpr\AlexaApp\Http\Routing\Matching;
+namespace Pallant\AlexaApp\Http\Routing\Matching;
 
-use Develpr\AlexaApp\Http\Routing\AlexaRoute;
+use Pallant\AlexaApp\Http\Routing\AlexaRoute;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Matching\ValidatorInterface;
 use Illuminate\Routing\Route;
@@ -12,8 +12,8 @@ class AlexaValidator implements ValidatorInterface
     /**
      * Validate a given rule against a route and request.
      *
-     * @param  \Develpr\AlexaApp\Http\Routing\AlexaRoute $route
-     * @param  \Develpr\AlexaApp\Request\AlexaRequest    $request
+     * @param  \Pallant\AlexaApp\Http\Routing\AlexaRoute $route
+     * @param  \Pallant\AlexaApp\Request\AlexaRequest    $request
      *
      * @return bool
      */

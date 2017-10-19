@@ -1,6 +1,6 @@
 <?php
 
-namespace Develpr\AlexaApp\Contracts;
+namespace Pallant\AlexaApp\Contracts;
 
 interface CertificateProvider
 {

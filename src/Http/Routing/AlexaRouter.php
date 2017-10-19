@@ -1,8 +1,8 @@
 <?php
 
-namespace Develpr\AlexaApp\Http\Routing;
+namespace Pallant\AlexaApp\Http\Routing;
 
-use Develpr\AlexaApp\Response\AlexaResponse;
+use Pallant\AlexaApp\Response\AlexaResponse;
 use Illuminate\Routing\Router as IlluminateRouter;
 use Alexa;
 

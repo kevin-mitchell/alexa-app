@@ -1,9 +1,9 @@
 <?php
 
-namespace Develpr\AlexaApp\Device;
+namespace Pallant\AlexaApp\Device;
 
-use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
-use Develpr\AlexaApp\Contracts\DeviceProvider;
+use Pallant\AlexaApp\Contracts\AmazonEchoDevice;
+use Pallant\AlexaApp\Contracts\DeviceProvider;
 
 class EloquentDeviceProvider implements DeviceProvider
 {

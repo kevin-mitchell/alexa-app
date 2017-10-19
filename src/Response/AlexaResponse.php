@@ -125,7 +125,7 @@ class AlexaResponse implements Jsonable
         $responseData = [];
         $responseData['version'] = self::ALEXA_RESPONSE_VERSION;
         $response = [];
-        
+
         //Check to see if a speech, card, or reprompt object are set and if so
         //add them to the data object
         if (!is_null($this->speech) && $this->speech instanceof OutputSpeech) {
@@ -136,7 +136,7 @@ class AlexaResponse implements Jsonable
             $response['card'] = $this->card->toArray();
         }
 
-        if (!is_null($this->reprompt) && $this->reprompt instanceof Reprompt) {
+        if (!is_null($this->reprompt) && $this->reprompt instanceof Reprompt && trim($this->reprompt->getValue()) != "") {
             $response['reprompt'] = $this->reprompt->toArray();
         }
 

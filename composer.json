@@ -1,5 +1,6 @@
 {
     "name": "pallant/alexa-app",
+    "type": "vcs",
     "description": "Set of classes to make creating simple Amazon Echo Alexa Apps easier with Lumen and to a lesser extent Laravel",
     "license": "MIT",
     "keywords": ["echo", "Amazon Echo", "Alexa", "AlexaApp", "Lumen", "Laravel"],
@@ -19,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Pallant\\AlexaApp\\": "src"
+            "Develpr\\AlexaApp\\": "src"
         }
     },
     "autoload-dev": {
@@ -27,12 +28,7 @@
             "tests/"
         ],
         "psr-4": {
-            "Pallant\\Tests\\": "tests"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.4-dev"
+            "Develpr\\Tests\\": "tests"
         }
     }
 }

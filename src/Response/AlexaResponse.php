@@ -124,10 +124,8 @@ class AlexaResponse implements Jsonable
     {
         $responseData = [];
         $responseData['version'] = self::ALEXA_RESPONSE_VERSION;
-        $response = [
-            'shouldEndSession' => $this->shouldSessionEnd,
-        ];
-
+        $response = [];
+        
         //Check to see if a speech, card, or reprompt object are set and if so
         //add them to the data object
         if (!is_null($this->speech) && $this->speech instanceof OutputSpeech) {
@@ -147,6 +145,8 @@ class AlexaResponse implements Jsonable
                 $response['directives'][] = $directive->toArray();
             }
         }
+
+        $response['shouldEndSession'] = $this->shouldSessionEnd;
 
         $sessionAttributes = $this->getSessionData();
 

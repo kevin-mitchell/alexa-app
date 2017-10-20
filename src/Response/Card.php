@@ -47,8 +47,7 @@ class Card implements Arrayable
         $type = self::DEFAULT_CARD_TYPE,
         $text = '',
         $img = []
-    )
-    {
+    ) {
         $this->title = $title;
         $this->subtitle = $subtitle;
         $this->content = $content;
@@ -72,13 +71,13 @@ class Card implements Arrayable
         $this->addAttributeToArray('title', $cardAsArray);
         $this->addAttributeToArray('subtitle', $cardAsArray);
 
-        if($this->isSimpleCard()) {
+        if ($this->isSimpleCard()) {
             $this->addAttributeToArray('content', $cardAsArray);
         }
 
-        if($this->isStandardCard()) {
+        if ($this->isStandardCard()) {
             $this->addAttributeToArray('text', $cardAsArray);
-            $this->addAttributeToArray('img', $cardAsArray);
+            $this->addAttributeToArray('image', $cardAsArray);
         }
 
         return $cardAsArray;
@@ -216,7 +215,7 @@ class Card implements Arrayable
 
         if (is_array($img) && array_has($img, $requiredKeys)) {
             $this->img  = array_only($img, $requiredKeys);
-        } elseif(is_string($img)) {
+        } elseif (is_string($img)) {
             $this->img = [
                 'smallImageUrl' => $img,
                 'largeImageUrl' =>   $img

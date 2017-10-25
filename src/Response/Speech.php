@@ -1,8 +1,8 @@
 <?php
 
-namespace Pallant\AlexaApp\Response;
+namespace Develpr\AlexaApp\Response;
 
-use Pallant\AlexaApp\Contracts\OutputSpeech;
+use Develpr\AlexaApp\Contracts\OutputSpeech;
 
 class Speech implements OutputSpeech
 {

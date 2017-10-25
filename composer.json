@@ -30,5 +30,10 @@
         "psr-4": {
             "Develpr\\Tests\\": "tests"
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.4-dev"
+        }
     }
 }

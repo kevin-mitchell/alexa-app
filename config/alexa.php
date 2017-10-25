@@ -201,7 +201,7 @@ return [
         | as long as it implements the AmazonEchoDevice contract.
         |
         */
-        'model' => env('ALEXA_ELOQUENT_DEVICE_MODEL', 'Pallant\AlexaApp\Device\Device'),
+        'model' => env('ALEXA_ELOQUENT_DEVICE_MODEL', 'Develpr\AlexaApp\Device\Device'),
 
         /*
         |--------------------------------------------------------------------------

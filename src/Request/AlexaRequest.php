@@ -1,10 +1,10 @@
 <?php
 
-namespace Pallant\AlexaApp\Request;
+namespace Develpr\AlexaApp\Request;
 
 use Illuminate\Http\Request;
 
-class AlexaRequest extends Request implements \Pallant\AlexaApp\Contracts\AlexaRequest
+class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaRequest
 {
     const CONFIRMED_STATUS = 'CONFIRMED';
     const DENIED_STATUS = 'DENIED';

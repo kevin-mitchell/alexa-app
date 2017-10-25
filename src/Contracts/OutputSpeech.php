@@ -1,6 +1,6 @@
 <?php
 
-namespace Pallant\AlexaApp\Contracts;
+namespace Develpr\AlexaApp\Contracts;
 
 use Illuminate\Contracts\Support\Arrayable;
 

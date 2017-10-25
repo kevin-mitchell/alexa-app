@@ -1,8 +1,8 @@
 <?php
 
-namespace Pallant\AlexaApp\Response\Directives\AudioPlayer;
+namespace Develpr\AlexaApp\Response\Directives\AudioPlayer;
 
-use Pallant\AlexaApp\Response\Directives\Directive;
+use Develpr\AlexaApp\Response\Directives\Directive;
 
 class ClearQueue extends Directive
 {

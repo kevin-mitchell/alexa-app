@@ -1,6 +1,6 @@
 <?php
 
-namespace Pallant\AlexaApp\Provider;
+namespace Develpr\AlexaApp\Provider;
 
 use Illuminate\Support\ServiceProvider;
 use ReflectionClass;
@@ -18,7 +18,7 @@ class LumenServiceProvider extends ServiceProvider
         $reflection = new ReflectionClass($this->app);
         $this->app->instance('app.middleware', $this->gatherAppMiddleware($reflection));
 
-        $this->app->register('Pallant\AlexaApp\Provider\AlexaServiceProvider');
+        $this->app->register('Develpr\AlexaApp\Provider\AlexaServiceProvider');
 
         $this->addRequestMiddlewareToBeginning($reflection);
     }
@@ -42,7 +42,7 @@ class LumenServiceProvider extends ServiceProvider
 
         $middleware = $property->getValue($this->app);
 
-        array_unshift($middleware, 'Pallant\AlexaApp\Http\Middleware\Request');
+        array_unshift($middleware, 'Develpr\AlexaApp\Http\Middleware\Request');
 
         $property->setValue($this->app, $middleware);
         $property->setAccessible(false);

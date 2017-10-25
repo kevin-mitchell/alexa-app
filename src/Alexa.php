@@ -1,23 +1,23 @@
 <?php
 
-namespace Pallant\AlexaApp;
+namespace Develpr\AlexaApp;
 
-use Pallant\AlexaApp\Contracts\AmazonEchoDevice;
-use Pallant\AlexaApp\Contracts\DeviceProvider;
-use Pallant\AlexaApp\Request\AlexaRequest;
-use Pallant\AlexaApp\Response\AlexaResponse;
-use Pallant\AlexaApp\Response\AudioFile;
-use Pallant\AlexaApp\Response\Card;
-use Pallant\AlexaApp\Response\Directives\AudioPlayer\Play;
-use Pallant\AlexaApp\Response\Directives\AudioPlayer\Stop;
-use Pallant\AlexaApp\Response\Reprompt;
-use Pallant\AlexaApp\Response\Speech;
-use Pallant\AlexaApp\Response\SSML;
+use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
+use Develpr\AlexaApp\Contracts\DeviceProvider;
+use Develpr\AlexaApp\Request\AlexaRequest;
+use Develpr\AlexaApp\Response\AlexaResponse;
+use Develpr\AlexaApp\Response\AudioFile;
+use Develpr\AlexaApp\Response\Card;
+use Develpr\AlexaApp\Response\Directives\AudioPlayer\Play;
+use Develpr\AlexaApp\Response\Directives\AudioPlayer\Stop;
+use Develpr\AlexaApp\Response\Reprompt;
+use Develpr\AlexaApp\Response\Speech;
+use Develpr\AlexaApp\Response\SSML;
 
 class Alexa
 {
     /**
-     * @var \Pallant\AlexaApp\Contracts\AlexaRequest
+     * @var \Develpr\AlexaApp\Contracts\AlexaRequest
      */
     private $alexaRequest;
 
@@ -88,7 +88,7 @@ class Alexa
     }
 
     /**
-     * @return \Pallant\AlexaApp\Contracts\AlexaRequest
+     * @return \Develpr\AlexaApp\Contracts\AlexaRequest
      */
     public function request()
     {
@@ -96,7 +96,7 @@ class Alexa
     }
 
     /**
-     * @return \Pallant\AlexaApp\Response\AlexaResponse
+     * @return \Develpr\AlexaApp\Response\AlexaResponse
      */
     public function response()
     {
@@ -107,7 +107,7 @@ class Alexa
      * @param string $statementWords
      * @param string $speechType
      *
-     * @return \Pallant\AlexaApp\Response\AlexaResponse
+     * @return \Develpr\AlexaApp\Response\AlexaResponse
      */
     public function say($statementWords, $speechType = Speech::DEFAULT_TYPE)
     {
@@ -121,7 +121,7 @@ class Alexa
      * @param string $repromptWords
      * @param string $speechType
      *
-     * @return \Pallant\AlexaApp\Response\AlexaResponse
+     * @return \Develpr\AlexaApp\Response\AlexaResponse
      */
     public function reprompt($statementWords, $repromptWords = ' ', $speechType = Speech::DEFAULT_TYPE)
     {
@@ -133,7 +133,7 @@ class Alexa
     /**
      * @param string $audioURI
      *
-     * @return \Pallant\AlexaApp\Response\AlexaResponse
+     * @return \Develpr\AlexaApp\Response\AlexaResponse
      */
     public function playAudio($audioURI)
     {
@@ -201,7 +201,7 @@ class Alexa
     /**
      * @param string $ssmlValue
      *
-     * @return \Pallant\AlexaApp\Response\AlexaResponse
+     * @return \Develpr\AlexaApp\Response\AlexaResponse
      */
     public function ssml($ssmlValue)
     {
@@ -216,7 +216,7 @@ class Alexa
     /**
      * @param string $question
      *
-     * @return \Pallant\AlexaApp\Response\AlexaResponse
+     * @return \Develpr\AlexaApp\Response\AlexaResponse
      */
     public function ask($question)
     {
@@ -232,7 +232,7 @@ class Alexa
      * @param string $subtitle
      * @param string $content
      *
-     * @return \Pallant\AlexaApp\Response\AlexaResponse
+     * @return \Develpr\AlexaApp\Response\AlexaResponse
      */
     public function card($title = '', $subtitle = '', $content = '')
     {
@@ -246,7 +246,7 @@ class Alexa
     /**
      * @param array $attributes
      *
-     * @return \Pallant\AlexaApp\Contracts\AmazonEchoDevice|null
+     * @return \Develpr\AlexaApp\Contracts\AmazonEchoDevice|null
      */
     public function device($attributes = [])
     {

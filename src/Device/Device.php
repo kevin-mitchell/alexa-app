@@ -1,8 +1,8 @@
 <?php
 
-namespace Pallant\AlexaApp\Device;
+namespace Develpr\AlexaApp\Device;
 
-use Pallant\AlexaApp\Contracts\AmazonEchoDevice;
+use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
 use Illuminate\Database\Eloquent\Model;
 
 class Device extends Model implements AmazonEchoDevice

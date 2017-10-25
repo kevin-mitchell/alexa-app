@@ -1,8 +1,8 @@
 <?php
 
-namespace Pallant\AlexaApp\Certificate;
+namespace Develpr\AlexaApp\Certificate;
 
-use Pallant\AlexaApp\Exceptions\InvalidCertificateException;
+use Develpr\AlexaApp\Exceptions\InvalidCertificateException;
 
 abstract class BaseCertificateProvider
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Pallant\AlexaApp\Certificate;
+namespace Develpr\AlexaApp\Certificate;
 
-use Pallant\AlexaApp\Contracts\CertificateProvider;
+use Develpr\AlexaApp\Contracts\CertificateProvider;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 

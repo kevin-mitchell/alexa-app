@@ -1,10 +1,10 @@
 <?php
 
-namespace Pallant\AlexaApp\Http\Middleware;
+namespace Develpr\AlexaApp\Http\Middleware;
 
 use Closure;
-use Pallant\AlexaApp\Contracts\AlexaRequest;
-use Pallant\AlexaApp\Http\Routing\AlexaRouter;
+use Develpr\AlexaApp\Contracts\AlexaRequest;
+use Develpr\AlexaApp\Http\Routing\AlexaRouter;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Pipeline\Pipeline;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +33,7 @@ class Request
     protected $middleware;
 
     /**
-     * @var \Pallant\AlexaApp\Contracts\AlexaRequest
+     * @var \Develpr\AlexaApp\Contracts\AlexaRequest
      */
     private $alexaRequest;
 

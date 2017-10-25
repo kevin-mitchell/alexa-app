@@ -1,6 +1,6 @@
 <?php
 
-namespace Pallant\AlexaApp\Exceptions;
+namespace Develpr\AlexaApp\Exceptions;
 
 class InvalidCertificateException extends AlexaException
 {

@@ -1,15 +1,15 @@
 <?php
 
-namespace Pallant\AlexaApp\Provider;
+namespace Develpr\AlexaApp\Provider;
 
-use Pallant\AlexaApp\Alexa;
-use Pallant\AlexaApp\Certificate\DatabaseCertificateProvider;
-use Pallant\AlexaApp\Certificate\EloquentCertificateProvider;
-use Pallant\AlexaApp\Certificate\FileCertificateProvider;
-use Pallant\AlexaApp\Certificate\RedisCertificateProvider;
-use Pallant\AlexaApp\Device\DatabaseDeviceProvider;
-use Pallant\AlexaApp\Device\EloquentDeviceProvider;
-use Pallant\AlexaApp\Request\AlexaRequest;
+use Develpr\AlexaApp\Alexa;
+use Develpr\AlexaApp\Certificate\DatabaseCertificateProvider;
+use Develpr\AlexaApp\Certificate\EloquentCertificateProvider;
+use Develpr\AlexaApp\Certificate\FileCertificateProvider;
+use Develpr\AlexaApp\Certificate\RedisCertificateProvider;
+use Develpr\AlexaApp\Device\DatabaseDeviceProvider;
+use Develpr\AlexaApp\Device\EloquentDeviceProvider;
+use Develpr\AlexaApp\Request\AlexaRequest;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
@@ -41,7 +41,7 @@ class AlexaServiceProvider extends ServiceProvider
     protected function registerRouter()
     {
         $this->app->singleton('alexa.router', function ($app) {
-            return $app->make(\Pallant\AlexaApp\Http\Routing\AlexaRouter::class);
+            return $app->make(\Develpr\AlexaApp\Http\Routing\AlexaRouter::class);
         });
     }
 
@@ -91,12 +91,12 @@ class AlexaServiceProvider extends ServiceProvider
      */
     protected function registerMiddleware()
     {
-        $this->app->singleton(\Pallant\AlexaApp\Http\Middleware\Request::class, function ($app) {
-            return new \Pallant\AlexaApp\Http\Middleware\Request($app, $app['alexa.router'], $app['alexa.request'], $app['alexa.router.middleware']);
+        $this->app->singleton(\Develpr\AlexaApp\Http\Middleware\Request::class, function ($app) {
+            return new \Develpr\AlexaApp\Http\Middleware\Request($app, $app['alexa.router'], $app['alexa.request'], $app['alexa.router.middleware']);
         });
 
-        $this->app->singleton(\Pallant\AlexaApp\Http\Middleware\Certificate::class, function ($app) {
-            return new \Pallant\AlexaApp\Http\Middleware\Certificate($app['alexa.request'], $app['alexa.certificateProvider'], $app['config']['alexa']);
+        $this->app->singleton(\Develpr\AlexaApp\Http\Middleware\Certificate::class, function ($app) {
+            return new \Develpr\AlexaApp\Http\Middleware\Certificate($app['alexa.request'], $app['alexa.certificateProvider'], $app['config']['alexa']);
         });
     }
 

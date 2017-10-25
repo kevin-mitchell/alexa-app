@@ -1,8 +1,8 @@
 <?php
 
-namespace Pallant\AlexaApp\Certificate;
+namespace Develpr\AlexaApp\Certificate;
 
-use Pallant\AlexaApp\Contracts\CertificateProvider;
+use Develpr\AlexaApp\Contracts\CertificateProvider;
 use Illuminate\Redis\Database as RedisDatabase;
 
 class RedisCertificateProvider extends BaseCertificateProvider implements CertificateProvider

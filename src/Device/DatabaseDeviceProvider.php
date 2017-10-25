@@ -1,9 +1,9 @@
 <?php
 
-namespace Pallant\AlexaApp\Device;
+namespace Develpr\AlexaApp\Device;
 
-use Pallant\AlexaApp\Contracts\AmazonEchoDevice;
-use Pallant\AlexaApp\Contracts\DeviceProvider;
+use Develpr\AlexaApp\Contracts\AmazonEchoDevice;
+use Develpr\AlexaApp\Contracts\DeviceProvider;
 use Illuminate\Database\ConnectionInterface;
 
 class DatabaseDeviceProvider implements DeviceProvider

@@ -1,6 +1,6 @@
 <?php
 
-namespace Pallant\AlexaApp\Response;
+namespace Develpr\AlexaApp\Response;
 
 class AudioFile extends SSML
 {

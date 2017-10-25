@@ -1,6 +1,6 @@
 <?php
 
-namespace Pallant\AlexaApp\Response\Directives\Dialog;
+namespace Develpr\AlexaApp\Response\Directives\Dialog;
 
 /**
  * Class Delegate sends Alexa a command to handle the next turn in the dialog with the user.
@@ -11,7 +11,7 @@ namespace Pallant\AlexaApp\Response\Directives\Dialog;
  *
  * @see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/dialog-interface-reference#delegate
  *
- * @package Pallant\AlexaApp\Response\Directives\Dialog
+ * @package Develpr\AlexaApp\Response\Directives\Dialog
  */
 class Delegate extends DialogDirective
 {

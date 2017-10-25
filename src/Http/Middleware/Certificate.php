@@ -1,14 +1,14 @@
 <?php
 
-namespace Pallant\AlexaApp\Http\Middleware;
+namespace Develpr\AlexaApp\Http\Middleware;
 
 use Closure;
-use Pallant\AlexaApp\Contracts\AlexaRequest;
-use Pallant\AlexaApp\Contracts\CertificateProvider;
-use Pallant\AlexaApp\Exceptions\InvalidAppIdException;
-use Pallant\AlexaApp\Exceptions\InvalidCertificateException;
-use Pallant\AlexaApp\Exceptions\InvalidRequestTimestamp;
-use Pallant\AlexaApp\Exceptions\InvalidSignatureChainException;
+use Develpr\AlexaApp\Contracts\AlexaRequest;
+use Develpr\AlexaApp\Contracts\CertificateProvider;
+use Develpr\AlexaApp\Exceptions\InvalidAppIdException;
+use Develpr\AlexaApp\Exceptions\InvalidCertificateException;
+use Develpr\AlexaApp\Exceptions\InvalidRequestTimestamp;
+use Develpr\AlexaApp\Exceptions\InvalidSignatureChainException;
 use Illuminate\Http\Request as IlluminateRequest;
 
 class Certificate
@@ -18,12 +18,12 @@ class Certificate
     const ENCRYPT_METHOD         = "sha1WithRSAEncryption";
 
     /**
-     * @var \Pallant\AlexaApp\Contracts\AlexaRequest
+     * @var \Develpr\AlexaApp\Contracts\AlexaRequest
      */
     private $alexaRequest;
 
     /**
-     * @var \Pallant\AlexaApp\Contracts\CertificateProvider
+     * @var \Develpr\AlexaApp\Contracts\CertificateProvider
      */
     private $certificateProvider;
 

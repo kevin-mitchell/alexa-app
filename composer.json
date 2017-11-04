@@ -33,6 +33,15 @@
     "extra": {
         "branch-alias": {
             "dev-master": "0.4-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Develpr\\AlexaApp\\Provider\\LaravelServiceProvider"
+            ],
+            "aliases": {
+                "AlexaRoute": "Develpr\\AlexaApp\\Facades\\AlexaRouter",
+                "Alexa": "Develpr\\AlexaApp\\Facades\\Alexa"
+            }
         }
     }
 }

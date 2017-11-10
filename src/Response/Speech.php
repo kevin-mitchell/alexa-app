@@ -36,8 +36,10 @@ class Speech implements OutputSpeech
         $textKey = ($this->getType() === 'SSML') ? 'ssml' : 'text';
 
         return [
-            'type' => $this->getType(),
-            $textKey => $this->getValue(),
+            'outputSpeech' => [
+                'type' => $this->getType(),
+                $textKey => $this->getValue(),
+            ]
         ];
     }
 

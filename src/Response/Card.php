@@ -28,7 +28,7 @@ class Card implements Arrayable
     private $text = '';
 
     /** @var array | string $img Only applicable for standard card types */
-    private $img = [];
+    private $image = [];
 
     /**
      * Card constructor
@@ -38,7 +38,7 @@ class Card implements Arrayable
      * @param string $content
      * @param string $type
      * @param string $text
-     * @param array|string $img url for the image to display on the card
+     * @param array|string $image url for the image to display on the card
      */
     public function __construct(
         $title = '',
@@ -46,15 +46,14 @@ class Card implements Arrayable
         $content = '',
         $type = self::DEFAULT_CARD_TYPE,
         $text = '',
-        $img = []
-    )
-    {
+        $image = []
+    ) {
         $this->title = $title;
         $this->subtitle = $subtitle;
         $this->content = $content;
         $this->type = $type;
         $this->text = $text;
-        $this->setImg($img);
+        $this->setImg($image);
     }
 
     /**
@@ -72,13 +71,13 @@ class Card implements Arrayable
         $this->addAttributeToArray('title', $cardAsArray);
         $this->addAttributeToArray('subtitle', $cardAsArray);
 
-        if($this->isSimpleCard()) {
+        if ($this->isSimpleCard()) {
             $this->addAttributeToArray('content', $cardAsArray);
         }
 
-        if($this->isStandardCard()) {
+        if ($this->isStandardCard()) {
             $this->addAttributeToArray('text', $cardAsArray);
-            $this->addAttributeToArray('img', $cardAsArray);
+            $this->addAttributeToArray('image', $cardAsArray);
         }
 
         return $cardAsArray;
@@ -206,20 +205,20 @@ class Card implements Arrayable
     }
 
     /**
-     * @param string | array[string] $img the image url
+     * @param string | array[string] $image the image url
      *
      * @return $this
      */
-    public function setImg($img)
+    public function setImg($image)
     {
         $requiredKeys = ['smallImageUrl', 'largeImageUrl'];
 
-        if (is_array($img) && array_has($img, $requiredKeys)) {
-            $this->img  = array_only($img, $requiredKeys);
-        } elseif(is_string($img)) {
-            $this->img = [
-                'smallImageUrl' => $img,
-                'largeImageUrl' =>   $img
+        if (is_array($image) && array_has($image, $requiredKeys)) {
+            $this->image  = array_only($image, $requiredKeys);
+        } elseif (is_string($image)) {
+            $this->image = [
+                'smallImageUrl' => $image,
+                'largeImageUrl' =>   $image
             ];
         }
 
@@ -231,7 +230,7 @@ class Card implements Arrayable
      */
     public function getImg()
     {
-        return $this->img;
+        return $this->$image;
     }
 
     /**

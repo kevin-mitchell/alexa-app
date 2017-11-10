@@ -198,7 +198,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function slots()
     {
@@ -206,7 +206,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
             $this->process();
         }
 
-        return $this->slots;
+        return count($this->slots) ? $this->slots : null;
     }
 
     /**

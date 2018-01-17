@@ -53,8 +53,6 @@ In your application's `bootstrap/app.php` file, add:
 
 #### Add Facades/Aliases (Optional)
 
-This is not required, but it can be very handy. If you'd prefer, you can inject an instance of the `\Develpr\AlexaApp\Alexa` or `\Develpr\AlexaApp\Routing\AlexaRouter` class, or grab them with `$app['alexa']` or $app['alexa.router'], respectively.
-
 ##### For Laravel
 
 In the `config/app.php` configuration file, add:
@@ -76,8 +74,6 @@ First make sure aliases/facades are enabled in your `bootstrap/app.php` file by 
 For lumen it might be easier to simply use `$app['alexa.router']` or inject an instance of one of the above classes into your class.
 
 #### 3: Middleware (optional)
-
-You do not *need* to register this middleware however, and for certain testing may choose not to.
 
 If you'd like to protect all routes in your application you can simply add the `Certificate` middleware to your global middleware.
 

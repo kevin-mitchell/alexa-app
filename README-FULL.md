@@ -5,68 +5,84 @@
 [![Software License](https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![StyleCI](https://styleci.io/repos/34590394/shield)](https://styleci.io/repos/34590394)
 
-The **AlexaApp** package provides easy to use functions to create Amazon Echo Alexa Apps with Laravel and Lumen.
+Set of classes to make creating simple Amazon Echo Alexa Apps easier with Laravel and Lumen ([note that 5.2.x Lumen has a known issue that needs addressing](https://github.com/develpr/alexa-app/issues/5))
 
-## Features
+- [Main Features](#main-features)
+- [Demo](#demo)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
 
-- Allows Laravel/Lumen style routing for `intent`, `launch`, and `session end requests`.
-- Handles `verification` of all security requirements put forth by Amazon, including `certificate/signature verification, timestamp verification`, etc.
-- Provides access to Alexa `AlexaSkillsKit` session data through familiar Laravel style interface.
-- Populates the response with Laravel session data to maintain a 1:1 set of session data between Lumen and Alexa.
-- Provides classes to easily return Alexa friendly responses, including `Speech`, `Card`, `Audio` and `Re-prompt` responses
-- Optionally provides a way to easily retrieve information about the connected Echo device (`$device = Alexa::device();`)
+## Major Update - 0.2.0 - call me beta
 
-#### Simplest example:
+I've recently refactored nearly all of this package to make it Laravel compatible, and to avoid the previous heavy handed solution of completely replace the default Lumen `Application`. I've also made a number of changes I feel are for the best, for instance I've decoupled the Laravel/Lumen Session with the Alexa AlexaSkillsKit specific session data, and I've created a single interface to make it possible to handle most Alexa interactions through a single facade. But that's mainly related to the refactor - there are also a *bunch* of new features, including most importantly support for Amazon's AlexaSkillsKit security related requirements.
+
+## Main Features
+
+1. Allows Laravel/Lumen style routing for intent, launch, and session end requests.
+2. Handles verification of all security requirements put forth by Amazon, including certificate/signature verification, timestamp verification, etc
+3. Provides access to Alexa AlexaSkillsKit session data through familiar Laravel style interface
+4. Populates the response with Laravel session data to maintain a 1:1 set of session data between Lumen and Alexa
+5. Provides classes to easily return Alexa friendly responses, including `Speech`, `Card`, and `Re-prompt` responses
+6. Optionally provides a way to easily retrieve information about the connected Echo device (`$device = Alexa::device();`)
+
+For a quick example:
 
     AlexaRoute::intent('/alexa-end-point', 'GetAntiJoke', function(){
         Alexa::say("Why was the little boy crying? Because he had a frog stapled to his face!");
     });
 
+## Demo
 
-## Quick start - Documentation
-
-> Detailed Documentation is [available here](README-FULL.md)
-
-Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the AlexaApp? Feel free to create an issue on [GitHub](https://github.com/develpr/alexa-app/issues/new), we'll try to address it as soon as possible.
+*I'll be recording a number of new tutorial videos soon.*
 
 ## Installation
 
-You can install this package via composer using this command:
+### Prerequisites
 
-    composer require develpr/alexa-app
+The only thing that is required for AlexaApp is the Laravel or Lumen (versions based on 5.2) framework.
 
-#### Add Service Provider 
+After installing via composer (i.e. `composer require develpr/alexa-app`):
 
-The package will automatically register itself in 5.5 and greater Laravel.
+### 1 : Auto-load the appropriate service provider for your framework
 
-##### For older versions of Laravel ( <5.5 )
+The `Develpr\AlexaApp\Provider\LaravelServiceProvider` needs to be added to the array of auto-loaded service providers
+
+#### Laravel
 
 In the `config/app.php` configuration file, add:
 
     'providers' => [
+        ...snip...
         \Develpr\AlexaApp\Provider\LaravelServiceProvider::class,
+        ...snip...
     ],
 
-##### For Lumen
+#### Lumen
 
 In your application's `bootstrap/app.php` file, add:
 
     $app->register(\Develpr\AlexaApp\Provider\LumenServiceProvider::class);
 
-#### Add Facades/Aliases (Optional)
 
-##### For Laravel
+### 2: Adding the facades/aliases for `Alexa` and `AlexaRoute` (optional)
 
-In the `config/app.php` configuration file, add:
+This is not required, but it can be very handy. If you'd prefer, you can inject an instance of the `\Develpr\AlexaApp\Alexa` or `\Develpr\AlexaApp\Routing\AlexaRouter` class, or grab them with `$app['alexa']` or $app['alexa.router'], respectively.
 
-    'aliases' => [
-        'AlexaRoute' => \Develpr\AlexaApp\Facades\AlexaRouter::class,
-        'Alexa' => \Develpr\AlexaApp\Facades\Alexa::class,
-    ],
+#### Laravel
 
-##### For Lumen
+**If** you'd like to use facades/aliases you'll need to add two separate alias configurations in the `config/app.php` file.
 
-> The truth is I'm not 100% sure if there is an "official" way of adding aliases/facades in Lumen, and I generally don't use custom facades with Lumen, however [as mentioned in this stackexchange post](http://stackoverflow.com/questions/30399766/where-to-register-facades-service-providers-in-lumen), this should work:
+        'aliases' => [
+            ...
+            'AlexaRoute' => \Develpr\AlexaApp\Facades\AlexaRouter::class,
+            'Alexa' => \Develpr\AlexaApp\Facades\Alexa::class,
+            ...
+        ],
+
+#### Lumen
+
+The truth is I'm not 100% sure if there is an "official" way of adding aliases/facades in Lumen, and I generally don't use custom facades with Lumen, however [as mentioned in this stackexchange post](http://stackoverflow.com/questions/30399766/where-to-register-facades-service-providers-in-lumen), this should work:
 
 First make sure aliases/facades are enabled in your `bootstrap/app.php` file by uncommenting `$app->withFacades();` and then after this add
 
@@ -75,28 +91,40 @@ First make sure aliases/facades are enabled in your `bootstrap/app.php` file by 
 
 For lumen it might be easier to simply use `$app['alexa.router']` or inject an instance of one of the above classes into your class.
 
-#### Middleware (optional)
+### 3: Register Certificate middleware for verifying request comes from Amazon/AlexaSkillsKit (optional)
 
-If you'd like to protect all routes in your application you can simply add the `Certificate` middleware to your global middleware.
+For any production application, it's important and in fact required by Amazon that you protect your application as [described in their documentation](https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/developing-your-app-with-the-alexa-appkit). You do not *need* to register this middleware however, and for certain testing may choose not to.
 
-##### For Laravel
+This package makes this easy by providing middleware that will meet all required security parameters provided by Amazon. At this time, if you'd like to enable this functionality you'll need to register the `Certificate` middleware as outlined by the [Laravel](http://laravel.com/docs/5.1/middleware#registering-middleware)/[Lumen](http://lumen.laravel.com/docs/middleware) documentation.
 
-In `app/Http/Kernal.php` file:
+If you'd like to protect all routes in your application you can simply add the `Certificate` middleware to your global middleware as show below, else you can protect certain end points (i.e. only run the certificate/security check at `/alexa-api-endpoint`).
+
+#### Laravel
+
+To protect **all routes**, in your `app/Http/Kernal.php` file:
 
     protected $middleware = [
+        ...
         \Develpr\AlexaApp\Http\Middleware\Certificate::class,
+        ...
     ];
 
-##### For Lumen
+#### Lumen
 
-In `bootstrap/app.php` file:
+To protect **all routes**, in your `bootstrap/app.php` file:
 
     $app->middleware([
+        ...snip...
         \Develpr\AlexaApp\Http\Middleware\Certificate::class,
+        ...snip...
     ]);
 
 
-# Configuration
+### Everything is installed
+
+At this point, everything should "work" (see below for more information on Usage), but there are a number of elements that may need to be configured.
+
+# #Configuration
 
 A number of things can be modified, or may even need to be modified depending on your application, **most importantly, the security options will need to be setup to match your AppId, etc**. Most if not all of these modifications work the same way regardless if you're using Laravel or Lumen, and all configuration values should be definable in a `config/` file, or by using a/an `.env` file.
 
@@ -295,4 +323,3 @@ I'd consider this currently to be in a beta. I have no doubt bugs will pop up as
 4. ~~Add some sort of simple authentication option for authenticating Echo devices/user based on the userIds~~
 5. ~~Figure out the best way to verify the request is coming from Amazon - not sure this is possible or will be possible, but hopefully soon~~
 6. ~~Add basic helpers for parsing speech from Alexa~~ - not exactly "done", but I've added some options to help. I'd be very interested in your opinion on how this might be done to be helpful!
-

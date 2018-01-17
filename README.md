@@ -29,47 +29,44 @@ Find yourself stuck using the package? Found a bug? Do you have general question
 
 ## Installation
 
-After installing via composer (i.e. `composer require develpr/alexa-app`):
+You can install this package via composer using this command:
 
-### 1 : Auto-load the appropriate service provider for your framework
+    composer require develpr/alexa-app
 
-The `Develpr\AlexaApp\Provider\LaravelServiceProvider` needs to be added to the array of auto-loaded service providers
+#### Add Service Provider 
 
-#### Laravel
+The package will automatically register itself in 5.5 and greater Laravel.
+
+- For older versions of Laravel ( <5.5 )
 
 In the `config/app.php` configuration file, add:
 
     'providers' => [
-        ...snip...
         \Develpr\AlexaApp\Provider\LaravelServiceProvider::class,
-        ...snip...
     ],
 
-#### Lumen
+- For Lumen
 
 In your application's `bootstrap/app.php` file, add:
 
     $app->register(\Develpr\AlexaApp\Provider\LumenServiceProvider::class);
 
-
-### 2: Adding the facades/aliases for `Alexa` and `AlexaRoute` (optional)
+#### Add Facades/Aliases (Optional)
 
 This is not required, but it can be very handy. If you'd prefer, you can inject an instance of the `\Develpr\AlexaApp\Alexa` or `\Develpr\AlexaApp\Routing\AlexaRouter` class, or grab them with `$app['alexa']` or $app['alexa.router'], respectively.
 
-#### Laravel
+- For Laravel
 
-**If** you'd like to use facades/aliases you'll need to add two separate alias configurations in the `config/app.php` file.
+In the `config/app.php` configuration file, add:
 
-        'aliases' => [
-            ...
-            'AlexaRoute' => \Develpr\AlexaApp\Facades\AlexaRouter::class,
-            'Alexa' => \Develpr\AlexaApp\Facades\Alexa::class,
-            ...
-        ],
+    'aliases' => [
+        'AlexaRoute' => \Develpr\AlexaApp\Facades\AlexaRouter::class,
+        'Alexa' => \Develpr\AlexaApp\Facades\Alexa::class,
+    ],
 
-#### Lumen
+- For Lumen
 
-The truth is I'm not 100% sure if there is an "official" way of adding aliases/facades in Lumen, and I generally don't use custom facades with Lumen, however [as mentioned in this stackexchange post](http://stackoverflow.com/questions/30399766/where-to-register-facades-service-providers-in-lumen), this should work:
+> The truth is I'm not 100% sure if there is an "official" way of adding aliases/facades in Lumen, and I generally don't use custom facades with Lumen, however [as mentioned in this stackexchange post](http://stackoverflow.com/questions/30399766/where-to-register-facades-service-providers-in-lumen), this should work:
 
 First make sure aliases/facades are enabled in your `bootstrap/app.php` file by uncommenting `$app->withFacades();` and then after this add
 
@@ -78,40 +75,30 @@ First make sure aliases/facades are enabled in your `bootstrap/app.php` file by 
 
 For lumen it might be easier to simply use `$app['alexa.router']` or inject an instance of one of the above classes into your class.
 
-### 3: Register Certificate middleware for verifying request comes from Amazon/AlexaSkillsKit (optional)
+#### 3: Middleware (optional)
 
-For any production application, it's important and in fact required by Amazon that you protect your application as [described in their documentation](https://developer.amazon.com/public/solutions/devices/echo/alexa-app-kit/docs/developing-your-app-with-the-alexa-appkit). You do not *need* to register this middleware however, and for certain testing may choose not to.
+You do not *need* to register this middleware however, and for certain testing may choose not to.
 
-This package makes this easy by providing middleware that will meet all required security parameters provided by Amazon. At this time, if you'd like to enable this functionality you'll need to register the `Certificate` middleware as outlined by the [Laravel](http://laravel.com/docs/5.1/middleware#registering-middleware)/[Lumen](http://lumen.laravel.com/docs/middleware) documentation.
+If you'd like to protect all routes in your application you can simply add the `Certificate` middleware to your global middleware.
 
-If you'd like to protect all routes in your application you can simply add the `Certificate` middleware to your global middleware as show below, else you can protect certain end points (i.e. only run the certificate/security check at `/alexa-api-endpoint`).
+- For Laravel
 
-#### Laravel
-
-To protect **all routes**, in your `app/Http/Kernal.php` file:
+In `app/Http/Kernal.php` file:
 
     protected $middleware = [
-        ...
         \Develpr\AlexaApp\Http\Middleware\Certificate::class,
-        ...
     ];
 
-#### Lumen
+- For Lumen
 
-To protect **all routes**, in your `bootstrap/app.php` file:
+In `bootstrap/app.php` file:
 
     $app->middleware([
-        ...snip...
         \Develpr\AlexaApp\Http\Middleware\Certificate::class,
-        ...snip...
     ]);
 
 
-### Everything is installed
-
-At this point, everything should "work" (see below for more information on Usage), but there are a number of elements that may need to be configured.
-
-# #Configuration
+# Configuration
 
 A number of things can be modified, or may even need to be modified depending on your application, **most importantly, the security options will need to be setup to match your AppId, etc**. Most if not all of these modifications work the same way regardless if you're using Laravel or Lumen, and all configuration values should be definable in a `config/` file, or by using a/an `.env` file.
 

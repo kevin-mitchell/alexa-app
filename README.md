@@ -9,10 +9,10 @@ The **AlexaApp** package provides easy to use functions to create Amazon Echo Al
 
 ## Features
 
-- Allows Laravel/Lumen style routing for intent, launch, and session end requests.
-- Handles verification of all security requirements put forth by Amazon, including certificate/signature verification, timestamp verification, etc
-- Provides access to Alexa AlexaSkillsKit session data through familiar Laravel style interface
-- Populates the response with Laravel session data to maintain a 1:1 set of session data between Lumen and Alexa
+- Allows Laravel/Lumen style routing for `intent`, `launch`, and `session end requests`.
+- Handles `verification` of all security requirements put forth by Amazon, including `certificate/signature verification, timestamp verification`, etc
+- Provides access to Alexa `AlexaSkillsKit` session data through familiar Laravel style interface.
+- Populates the response with Laravel session data to maintain a 1:1 set of session data between Lumen and Alexa.
 - Provides classes to easily return Alexa friendly responses, including `Speech`, `Card`, and `Re-prompt` responses
 - Optionally provides a way to easily retrieve information about the connected Echo device (`$device = Alexa::device();`)
 

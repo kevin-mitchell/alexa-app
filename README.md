@@ -5,7 +5,7 @@
 [![Software License](https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![StyleCI](https://styleci.io/repos/34590394/shield)](https://styleci.io/repos/34590394)
 
-Set of classes to make creating simple Amazon Echo Alexa Apps easier with Laravel and Lumen ([note that 5.2.x Lumen has a known issue that needs addressing](https://github.com/develpr/alexa-app/issues/5))
+The **AlexaApp** package provides easy to use functions to create Amazon Echo Alexa Apps with Laravel and Lumen.
 
 - [Main Features](#main-features)
 - [Demo](#demo)
@@ -13,18 +13,14 @@ Set of classes to make creating simple Amazon Echo Alexa Apps easier with Larave
 - [Configuration](#configuration)
 - [Usage](#usage)
 
-## Major Update - 0.2.0 - call me beta
+## Features
 
-I've recently refactored nearly all of this package to make it Laravel compatible, and to avoid the previous heavy handed solution of completely replace the default Lumen `Application`. I've also made a number of changes I feel are for the best, for instance I've decoupled the Laravel/Lumen Session with the Alexa AlexaSkillsKit specific session data, and I've created a single interface to make it possible to handle most Alexa interactions through a single facade. But that's mainly related to the refactor - there are also a *bunch* of new features, including most importantly support for Amazon's AlexaSkillsKit security related requirements.
-
-## Main Features
-
-1. Allows Laravel/Lumen style routing for intent, launch, and session end requests.
-2. Handles verification of all security requirements put forth by Amazon, including certificate/signature verification, timestamp verification, etc
-3. Provides access to Alexa AlexaSkillsKit session data through familiar Laravel style interface
-4. Populates the response with Laravel session data to maintain a 1:1 set of session data between Lumen and Alexa
-5. Provides classes to easily return Alexa friendly responses, including `Speech`, `Card`, and `Re-prompt` responses
-6. Optionally provides a way to easily retrieve information about the connected Echo device (`$device = Alexa::device();`)
+- Allows Laravel/Lumen style routing for intent, launch, and session end requests.
+- Handles verification of all security requirements put forth by Amazon, including certificate/signature verification, timestamp verification, etc
+- Provides access to Alexa AlexaSkillsKit session data through familiar Laravel style interface
+- Populates the response with Laravel session data to maintain a 1:1 set of session data between Lumen and Alexa
+- Provides classes to easily return Alexa friendly responses, including `Speech`, `Card`, and `Re-prompt` responses
+- Optionally provides a way to easily retrieve information about the connected Echo device (`$device = Alexa::device();`)
 
 For a quick example:
 

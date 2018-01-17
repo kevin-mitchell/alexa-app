@@ -7,12 +7,6 @@
 
 The **AlexaApp** package provides easy to use functions to create Amazon Echo Alexa Apps with Laravel and Lumen.
 
-- [Main Features](#main-features)
-- [Demo](#demo)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-
 ## Features
 
 - Allows Laravel/Lumen style routing for intent, launch, and session end requests.

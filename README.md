@@ -37,7 +37,7 @@ You can install this package via composer using this command:
 
 The package will automatically register itself in 5.5 and greater Laravel.
 
-- For older versions of Laravel ( <5.5 )
+##### For older versions of Laravel ( <5.5 )
 
 In the `config/app.php` configuration file, add:
 
@@ -45,7 +45,7 @@ In the `config/app.php` configuration file, add:
         \Develpr\AlexaApp\Provider\LaravelServiceProvider::class,
     ],
 
-- For Lumen
+##### For Lumen
 
 In your application's `bootstrap/app.php` file, add:
 
@@ -55,7 +55,7 @@ In your application's `bootstrap/app.php` file, add:
 
 This is not required, but it can be very handy. If you'd prefer, you can inject an instance of the `\Develpr\AlexaApp\Alexa` or `\Develpr\AlexaApp\Routing\AlexaRouter` class, or grab them with `$app['alexa']` or $app['alexa.router'], respectively.
 
-- For Laravel
+##### For Laravel
 
 In the `config/app.php` configuration file, add:
 
@@ -64,7 +64,7 @@ In the `config/app.php` configuration file, add:
         'Alexa' => \Develpr\AlexaApp\Facades\Alexa::class,
     ],
 
-- For Lumen
+##### For Lumen
 
 > The truth is I'm not 100% sure if there is an "official" way of adding aliases/facades in Lumen, and I generally don't use custom facades with Lumen, however [as mentioned in this stackexchange post](http://stackoverflow.com/questions/30399766/where-to-register-facades-service-providers-in-lumen), this should work:
 
@@ -81,7 +81,7 @@ You do not *need* to register this middleware however, and for certain testing m
 
 If you'd like to protect all routes in your application you can simply add the `Certificate` middleware to your global middleware.
 
-- For Laravel
+##### For Laravel
 
 In `app/Http/Kernal.php` file:
 
@@ -89,7 +89,7 @@ In `app/Http/Kernal.php` file:
         \Develpr\AlexaApp\Http\Middleware\Certificate::class,
     ];
 
-- For Lumen
+##### For Lumen
 
 In `bootstrap/app.php` file:
 

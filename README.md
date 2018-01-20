@@ -174,40 +174,40 @@ These three types of requests can be routed within your application just like no
 **LaunchRequest**
 
 ```php
-    AlexaRoute::launch('/your-app-uri', 'App\Http\Controllers\AnyController@anyMethod');
+AlexaRoute::launch('/your-app-uri', 'App\Http\Controllers\AnyController@anyMethod');
 ```
 
 or
 ```php
-    $app['alexa.router']->launch('/your-app-uri', 'App\Http\Controllers\AnyController@anyMethod');
+$app['alexa.router']->launch('/your-app-uri', 'App\Http\Controllers\AnyController@anyMethod');
 ```
 
 **SessionEndedRequest**
 
 ```php
-    AlexaRoute::sessionEnded('/your-app-uri', function() use ($app) {
-        return '{"version":"1.0","response":{"shouldEndSession":true}}';
-    });
+AlexaRoute::sessionEnded('/your-app-uri', function() use ($app) {
+    return '{"version":"1.0","response":{"shouldEndSession":true}}';
+});
 ```
 
 or
 
 ```php
-    $app['alexa.router']->sessionEnded('/your-app-uri', function() use ($app) {
-        return '{"version":"1.0","response":{"shouldEndSession":true}}';
-    });
+$app['alexa.router']->sessionEnded('/your-app-uri', function() use ($app) {
+    return '{"version":"1.0","response":{"shouldEndSession":true}}';
+});
 ```
 
 **IntentRequest**
 
 ```php
-    AlexaRoute::intent('/your-app-uri', 'GetZodiacHoroscopeIntent', 'App\Http\Controllers\AnyController@anyMethod');
+AlexaRoute::intent('/your-app-uri', 'GetZodiacHoroscopeIntent', 'App\Http\Controllers\AnyController@anyMethod');
 ```
 
 or
 
 ```php
-    $app['alexa.router']->intent('/your-app-uri', 'GetZodiacHoroscopeIntent', 'App\Http\Controllers\AnyController@anyMethod');
+$app['alexa.router']->intent('/your-app-uri', 'GetZodiacHoroscopeIntent', 'App\Http\Controllers\AnyController@anyMethod');
 ```
 
 Note that in these examples both a closure and a controller was used to handle the request, but there is no specific requirement to use one vs. another based on the request type.
@@ -221,7 +221,7 @@ Session values are passed to and from your application in the json payload from 
 #### to retrieve a session value
 
 ```php
-    $previousChoice = Alexa::session('previousChoice');
+$previousChoice = Alexa::session('previousChoice');
 ```
 #### to retrieve all session values
 
@@ -232,19 +232,19 @@ Alexa::session();
 #### to set a session value
 
 ```php
-    Alexa::session('previousChoice', "Pizza");
+Alexa::session('previousChoice', "Pizza");
 ```
 
 or
 
 ```php
-    Alexa::setSession('previousChoice', "Pizza");
+Alexa::setSession('previousChoice', "Pizza");
 ```
 
 #### to unset a session value
 
 ```php
-    Alexa::unsetSession('previousChoice');
+Alexa::unsetSession('previousChoice');
 ```
 
 Session values will also be included in the response json, but **only if you are using the `AlexaResponse` class!**.
@@ -255,13 +255,13 @@ Session values will also be included in the response json, but **only if you are
 You can retrieve the value of a slot (only applicable for IntentRequests as of this moment):
 
 ```php
-    $usersChoice = Alexa::slot('choice');
+$usersChoice = Alexa::slot('choice');
 ```
 
 If the slot is empty, `null` will be returned.  You can change this default value to something else by passing in your preferred default as the second parameter:
 
 ```php
-    $usersChoice = Alexa::slot('choice', 'foo');
+$usersChoice = Alexa::slot('choice', 'foo');
 ```
 
 ### Responses
@@ -273,13 +273,13 @@ You can use this package and the Alexa facade to easily create valid responses f
 The easiest way to send a valid response to Amazon/AlexaSkillsKit/an end user is
 
 ```php
-    return Alexa::say("Oh hi Denny");
+return Alexa::say("Oh hi Denny");
 ```
 
 As mentioned above, at the end of the day an `AlexaResponse` is being generated and returned, so you can chain other methods to add other response features. For example...
 
 ```php 
-    return Alexa::say("Oh hi Denny")->withCard(new Card("Hello message"))->endSession();
+return Alexa::say("Oh hi Denny")->withCard(new Card("Hello message"))->endSession();
 ```
 
 ...will return a spoken message ("Oh hi Denny"), a card that has a title of "Hello message", and it will end the session.
@@ -292,32 +292,34 @@ The main class is `AlexaResponse` - I intended that an instance of this class wo
 
 You can return an instance of this class without doing anything else and that will be a valid response (albeit fairly useless!)
 
-    return new AlexaResponse;
+```php
+return new AlexaResponse;
+```
 
 You can tell the Echo that the session should be ended
 
 ```php
-    $alexaResponse = new AlexaResponse;
-    $alexaResponse->endSession();
+$alexaResponse = new AlexaResponse;
+$alexaResponse->endSession();
 
-    return $alexaResponse;
+return $alexaResponse;
 ```
 
 Or, you can add one (or both) Speech/Card/Reprompt objects to have spoken text or a card sent back to the end Echo user (*note that you don't need to return both!*).
 
 ```php   
-    $alexaResponse = new AlexaResponse;
-    $alexaResponse->withSpeech(new Speech("Hello!!"));
+$alexaResponse = new AlexaResponse;
+$alexaResponse->withSpeech(new Speech("Hello!!"));
 
-    $alexaResponse->withCard(new Card("Hello Title", "Hello Subtitle", "Hello content here!"));
+$alexaResponse->withCard(new Card("Hello Title", "Hello Subtitle", "Hello content here!"));
 
-    return $alexaResponse;
+return $alexaResponse;
 ```
 
 You can always return this in a single line,
 
 ```php
-    return new AlexaResponse(new Speech("Hello!!"), new Card("Hello Title", "Hello Subtitle", "Hello content here!"), true);
+return new AlexaResponse(new Speech("Hello!!"), new Card("Hello Title", "Hello Subtitle", "Hello content here!"), true);
 ```
 
 Here the third parameter, when set to true, will end the session.

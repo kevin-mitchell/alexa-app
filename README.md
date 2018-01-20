@@ -19,9 +19,9 @@ The **AlexaApp** package provides easy to use functions to create Amazon Echo Al
 #### Simplest example:
 
 ```php
-    AlexaRoute::intent('/alexa-end-point', 'GetAntiJoke', function(){
-        Alexa::say("Why was the little boy crying? Because he had a frog stapled to his face!");
-    });
+AlexaRoute::intent('/alexa-end-point', 'GetAntiJoke', function(){
+    Alexa::say("Why was the little boy crying? Because he had a frog stapled to his face!");
+});
 ```
 
 
@@ -36,7 +36,7 @@ Find yourself stuck using the package? Found a bug? Do you have general question
 You can install this package via composer using this command:
 
 ```bash
-    composer require develpr/alexa-app
+composer require develpr/alexa-app
 ```
 
 #### Add Service Provider 
@@ -48,9 +48,9 @@ The package will automatically register itself in 5.5 and greater Laravel.
 In the `config/app.php` configuration file, add:
 
 ```php
-    'providers' => [
-        \Develpr\AlexaApp\Provider\LaravelServiceProvider::class,
-    ],
+'providers' => [
+    \Develpr\AlexaApp\Provider\LaravelServiceProvider::class,
+],
 ```
 
 ##### For Lumen
@@ -58,7 +58,7 @@ In the `config/app.php` configuration file, add:
 In your application's `bootstrap/app.php` file, add:
 
 ```php
-    $app->register(\Develpr\AlexaApp\Provider\LumenServiceProvider::class);
+$app->register(\Develpr\AlexaApp\Provider\LumenServiceProvider::class);
 ```
 
 #### Add Facades/Aliases (Optional)
@@ -68,10 +68,10 @@ In your application's `bootstrap/app.php` file, add:
 In the `config/app.php` configuration file, add:
 
 ```php
-    'aliases' => [
-        'AlexaRoute' => \Develpr\AlexaApp\Facades\AlexaRouter::class,
-        'Alexa' => \Develpr\AlexaApp\Facades\Alexa::class,
-    ],
+'aliases' => [
+    'AlexaRoute' => \Develpr\AlexaApp\Facades\AlexaRouter::class,
+    'Alexa' => \Develpr\AlexaApp\Facades\Alexa::class,
+],
 ```
 
 ##### For Lumen
@@ -81,8 +81,8 @@ In the `config/app.php` configuration file, add:
 First make sure aliases/facades are enabled in your `bootstrap/app.php` file by uncommenting `$app->withFacades();` and then after this add
 
 ```php
-    class_alias(\Develpr\AlexaApp\Facades\AlexaRouter::class, 'AlexaRoute');
-    class_alias(\Develpr\AlexaApp\Facades\Alexa::class, 'Alexa');
+class_alias(\Develpr\AlexaApp\Facades\AlexaRouter::class, 'AlexaRoute');
+class_alias(\Develpr\AlexaApp\Facades\Alexa::class, 'Alexa');
 ```
 
 For lumen it might be easier to simply use `$app['alexa.router']` or inject an instance of one of the above classes into your class.
@@ -96,9 +96,9 @@ If you'd like to protect all routes in your application you can simply add the `
 In `app/Http/Kernal.php` file:
 
 ```php
-    protected $middleware = [
-        \Develpr\AlexaApp\Http\Middleware\Certificate::class,
-    ];
+protected $middleware = [
+    \Develpr\AlexaApp\Http\Middleware\Certificate::class,
+];
 ```
 
 ##### For Lumen
@@ -106,9 +106,9 @@ In `app/Http/Kernal.php` file:
 In `bootstrap/app.php` file:
 
 ```php
-    $app->middleware([
-        \Develpr\AlexaApp\Http\Middleware\Certificate::class,
-    ]);
+$app->middleware([
+    \Develpr\AlexaApp\Http\Middleware\Certificate::class,
+]);
 ```
 
 

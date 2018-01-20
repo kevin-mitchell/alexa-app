@@ -18,9 +18,11 @@ The **AlexaApp** package provides easy to use functions to create Amazon Echo Al
 
 #### Simplest example:
 
+```php
     AlexaRoute::intent('/alexa-end-point', 'GetAntiJoke', function(){
         Alexa::say("Why was the little boy crying? Because he had a frog stapled to his face!");
     });
+```
 
 
 ## Quick start - Documentation
@@ -33,25 +35,31 @@ Find yourself stuck using the package? Found a bug? Do you have general question
 
 You can install this package via composer using this command:
 
+```bash
     composer require develpr/alexa-app
+```
 
 #### Add Service Provider 
 
 The package will automatically register itself in 5.5 and greater Laravel.
 
-##### For older versions of Laravel ( <5.5 )
+##### For Laravel
 
 In the `config/app.php` configuration file, add:
 
+```php
     'providers' => [
         \Develpr\AlexaApp\Provider\LaravelServiceProvider::class,
     ],
+```
 
 ##### For Lumen
 
 In your application's `bootstrap/app.php` file, add:
 
+```php
     $app->register(\Develpr\AlexaApp\Provider\LumenServiceProvider::class);
+```
 
 #### Add Facades/Aliases (Optional)
 
@@ -59,10 +67,12 @@ In your application's `bootstrap/app.php` file, add:
 
 In the `config/app.php` configuration file, add:
 
+```php
     'aliases' => [
         'AlexaRoute' => \Develpr\AlexaApp\Facades\AlexaRouter::class,
         'Alexa' => \Develpr\AlexaApp\Facades\Alexa::class,
     ],
+```
 
 ##### For Lumen
 
@@ -70,8 +80,10 @@ In the `config/app.php` configuration file, add:
 
 First make sure aliases/facades are enabled in your `bootstrap/app.php` file by uncommenting `$app->withFacades();` and then after this add
 
+```php
     class_alias(\Develpr\AlexaApp\Facades\AlexaRouter::class, 'AlexaRoute');
     class_alias(\Develpr\AlexaApp\Facades\Alexa::class, 'Alexa');
+```
 
 For lumen it might be easier to simply use `$app['alexa.router']` or inject an instance of one of the above classes into your class.
 
@@ -83,17 +95,21 @@ If you'd like to protect all routes in your application you can simply add the `
 
 In `app/Http/Kernal.php` file:
 
+```php
     protected $middleware = [
         \Develpr\AlexaApp\Http\Middleware\Certificate::class,
     ];
+```
 
 ##### For Lumen
 
 In `bootstrap/app.php` file:
 
+```php
     $app->middleware([
         \Develpr\AlexaApp\Http\Middleware\Certificate::class,
     ]);
+```
 
 
 # Configuration
@@ -157,32 +173,42 @@ These three types of requests can be routed within your application just like no
 
 **LaunchRequest**
 
+```php
     AlexaRoute::launch('/your-app-uri', 'App\Http\Controllers\AnyController@anyMethod');
+```
 
 or
-
+```php
     $app['alexa.router']->launch('/your-app-uri', 'App\Http\Controllers\AnyController@anyMethod');
+```
 
 **SessionEndedRequest**
 
+```php
     AlexaRoute::sessionEnded('/your-app-uri', function() use ($app) {
         return '{"version":"1.0","response":{"shouldEndSession":true}}';
     });
+```
 
 or
 
+```php
     $app['alexa.router']->sessionEnded('/your-app-uri', function() use ($app) {
         return '{"version":"1.0","response":{"shouldEndSession":true}}';
     });
+```
 
 **IntentRequest**
 
+```php
     AlexaRoute::intent('/your-app-uri', 'GetZodiacHoroscopeIntent', 'App\Http\Controllers\AnyController@anyMethod');
+```
 
 or
 
+```php
     $app['alexa.router']->intent('/your-app-uri', 'GetZodiacHoroscopeIntent', 'App\Http\Controllers\AnyController@anyMethod');
-
+```
 
 Note that in these examples both a closure and a controller was used to handle the request, but there is no specific requirement to use one vs. another based on the request type.
 
@@ -194,23 +220,32 @@ Session values are passed to and from your application in the json payload from 
 
 #### to retrieve a session value
 
-`$previousChoice = Alexa::session('previousChoice');`
-
+```php
+    $previousChoice = Alexa::session('previousChoice');
+```
 #### to retrieve all session values
 
-`Alexa::session();`
+```php
+Alexa::session();
+```
 
 #### to set a session value
 
-`Alexa::session('previousChoice', "Pizza");`
+```php
+    Alexa::session('previousChoice', "Pizza");
+```
 
 or
 
-`Alexa::setSession('previousChoice', "Pizza");`
+```php
+    Alexa::setSession('previousChoice', "Pizza");
+```
 
 #### to unset a session value
 
-`Alexa::unsetSession('previousChoice');`
+```php
+    Alexa::unsetSession('previousChoice');
+```
 
 Session values will also be included in the response json, but **only if you are using the `AlexaResponse` class!**.
 
@@ -219,11 +254,15 @@ Session values will also be included in the response json, but **only if you are
 
 You can retrieve the value of a slot (only applicable for IntentRequests as of this moment):
 
-`$usersChoice = Alexa::slot('choice');`
+```php
+    $usersChoice = Alexa::slot('choice');
+```
 
 If the slot is empty, `null` will be returned.  You can change this default value to something else by passing in your preferred default as the second parameter:
 
-`$usersChoice = Alexa::slot('choice', 'foo');`
+```php
+    $usersChoice = Alexa::slot('choice', 'foo');
+```
 
 ### Responses
 
@@ -233,11 +272,15 @@ You can use this package and the Alexa facade to easily create valid responses f
 
 The easiest way to send a valid response to Amazon/AlexaSkillsKit/an end user is
 
-`return Alexa::say("Oh hi Denny");`
+```php
+    return Alexa::say("Oh hi Denny");
+```
 
 As mentioned above, at the end of the day an `AlexaResponse` is being generated and returned, so you can chain other methods to add other response features. For example...
 
-`return Alexa::say("Oh hi Denny")->withCard(new Card("Hello message"))->endSession();`
+```php 
+    return Alexa::say("Oh hi Denny")->withCard(new Card("Hello message"))->endSession();
+```
 
 ...will return a spoken message ("Oh hi Denny"), a card that has a title of "Hello message", and it will end the session.
 
@@ -253,29 +296,34 @@ You can return an instance of this class without doing anything else and that wi
 
 You can tell the Echo that the session should be ended
 
+```php
     $alexaResponse = new AlexaResponse;
     $alexaResponse->endSession();
 
     return $alexaResponse;
+```
 
 Or, you can add one (or both) Speech/Card/Reprompt objects to have spoken text or a card sent back to the end Echo user (*note that you don't need to return both!*).
 
+```php   
     $alexaResponse = new AlexaResponse;
     $alexaResponse->withSpeech(new Speech("Hello!!"));
 
     $alexaResponse->withCard(new Card("Hello Title", "Hello Subtitle", "Hello content here!"));
 
     return $alexaResponse;
-
+```
 
 You can always return this in a single line,
 
+```php
     return new AlexaResponse(new Speech("Hello!!"), new Card("Hello Title", "Hello Subtitle", "Hello content here!"), true);
+```
 
 Here the third parameter, when set to true, will end the session.
 
 ## Tests
-```
+```bash
  $ phpunit --configuration phpunit.xml
 ```
 

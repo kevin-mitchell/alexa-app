@@ -143,7 +143,7 @@ class Certificate
             return;
         }
 
-        $possible = array_get($this->config, 'applicationIds');
+        $possible = $this->possibleApplicationIds();
 
         //Somebody might use the .env files and set the applicationIds as a string instead of an array so we'll be sure
         if (!is_array($possible)) {
@@ -155,6 +155,14 @@ class Certificate
         if (!in_array($appId, $possible)) {
             throw new InvalidAppIdException("The request's app id does not match the configured app id(s)");
         }
+    }
+    
+    /**
+    * @return array
+    */
+    private function possibleApplicationIds()
+    {
+        return array_get($this->config, 'applicationIds');
     }
 
     /**

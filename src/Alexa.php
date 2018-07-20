@@ -158,7 +158,7 @@ class Alexa
     {
         if(config('alexa.audio.proxy.enabled'))
         {
-            $url = url(config('alexa.audio.proxy.route') . '/' . base64_encode($url));
+            $url = url(config('alexa.audio.proxy.route') . '/' . str_replace(['+', '/'], ['-', '_'], base64_encode($url)));
         }
         
         $audio = new Play($url, $token, $offsetInMilliseconds, $playBehavior, $expectedPreviousToken);

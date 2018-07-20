@@ -22,7 +22,7 @@ class LaravelServiceProvider extends ServiceProvider
         if ($this->app['config']['alexa.audio.proxy.enabled'])
         {
             Route::get($this->app['config']['alexa.audio.proxy.route'] . '/{audiofile}', function($audiofile) {
-                return response(base64_decode($audiofile))
+                return response(base64_decode(str_replace(['-', '_'], ['+', '/'], $audiofile)))
                     ->header('Content-Type', 'application/x-mpegurl');
             });
         }

@@ -251,6 +251,26 @@ return [
             'enabled' => env('ALEXA_AUDIO_PROXY_ENABLED', 'false'),
             'route' => env('ALEXA_AUDIO_PROXY_ROUTE', '/alexa/audio/proxy')
         ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | rputing
+    |--------------------------------------------------------------------------
+    |
+    | Configuration related to routing
+    |
+    */
+    'routing' => [
+        /*
+        |--------------------------------------------------------------------------
+        | routing
+        |--------------------------------------------------------------------------
+        |
+        | If needed, you can disable this package's routing functionality here.
+        |
+        */
+        'enabled' => env('ALEXA_ROUTING_ENABLED', true),
     ]
 
 ];

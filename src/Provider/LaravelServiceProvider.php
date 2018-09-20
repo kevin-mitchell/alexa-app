@@ -43,7 +43,9 @@ class LaravelServiceProvider extends ServiceProvider
         // Register our universal service provider
         $this->app->register('Develpr\AlexaApp\Provider\AlexaServiceProvider');
 
-        $this->addRequestMiddlewareToBeginning($kernel);
+        if ($this->app['config']['alexa.routing.enabled']) {
+            $this->addRequestMiddlewareToBeginning($kernel);
+        }
     }
 
     protected function setupConfig()

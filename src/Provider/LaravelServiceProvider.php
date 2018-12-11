@@ -44,6 +44,8 @@ class LaravelServiceProvider extends ServiceProvider
         $this->app->register('Develpr\AlexaApp\Provider\AlexaServiceProvider');
 
         $this->addRequestMiddlewareToBeginning($kernel);
+
+        $this->commands('Develpr\AlexaApp\Console\Commands\AlexaRouteList');
     }
 
     protected function setupConfig()

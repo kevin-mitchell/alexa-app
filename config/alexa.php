@@ -248,7 +248,7 @@ return [
         |
         */
         'proxy' => [
-            'enabled' => env('ALEXA_AUDIO_PROXY_ENABLED', 'false'),
+            'enabled' => env('ALEXA_AUDIO_PROXY_ENABLED', false),
             'route' => env('ALEXA_AUDIO_PROXY_ROUTE', '/alexa/audio/proxy')
         ]
     ]

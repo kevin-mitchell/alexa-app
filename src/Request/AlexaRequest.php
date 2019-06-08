@@ -110,7 +110,16 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
     {
         return array_has($this->getData(), 'session');
     }
-
+    
+    /**
+     * Get the unique session Id
+     *
+     * @return mixed
+     */
+    public function getSessionId()
+    {
+        return  array_get($this->getData(),  'session.sessionId');
+    }
 
     /**
      * Get all of the session values in an array

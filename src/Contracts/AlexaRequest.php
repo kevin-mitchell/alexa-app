@@ -47,6 +47,13 @@ interface AlexaRequest
     public function getSession();
 
     /**
+     * Get the session ID
+     *
+     * @return string
+     */
+    public function getSessionId();
+
+    /**
      * Get a particular session value by key
      *
      * @param string $key

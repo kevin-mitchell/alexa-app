@@ -149,6 +149,7 @@ class AlexaResponse implements Jsonable
         $response['shouldEndSession'] = $this->shouldSessionEnd;
 
         $sessionAttributes = $this->getSessionData();
+        $sessionAttributes = array_merge($sessionAttributes, $this->sessionAttributes);
 
         if ($sessionAttributes && count($sessionAttributes) > 0) {
             $responseData['sessionAttributes'] = $sessionAttributes;

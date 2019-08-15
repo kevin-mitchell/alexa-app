@@ -61,9 +61,9 @@ class Request
      */
     public function handle($request, Closure $next)
     {
-        if ($this->alexaRequest->isAlexaRequest()) {
-            return $this->sendRequestThroughRouter($request);
-        }
+        // if ($this->alexaRequest->isAlexaRequest()) {
+        //     return $this->sendRequestThroughRouter($request);
+        // }
 
         return $next($request);
     }

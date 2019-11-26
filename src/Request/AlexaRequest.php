@@ -109,7 +109,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function hasSession()
     {
-        return array_has($this->getData(), 'session');
+        return Arr::has($this->getData(), 'session');
     }
     
     /**
@@ -235,7 +235,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
             $this->process();
         }
 
-        if (array_has($this->slots, [$slotName])) {
+        if (Arr::has($this->slots, [$slotName])) {
             $this->slots[$slotName]['value'] = $value;
 
             if ($confirmed) {

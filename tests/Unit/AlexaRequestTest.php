@@ -48,7 +48,7 @@ class AlexaRequestTest extends BaseTestCase
     /** @test */
     public function it_can_get_the_intent_from_the_prompt_response()
     {
-        array_set($this->requestData, 'session.attributes.original_prompt_intent', 'FooIntent');
+        Arr::set($this->requestData, 'session.attributes.original_prompt_intent', 'FooIntent');
 
         $this->request->shouldReceive('getContent')
             ->once()
@@ -119,7 +119,7 @@ class AlexaRequestTest extends BaseTestCase
     /** @test */
     public function it_can_get_a_session_value()
     {
-        array_set($this->requestData, 'session.attributes.foo', 'bar');
+        Arr::set($this->requestData, 'session.attributes.foo', 'bar');
         $this->request->shouldReceive('getContent')
             ->once()
             ->andReturn(json_encode($this->requestData));
@@ -139,7 +139,7 @@ class AlexaRequestTest extends BaseTestCase
     public function it_can_get_a_slot_value()
     {
         $expectedSlotValue = Carbon::now()->toIso8601String();
-        array_set(
+        Arr::set(
             $this->requestData,
             'request.intent.slots',
             ['Date' => ['value' => $expectedSlotValue]]

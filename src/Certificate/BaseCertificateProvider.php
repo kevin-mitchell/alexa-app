@@ -3,6 +3,7 @@
 namespace Develpr\AlexaApp\Certificate;
 
 use Develpr\AlexaApp\Exceptions\InvalidCertificateException;
+use Illuminate\Support\Arr;
 
 abstract class BaseCertificateProvider
 {
@@ -27,7 +28,7 @@ abstract class BaseCertificateProvider
      */
     protected function verifyCertificateSubjectAltNamePresent(array $parsedCertificate)
     {
-        return strpos(array_get($parsedCertificate, 'extensions.subjectAltName'), self::ECHO_SERVICE_DOMAIN) !== false;
+        return strpos(Arr::get($parsedCertificate, 'extensions.subjectAltName'), self::ECHO_SERVICE_DOMAIN) !== false;
     }
 
     /**
@@ -39,9 +40,9 @@ abstract class BaseCertificateProvider
      */
     protected function validateCertificateDate(array $parsedCertificate)
     {
-        $validFrom = array_get($parsedCertificate, 'validFrom_time_t');
+        $validFrom = Arr::get($parsedCertificate, 'validFrom_time_t');
 
-        $validTo = array_get($parsedCertificate, 'validTo_time_t');
+        $validTo = Arr::get($parsedCertificate, 'validTo_time_t');
 
         $time = time();
 

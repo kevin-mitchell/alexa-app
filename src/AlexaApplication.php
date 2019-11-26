@@ -76,13 +76,13 @@ class AlexaApplication extends Application
 
         $data = json_decode($request->getContent(), true);
 
-        switch (array_get($data, 'request.type')) {
+        switch (Arr::get($data, 'request.type')) {
             case 'SessionEndedRequest':
                 return '**'.'SESSION_ENDED_REQUEST';
             case 'LaunchRequest':
                 return '**'.'LAUNCH_REQUEST';
             case 'IntentRequest':
-                return '*'.ltrim(array_get($data, 'request.intent.name'));
+                return '*'.ltrim(Arr::get($data, 'request.intent.name'));
         }
     }
 }

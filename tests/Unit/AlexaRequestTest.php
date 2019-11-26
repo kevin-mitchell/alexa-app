@@ -5,6 +5,7 @@ namespace Develpr\Tests\Unit;
 use Carbon\Carbon;
 use Develpr\AlexaApp\Request\AlexaRequest;
 use Develpr\Tests\BaseTestCase;
+use Illuminate\Support\Arr;
 use Mockery;
 
 class AlexaRequestTest extends BaseTestCase
@@ -59,7 +60,7 @@ class AlexaRequestTest extends BaseTestCase
     /** @test */
     public function it_can_get_the_user_id_from_the_request()
     {
-        $expectedId = array_get($this->requestData, 'session.user.userId');
+        $expectedId = Arr::get($this->requestData, 'session.user.userId');
         $this->assertNotEmpty($this->request->getUserId());
         $this->assertEquals($expectedId, $this->request->getUserId());
     }
@@ -68,7 +69,7 @@ class AlexaRequestTest extends BaseTestCase
     public function it_can_get_the_access_token_from_the_request()
     {
         $token = uniqid();
-        array_set($this->requestData, 'session.user.accessToken', $token);
+        Arr::set($this->requestData, 'session.user.accessToken', $token);
 
         $this->request->shouldReceive('getContent')
             ->once()
@@ -80,7 +81,7 @@ class AlexaRequestTest extends BaseTestCase
     /** @test */
     public function it_can_get_the_app_id()
     {
-        $expectedId = array_get($this->requestData, 'session.application.applicationId');
+        $expectedId = Arr::get($this->requestData, 'session.application.applicationId');
         $this->assertNotEmpty($this->request->getAppId());
         $this->assertEquals($expectedId, $this->request->getAppId());
     }
@@ -94,7 +95,7 @@ class AlexaRequestTest extends BaseTestCase
     /** @test */
     public function it_can_get_the_session_from_the_request()
     {
-        $expectedSession = array_get($this->requestData, 'session.attributes');
+        $expectedSession = Arr::get($this->requestData, 'session.attributes');
         $this->assertNotEmpty($this->request->getSession());
         $this->assertEquals($expectedSession, $this->request->getSession());
     }
@@ -102,7 +103,7 @@ class AlexaRequestTest extends BaseTestCase
     /** @test */
     public function it_can_get_the_request_context()
     {
-        $expectedSession = array_get($this->requestData, 'context');
+        $expectedSession = Arr::get($this->requestData, 'context');
         $this->assertNotEmpty($this->request->getContext());
         $this->assertEquals($expectedSession, $this->request->getContext());
     }
@@ -110,7 +111,7 @@ class AlexaRequestTest extends BaseTestCase
     /** @test */
     public function it_can_get_the_dialog_state()
     {
-        $expectedState = array_get($this->requestData, 'request.dialogState');
+        $expectedState = Arr::get($this->requestData, 'request.dialogState');
         $this->assertNotEmpty($this->request->dialogState());
         $this->assertEquals($expectedState, $this->request->dialogState());
     }
@@ -129,7 +130,7 @@ class AlexaRequestTest extends BaseTestCase
     /** @test */
     public function it_can_get_the_intent_name()
     {
-        $expectedIntent = array_get($this->requestData, 'request.intent.name');
+        $expectedIntent = Arr::get($this->requestData, 'request.intent.name');
         $this->assertNotEmpty($this->request->getIntent());
         $this->assertEquals($expectedIntent, $this->request->getIntent());
     }
@@ -207,7 +208,7 @@ class AlexaRequestTest extends BaseTestCase
     /** @test */
     public function test_it_can_get_the_request_timestamp()
     {
-        $expectedTimestamp = strtotime(array_get($this->requestData, 'request.timestamp'));
+        $expectedTimestamp = strtotime(Arr::get($this->requestData, 'request.timestamp'));
         $this->assertEquals($expectedTimestamp, $this->request->getTimestamp());
     }
 
@@ -233,7 +234,7 @@ class AlexaRequestTest extends BaseTestCase
     /** @test */
     public function it_can_get_confirmation_status_of_the_request()
     {
-        $expectedConfirmationStatus = array_get($this->requestData, 'request.intent.confirmationStatus');
+        $expectedConfirmationStatus = Arr::get($this->requestData, 'request.intent.confirmationStatus');
         $this->assertEquals($expectedConfirmationStatus, $this->request->getConfirmationStatus());
     }
 }

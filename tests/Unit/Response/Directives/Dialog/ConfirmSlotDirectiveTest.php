@@ -4,6 +4,7 @@ namespace Develpr\Tests\Response\Directives\Dialog;
 
 use Develpr\AlexaApp\Response\Directives\Dialog\ConfirmSlot;
 use Develpr\Tests\BaseTestCase;
+use Illuminate\Support\Arr;
 
 class ConfirmSlotDirectiveTest extends BaseTestCase
 {
@@ -31,7 +32,7 @@ class ConfirmSlotDirectiveTest extends BaseTestCase
     /** @test */
     public function it_has_the_correct_slot_to_confirm()
     {
-        $slot = array_get($this->directive->toArray(), 'slotToConfirm');
+        $slot = Arr::get($this->directive->toArray(), 'slotToConfirm');
         $this->assertEquals('FooSlot', $slot);
     }
 }

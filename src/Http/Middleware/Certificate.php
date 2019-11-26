@@ -10,6 +10,7 @@ use Develpr\AlexaApp\Exceptions\InvalidCertificateException;
 use Develpr\AlexaApp\Exceptions\InvalidRequestTimestamp;
 use Develpr\AlexaApp\Exceptions\InvalidSignatureChainException;
 use Illuminate\Http\Request as IlluminateRequest;
+use Illuminate\Support\Arr;
 
 class Certificate
 {
@@ -104,19 +105,19 @@ class Certificate
     {
         $uriParts = parse_url($keychainUri);
 
-        if (strcasecmp($uriParts['host'], array_get($this->config, 'origin.host')) !== 0) {
+        if (strcasecmp($uriParts['host'], Arr::get($this->config, 'origin.host')) !== 0) {
             throw new InvalidCertificateException("The host for the Certificate provided in the header is invalid");
         }
 
-        if (strpos($uriParts['path'], array_get($this->config, 'origin.path')) !== 0) {
+        if (strpos($uriParts['path'], Arr::get($this->config, 'origin.path')) !== 0) {
             throw new InvalidCertificateException("The URL path for the Certificate provided in the header is invalid");
         }
 
-        if (strcasecmp($uriParts['scheme'], array_get($this->config, 'origin.scheme')) !== 0) {
+        if (strcasecmp($uriParts['scheme'], Arr::get($this->config, 'origin.scheme')) !== 0) {
             throw new InvalidCertificateException("The URL is using an unsupported scheme. Should be https");
         }
 
-        if (array_key_exists('port', $uriParts) && $uriParts['port'] != array_get($this->config,'origin.port')) {
+        if (array_key_exists('port', $uriParts) && $uriParts['port'] != Arr::get($this->config,'origin.port')) {
             throw new InvalidCertificateException("The URL is using an unsupported https port");
         }
     }
@@ -139,7 +140,7 @@ class Certificate
      */
     private function verifyApplicationId()
     {
-        if (!boolval(array_get($this->config, 'verifyAppId'))) {
+        if (!boolval(Arr::get($this->config, 'verifyAppId'))) {
             return;
         }
 
@@ -162,7 +163,7 @@ class Certificate
     */
     private function possibleApplicationIds()
     {
-        return array_get($this->config, 'applicationIds');
+        return Arr::get($this->config, 'applicationIds');
     }
 
     /**
@@ -171,11 +172,11 @@ class Certificate
     private function checkTimestampTolerance()
     {
         //If the timestamp tolerance is set to 0 we'll skip the check (see config)
-        if (intval(array_get($this->config, 'timestampTolerance')) === 0) {
+        if (intval(Arr::get($this->config, 'timestampTolerance')) === 0) {
             return;
         }
 
-        $timestampTolerance = array_get($this->config, 'timestampTolerance');
+        $timestampTolerance = Arr::get($this->config, 'timestampTolerance');
         $timestamp = $this->alexaRequest->getTimestamp();
 
         if (time() - $timestamp > $timestampTolerance) {

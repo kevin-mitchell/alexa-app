@@ -3,6 +3,7 @@
 namespace Develpr\AlexaApp\Request;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaRequest
 {
@@ -38,7 +39,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function getRequestType()
     {
-        return array_get($this->getData(), 'request.type');
+        return Arr::get($this->getData(), 'request.type');
     }
 
     /**
@@ -68,7 +69,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function isNewSession()
     {
-        return boolval(array_get($this->getData(), 'session.new'));
+        return boolval(Arr::get($this->getData(), 'session.new'));
     }
 
     /**
@@ -78,7 +79,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function getUserId()
     {
-        return array_get($this->getData(), $this->hasSession() ? 'session.user.userId' : 'context.System.user.userId');
+        return Arr::get($this->getData(), $this->hasSession() ? 'session.user.userId' : 'context.System.user.userId');
     }
 
     /**
@@ -88,7 +89,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function getAccessToken()
     {
-        return array_get($this->getData(), $this->hasSession() ? 'session.user.accessToken' : 'context.System.user.accessToken');
+        return Arr::get($this->getData(), $this->hasSession() ? 'session.user.accessToken' : 'context.System.user.accessToken');
     }
 
     /**
@@ -98,7 +99,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function getAppId()
     {
-        return  array_get($this->getData(), $this->hasSession() ? 'session.application.applicationId' : 'context.System.application.applicationId');
+        return  Arr::get($this->getData(), $this->hasSession() ? 'session.application.applicationId' : 'context.System.application.applicationId');
     }
 
     /**
@@ -118,7 +119,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function getSessionId()
     {
-        return  array_get($this->getData(),  'session.sessionId');
+        return  Arr::get($this->getData(),  'session.sessionId');
     }
 
     /**
@@ -128,7 +129,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function getSession()
     {
-        $sessionAttributes = array_get($this->getData(), 'session.attributes');
+        $sessionAttributes = Arr::get($this->getData(), 'session.attributes');
 
         if (!$sessionAttributes) {
             return [];
@@ -145,7 +146,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function getContext()
     {
-        $context = array_get($this->getData(), 'context');
+        $context = Arr::get($this->getData(), 'context');
 
         if (!$context) {
             return [];
@@ -162,7 +163,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function dialogState()
     {
-        return array_get($this->getData(), 'request.dialogState');
+        return Arr::get($this->getData(), 'request.dialogState');
     }
 
     /**
@@ -182,7 +183,7 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function getIntent()
     {
-        return array_get($this->getData(), 'request.intent.name');
+        return Arr::get($this->getData(), 'request.intent.name');
     }
 
     /**
@@ -254,16 +255,16 @@ class AlexaRequest extends Request implements \Develpr\AlexaApp\Contracts\AlexaR
      */
     public function getTimestamp()
     {
-        return strtotime(array_get($this->getData(), 'request.timestamp'));
+        return strtotime(Arr::get($this->getData(), 'request.timestamp'));
     }
 
     private function process()
     {
         $data = $this->getContent();
         $this->data = json_decode($data, true);
-        $this->intent = array_get($this->data, 'request.intent.name');
-        $this->slots = array_get($this->data, 'request.intent.slots', []);
-        $this->confirmationStatus = array_get($this->data, 'request.intent.confirmationStatus', '');
+        $this->intent = Arr::get($this->data, 'request.intent.name');
+        $this->slots = Arr::get($this->data, 'request.intent.slots', []);
+        $this->confirmationStatus = Arr::get($this->data, 'request.intent.confirmationStatus', '');
 
         $this->processed = true;
     }

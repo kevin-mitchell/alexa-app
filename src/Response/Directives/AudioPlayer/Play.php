@@ -3,6 +3,7 @@
 namespace Develpr\AlexaApp\Response\Directives\AudioPlayer;
 
 use Develpr\AlexaApp\Response\Directives\Directive;
+use Illuminate\Support\Str;
 
 class Play extends Directive
 {
@@ -35,7 +36,7 @@ class Play extends Directive
     public function __construct($url, $token = '', $offsetInMilliseconds = 0, $playBehavior = null, $expectedPreviousToken = '')
     {
         $this->url = $url;
-        $this->token = $token ?: str_random(64);
+        $this->token = $token ?: Str::random(64);
         $this->playBehavior = $playBehavior ?: self::DEFAULT_PLAY_BEHAVIOR;
         $this->offsetInMilliseconds = $offsetInMilliseconds;
         $this->expectedPreviousToken = $expectedPreviousToken;

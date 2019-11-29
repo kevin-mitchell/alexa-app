@@ -2,6 +2,8 @@
 
 namespace Develpr\AlexaApp\Certificate;
 
+use Illuminate\Support\Arr;
+
 trait CertificateTools
 {
     /**
@@ -23,7 +25,7 @@ trait CertificateTools
      */
     protected function verifyCertificateSubjectAltNamePresent(array $parsedCertificate, $amazonServiceDomain)
     {
-        return strpos(array_get($parsedCertificate, 'extensions.subjectAltName'), $amazonServiceDomain) !== false;
+        return strpos(Arr::get($parsedCertificate, 'extensions.subjectAltName'), $amazonServiceDomain) !== false;
     }
 
     /**
@@ -35,9 +37,9 @@ trait CertificateTools
      */
     protected function validateCertificateDate(array $parsedCertificate)
     {
-        $validFrom = array_get($parsedCertificate, 'validFrom_time_t');
+        $validFrom = Arr::get($parsedCertificate, 'validFrom_time_t');
 
-        $validTo = array_get($parsedCertificate, 'validTo_time_t');
+        $validTo = Arr::get($parsedCertificate, 'validTo_time_t');
 
         $time = time();
 

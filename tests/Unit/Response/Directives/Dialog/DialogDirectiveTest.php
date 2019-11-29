@@ -31,7 +31,7 @@ class DialogDirectiveTest extends BaseTestCase
     {
         $this->directive->shouldReceive('getType')->once()->andReturn('Foo');
         $directiveAsArray = $this->directive->toArray();
-        $type = array_get($directiveAsArray, 'type', '');
+        $type = Arr::get($directiveAsArray, 'type', '');
 
         $this->assertTrue(is_array($directiveAsArray));
         $this->assertArrayHasKey('type', $directiveAsArray);

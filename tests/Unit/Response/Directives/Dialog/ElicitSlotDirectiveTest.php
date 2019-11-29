@@ -31,7 +31,7 @@ class ElicitSlotDirectiveTest extends BaseTestCase
     /** @test */
     public function it_has_the_correct_slot_to_confirm()
     {
-        $slot = array_get($this->directive->toArray(), 'slotToElicit');
+        $slot = Arr::get($this->directive->toArray(), 'slotToElicit');
         $this->assertEquals('FooSlot', $slot);
     }
 }

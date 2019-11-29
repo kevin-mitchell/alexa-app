@@ -13,6 +13,7 @@ use Develpr\AlexaApp\Response\Directives\AudioPlayer\Stop;
 use Develpr\AlexaApp\Response\Reprompt;
 use Develpr\AlexaApp\Response\Speech;
 use Develpr\AlexaApp\Response\SSML;
+use Illuminate\Support\Arr;
 
 class Alexa
 {
@@ -158,7 +159,7 @@ class Alexa
     {
         if(config('alexa.audio.proxy.enabled'))
         {
-            $url = url(config('alexa.audio.proxy.route') . '/' . base64_encode($url));
+            $url = url(config('alexa.audio.proxy.route') . '/' . str_replace(['+', '/'], ['-', '_'], base64_encode($url)));
         }
         
         $audio = new Play($url, $token, $offsetInMilliseconds, $playBehavior, $expectedPreviousToken);
@@ -320,7 +321,7 @@ class Alexa
         if (is_null($key)) {
             return $this->context;
         } else {
-            return array_get($this->context, $key);
+            return Arr::get($this->context, $key);
         }
     }
 

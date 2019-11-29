@@ -3,6 +3,7 @@
 namespace Develpr\AlexaApp\Response\Directives\RenderDocument;
 
 use Develpr\AlexaApp\Response\Directives\Directive;
+use Illuminate\Support\Str;
 
 class RenderDocument extends Directive
 {
@@ -31,7 +32,7 @@ class RenderDocument extends Directive
     {
         return [
             'type' => self::TYPE,
-            'token' => str_random(),
+            'token' => Str::random(),
             'document' => $this->document instanceof Document ? $this->document->toArray() : Document::fromJson($this->document),
             'datasources' => $this->datasources
         ];

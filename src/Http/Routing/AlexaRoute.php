@@ -5,7 +5,6 @@ namespace Develpr\AlexaApp\Http\Routing;
 use Develpr\AlexaApp\Http\Routing\Matching\AlexaValidator;
 use Illuminate\Routing\Matching\UriValidator;
 use Illuminate\Routing\Route;
-use Illuminate\Routing\RouteCompiler;
 
 class AlexaRoute extends Route
 {
@@ -104,14 +103,9 @@ class AlexaRoute extends Route
         }
 
         if (! $this->compiled) {
-
-            //todo: this is a bit ugly - we should go deeper and solve the real problem
-            //This is ugly - before 5.4, we didn't use "uri()" method in the RouteCompiler (there was no
-            //route compiler!), and instead we used the private uri instance variable. Which meant that
-            //`uri()` and `uri` were different.
             $tempRouterIntent = $this->routeIntent;
             $this->routeIntent = "";
-            $this->compiled = (new RouteCompiler($this))->compile();
+            $this->compiled = $this->compileRoute();
             $this->routeIntent = $tempRouterIntent;
         }
 

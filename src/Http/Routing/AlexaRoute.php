@@ -105,7 +105,7 @@ class AlexaRoute extends Route
         if (! $this->compiled) {
             $tempRouterIntent = $this->routeIntent;
             $this->routeIntent = "";
-            $this->compiled = $this->compileRoute();
+            $this->compiled = parent::compileRoute();
             $this->routeIntent = $tempRouterIntent;
         }
 

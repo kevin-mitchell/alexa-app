@@ -2,6 +2,7 @@
 
 namespace Develpr\AlexaApp\Provider;
 
+use Develpr\AlexaApp\Controllers\ProxyController;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 use ReflectionClass;
@@ -19,12 +20,8 @@ class LaravelServiceProvider extends ServiceProvider
             realpath(__DIR__ . '/../../database/2015_06_21_000000_create_alexa_devices_table.php') => database_path('/migrations/2015_06_21_000000_create_alexa_devices_table.php'),
         ], 'migrations');
 
-        if ($this->app['config']['alexa.audio.proxy.enabled'])
-        {
-            Route::get($this->app['config']['alexa.audio.proxy.route'] . '/{audiofile}', function($audiofile) {
-                return response(base64_decode($audiofile))
-                    ->header('Content-Type', 'application/x-mpegurl');
-            });
+        if ($this->app['config']['alexa.audio.proxy.enabled']) {
+            Route::get($this->app['config']['alexa.audio.proxy.route'] . '/{audiofile}', [ProxyController::class, 'audiofile']);
         }
     }
 
@@ -48,7 +45,7 @@ class LaravelServiceProvider extends ServiceProvider
 
     protected function setupConfig()
     {
-        $this->mergeConfigFrom(realpath(__DIR__.'/../../config/alexa.php'), 'alexa');
+        $this->mergeConfigFrom(realpath(__DIR__ . '/../../config/alexa.php'), 'alexa');
     }
 
     protected function addRequestMiddlewareToBeginning(Kernel $kernel)

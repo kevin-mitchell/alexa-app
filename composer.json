@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-         "php": ">=5.5.9",
-         "illuminate/routing": "~7.10"
+        "php": ">=5.5.9",
+        "illuminate/routing": "~7.10|~8.0"
      },
     "require-dev": {
         "phpunit/phpunit": "~5.7",

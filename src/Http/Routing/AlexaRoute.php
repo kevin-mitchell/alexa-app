@@ -50,26 +50,6 @@ class AlexaRoute extends Route
     }
 
     /**
-     * Get the route validators for the instance.
-     *
-     * @return array
-     */
-    public static function getValidators()
-    {
-        $validators = parent::getValidators();
-
-        foreach ($validators as $key => $validator) {
-            if ($validator instanceof UriValidator) {
-                break;
-            }
-        }
-
-        $validators[] = new AlexaValidator;
-
-        return $validators;
-    }
-
-    /**
      * Before Laravel 5.4, `uri()` was `getUri()` for the time being, we'll make this
      * friendly to both pre and post 5.4 with this check
      * todo: version 5.5+ we should remove this check to clean things up and update readme

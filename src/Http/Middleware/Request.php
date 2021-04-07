@@ -3,10 +3,15 @@
 namespace Develpr\AlexaApp\Http\Middleware;
 
 use Closure;
+
 use Develpr\AlexaApp\Contracts\AlexaRequest;
 use Develpr\AlexaApp\Http\Routing\AlexaRouter;
+use Develpr\AlexaApp\Http\Routing\Matching\AlexaValidator;
+
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Routing\Route;
+
 use Symfony\Component\HttpFoundation\Response;
 
 class Request
@@ -62,6 +67,11 @@ class Request
     public function handle($request, Closure $next)
     {
         if ($this->alexaRequest->isAlexaRequest()) {
+
+            $validators = Route::getValidators();
+            $validators[] = new AlexaValidator;
+            Route::$validators = $validators;
+
             return $this->sendRequestThroughRouter($request);
         }
 
